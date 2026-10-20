@@ -1,0 +1,10 @@
+[package]
+name = "vhsfx"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+ntsc-rs = { path = "/tmp/ntsc-rs/crates/ntscrs" }
+
+[profile.release]
+opt-level = 3

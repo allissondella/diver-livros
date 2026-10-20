@@ -1,0 +1,58 @@
+/* ——— Onda 3: fita, secretária, telefone, CP-500 ——— */
+.tvFrame {
+  padding: 2.2em 2.6em; border-radius: 2.2em; background: linear-gradient(160deg, #2a1c12, #140d08);
+  box-shadow: 0 1.4em 3em rgba(0, 0, 0, .8), inset 0 0 0 .35em #0b0705;
+}
+#vhs { display: block; width: min(76vw, 92vh); height: auto; aspect-ratio: 4 / 3; max-width: 100%; border-radius: 1.4em / 1.1em; background: #000;
+  box-shadow: inset 0 0 3em rgba(0, 0, 0, .9); }
+.vhsSub { margin: 0; min-height: 1.6em; color: #f2ecd6; font: 1.05em var(--f-ui); text-align: center; text-shadow: 0 1px 4px #000; max-width: 60ch; }
+
+.machine {
+  position: relative; width: min(30em, 86vw); height: 8.6em; border-radius: .5em; background: linear-gradient(180deg, #232323, #0e0e0e);
+  box-shadow: 0 1.2em 2.6em rgba(0, 0, 0, .8), inset 0 .15em 0 rgba(255, 255, 255, .08);
+}
+.mLed { position: absolute; left: 1.4em; top: 1.3em; width: .7em; height: .7em; border-radius: 50%; background: #3a0d08; }
+.mLed.on { background: #ff3a1e; box-shadow: 0 0 .7em #ff3a1e; }
+.mLed.blink { animation: ledb .7s steps(1) infinite; }
+@keyframes ledb { 50% { background: #3a0d08; box-shadow: none; } }
+.mCount { position: absolute; left: 3em; top: .9em; font: 1.5em var(--f-led); color: var(--led); letter-spacing: .1em; }
+.mBrand { position: absolute; right: 1.2em; top: 1.1em; font: .68em var(--f-ui); letter-spacing: .18em; text-transform: uppercase; color: #6d6a62; }
+.mReels { position: absolute; left: 50%; bottom: 1em; transform: translateX(-50%); display: flex; gap: 3em; padding: .6em 1.6em; background: #050505; border-radius: .3em; }
+.mReels span { width: 2em; height: 2em; border-radius: 50%; border: .35em dotted #5b5852; }
+.machine.play .mReels span { animation: reel 1.6s linear infinite; }
+@keyframes reel { to { transform: rotate(360deg); } }
+.tapeLines { list-style: none; margin: 0; padding: 0; width: min(46ch, 88vw); min-height: 9em; display: flex; flex-direction: column; gap: .7em; }
+.tapeLines li { line-height: 1.6; animation: appear .8s ease forwards; opacity: 0; }
+.tapeLines .sys { color: var(--dim); font-size: .86em; letter-spacing: .06em; }
+.tapeLines .who { display: block; font-size: .72em; letter-spacing: .16em; text-transform: uppercase; color: var(--amber); }
+.tapeLines .voice { color: var(--ink); }
+.tapeLines .noisy { color: #cfd6cf; text-shadow: 1px 0 rgba(255, 60, 60, .45), -1px 0 rgba(60, 200, 255, .45); }
+.tapeLines .me { color: var(--paper); font-style: italic; }
+
+.phoneWrap { display: flex; gap: 2.4em; align-items: center; flex-wrap: wrap; justify-content: center; }
+.dial {
+  position: relative; width: 17em; height: 17em; border-radius: 50%; flex: none;
+  background: radial-gradient(circle, #d8d4c6 0 22%, #85837a 23% 25%, #9c9a91 26% 100%);
+  box-shadow: 0 1em 2.4em rgba(0, 0, 0, .75), inset 0 .3em .4em rgba(255, 255, 255, .25); transition: transform .5s ease-out;
+}
+.dial::after { content: ""; position: absolute; right: .9em; bottom: 3.6em; width: 1.8em; height: .5em; background: #b8b49f; border-radius: .2em; transform: rotate(-30deg); box-shadow: 0 .1em .2em rgba(0, 0, 0, .5); }
+.dial button {
+  position: absolute; width: 2.9em; height: 2.9em; margin: -1.45em 0 0 -1.45em; border-radius: 50%; border: 0;
+  background: radial-gradient(circle, #ece8da 0 46%, #2a2925 50% 100%); color: #1b1a17; font: 600 1.05em var(--f-ui);
+}
+.dial button:hover:not(:disabled) { background: radial-gradient(circle, #fff 0 46%, #000 50% 100%); }
+.dial button:disabled { cursor: default; }
+.phoneSide { display: flex; flex-direction: column; gap: 1em; min-width: 0; }
+.dialed { margin: 0; font: 1.9em var(--f-led); letter-spacing: .14em; color: var(--paper); border-bottom: 1px solid var(--faint); min-width: 8em; }
+
+.crt {
+  width: min(64ch, 92vw); padding: 1.8em 2em; border-radius: 1.4em; background: #031006;
+  box-shadow: 0 0 0 .9em #b9ad90, 0 0 0 1.2em #8f846a, 0 1.6em 3em rgba(0, 0, 0, .8), inset 0 0 4em rgba(0, 0, 0, .9);
+  font: clamp(15px, 1.7vw, 21px)/1.25 var(--f-led); color: #6dff7e; text-shadow: 0 0 .35em rgba(80, 255, 110, .75);
+  background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, .35) 0 1px, transparent 1px 3px);
+}
+.term { height: 15em; overflow-y: auto; white-space: pre-wrap; word-break: break-word; }
+.termIn { display: flex; gap: .5em; align-items: baseline; margin-top: .3em; }
+#termInput { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: inherit; font: inherit; text-shadow: inherit; text-transform: uppercase; caret-color: #6dff7e; }
+.crt.dead { animation: crtoff .9s ease-in forwards; }
+@keyframes crtoff { 60% { filter: brightness(2.2); transform: scaleY(.02); } 100% { filter: brightness(0); transform: scaleY(.0); } }

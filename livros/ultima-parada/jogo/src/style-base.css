@@ -1,0 +1,128 @@
+/* Última Parada — um porão em 1996: escuro quase total, luz âmbar de lâmpada velha,
+   vermelho só no LED. Tema único, escuro por escolha. */
+:root {
+  color-scheme: dark;
+  --void: #040302;
+  --ink: #d6ccb8;
+  --dim: #8b8170;
+  --faint: #4d4639;
+  --amber: #c98a2e;
+  --led: #ff3b22;
+  --paper: #d8c79d;
+  --paper-ink: #2a2318;
+  --blue-ink: #1f3a7a;
+  --pencil: #3c3a36;
+  --f-ui: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+  --f-led: "VT323", "Courier New", monospace;
+  --f-cec: "Caveat", "Comic Sans MS", cursive;
+  --f-mar: "Kalam", "Comic Sans MS", cursive;
+  --f-aur: "Architects Daughter", "Comic Sans MS", cursive;
+  --f-news: "Old Standard TT", Georgia, "Times New Roman", serif;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; background: var(--void); color: var(--ink); overflow: hidden; }
+body { font: 14px/1.5 var(--f-ui); -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber); outline-offset: 3px; }
+
+#stage {
+  position: fixed;
+  top: env(safe-area-inset-top, 0px); bottom: env(safe-area-inset-bottom, 0px);
+  left: env(safe-area-inset-left, 0px); right: env(safe-area-inset-right, 0px);
+  background: var(--void);
+  user-select: none; -webkit-user-select: none;
+}
+#scr { position: absolute; display: block; touch-action: none; }
+
+/* HUD: ocupa exatamente a caixa do canvas (o motor define as variáveis) */
+#hud {
+  position: absolute; left: var(--gx, 0); top: var(--gy, 0);
+  width: var(--gw, 100%); height: var(--gh, 100%);
+  pointer-events: none; font-size: clamp(11px, 1.15vw, 15px);
+}
+#hud > * { pointer-events: auto; }
+#hud #label, #hud #toast, #hud #top, #hud #bar { pointer-events: none; }
+#bar > * { pointer-events: auto; }
+
+.turn {
+  position: absolute; top: 18%; bottom: 22%; width: clamp(36px, 5%, 72px);
+  background: transparent; border: 0; color: var(--dim); opacity: .25;
+  font-size: clamp(28px, 4vw, 56px); transition: opacity .3s;
+}
+.turn:hover, .turn:focus-visible { opacity: .9; color: var(--ink); }
+#turnL { left: 0; }
+#turnR { right: 0; }
+
+#top {
+  position: absolute; top: 1.4%; left: 0; right: 0; display: flex; justify-content: center;
+  padding: 0 2.2%; color: var(--faint); letter-spacing: .14em; text-transform: uppercase; font-size: .82em;
+}
+#top #clock { position: absolute; right: 2.2%; top: 0; }
+#clock {
+  font-family: var(--f-led); font-size: 1.9em; letter-spacing: .08em; color: var(--led);
+  text-shadow: 0 0 6px rgba(255, 50, 20, .7), 0 0 18px rgba(255, 40, 10, .35); line-height: 1;
+}
+
+#label {
+  position: absolute; left: 0; right: 0; bottom: 15%; text-align: center;
+  color: var(--ink); letter-spacing: .06em; text-shadow: 0 1px 6px #000, 0 0 2px #000;
+  min-height: 1.5em;
+}
+#msg {
+  position: absolute; left: 50%; bottom: 20%; transform: translateX(-50%);
+  width: min(62ch, 82%); padding: .9em 1.2em; background: rgba(6, 5, 3, .86);
+  border-left: 2px solid var(--amber); color: var(--ink); line-height: 1.6; cursor: pointer;
+}
+#toast {
+  position: absolute; right: 2.2%; top: 9%; padding: .5em .9em; background: rgba(20, 16, 9, .92);
+  border: 1px solid var(--faint); color: var(--paper); font-size: .9em;
+}
+
+#bar {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end;
+  justify-content: space-between; gap: 1em; padding: 0 2.2% 1.6%;
+}
+#inv { display: flex; gap: .5em; flex-wrap: wrap; min-width: 0; }
+.item {
+  display: flex; align-items: center; gap: .45em; padding: .35em .7em; background: rgba(12, 10, 6, .85);
+  border: 1px solid var(--faint); color: var(--paper); letter-spacing: .05em;
+}
+.item canvas { width: 26px; height: 26px; }
+.item[aria-pressed="true"] { border-color: var(--amber); color: #fff; box-shadow: 0 0 10px rgba(201, 138, 46, .35); }
+#tools { display: flex; gap: .5em; }
+#tools button {
+  padding: .45em .9em; background: rgba(12, 10, 6, .85); border: 1px solid var(--faint);
+  color: var(--dim); letter-spacing: .06em;
+}
+#tools button:hover { color: var(--ink); border-color: var(--dim); }
+#tlCount { color: var(--paper); font-weight: 500; margin-left: .3em; }
+.pulse { animation: pulse 1.4s ease-out 2; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 199, 157, .6); } 100% { box-shadow: 0 0 0 14px rgba(216, 199, 157, 0); } }
+
+#intro {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2.4em; background: #000; padding-inline: max(16px, 6vw); z-index: 20;
+}
+#introText {
+  font-family: var(--f-ui); color: var(--dim); max-width: 46ch; line-height: 2; font-size: clamp(13px, 1.5vw, 17px);
+}
+#introText p { margin: 0 0 1em; opacity: 0; animation: appear 1.6s ease forwards; }
+#introText .when { font-family: var(--f-led); color: var(--led); font-size: 1.6em; letter-spacing: .08em; opacity: 0;
+  text-shadow: 0 0 8px rgba(255, 50, 20, .6); }
+@keyframes appear { to { opacity: 1; } }
+#btnStart {
+  background: transparent; border: 1px solid var(--faint); color: var(--ink); padding: .8em 1.6em;
+  letter-spacing: .14em; text-transform: uppercase; font-size: .9em;
+}
+#btnStart:hover { border-color: var(--amber); color: #fff; }
+
+#rotate {
+  display: none; position: absolute; inset: 0; z-index: 50; background: #000; color: var(--dim);
+  align-items: center; justify-content: center; text-align: center; padding-inline: max(16px, 8vw);
+  letter-spacing: .1em;
+}
+@media (orientation: portrait) and (max-width: 700px) { #rotate { display: flex; } }
+@media (prefers-reduced-motion: reduce) {
+  #introText p, #introText .when { animation: none; opacity: 1; }
+  .pulse { animation: none; }
+}

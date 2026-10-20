@@ -1,0 +1,189 @@
+<div id="stage">
+  <canvas id="scr" aria-label="Porão da Rua Monte Alegre"></canvas>
+
+  <div id="hud">
+    <button id="turnL" class="turn" type="button" aria-label="Virar para a esquerda"><span>‹</span></button>
+    <button id="turnR" class="turn" type="button" aria-label="Virar para a direita"><span>›</span></button>
+    <button id="btnBack" type="button" hidden>Voltar</button>
+    <div id="top">
+      <span id="viewName">Escada</span>
+      <span id="clock" hidden>02:05</span>
+    </div>
+    <div id="label" aria-live="polite"></div>
+    <div id="msg" hidden></div>
+    <div id="toast" hidden></div>
+    <div id="bar">
+      <div id="inv" aria-label="Seus itens"></div>
+      <div id="tools">
+        <button id="btnTimeline" type="button">Linha do tempo <b id="tlCount">0</b></button>
+        <button id="btnNotes" type="button">Caderno</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="intro">
+    <div id="tvIntro" class="tvIntro">
+      <div class="tvBox"><canvas id="tvStatic" width="320" height="240" aria-hidden="true"></canvas><span class="tvKnobs" aria-hidden="true"></span></div>
+      <div class="vcrBox" aria-hidden="true"><span class="vcrSlot"></span><span class="vcrBrand">SHARP</span><span class="vcrClock">01:31</span></div>
+      <button id="tapeIda" class="tapeIda" type="button" aria-label="Pôr a fita IDA 7/6 no videocassete"><span>IDA 7/6</span></button>
+      <p class="tvHint">Última Parada · clique na fita</p>
+    </div>
+    <div id="introText"></div>
+    <button id="btnStart" type="button" hidden>Acender a lanterna</button>
+  </div>
+
+  <div id="ovPaper" class="ov" hidden>
+    <canvas id="paperBg" aria-hidden="true"></canvas>
+    <div class="ovIn">
+      <article id="paper" class="paper"></article>
+      <div class="ovBar">
+        <span id="paperMeta"></span>
+        <button type="button" id="paperAudio" disabled>Narração ainda não gravada</button>
+        <button type="button" class="close">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ovTimeline" class="ov" hidden>
+    <div class="ovIn wide">
+      <header class="ovHead">
+        <h2>Linha do tempo</h2>
+        <span id="tlProgress"></span>
+      </header>
+      <ol id="tlList"></ol>
+      <div class="ovBar"><button type="button" class="close">Fechar</button></div>
+    </div>
+  </div>
+
+  <div id="ovNotes" class="ov" hidden>
+    <div class="ovIn wide">
+      <div class="spiral">
+        <section class="pg cec">
+          <h3>Caderno da Cecília</h3>
+          <ul id="cecNotes"></ul>
+        </section>
+        <section class="pg mine">
+          <h3><label for="notes">Suas anotações</label></h3>
+          <textarea id="notes" spellcheck="false" placeholder="Escreva aqui o que achar. Fica salvo."></textarea>
+        </section>
+      </div>
+      <div class="ovBar"><button type="button" class="close">Fechar</button></div>
+    </div>
+  </div>
+
+  <div id="ovDiary" class="ov" hidden>
+    <div class="ovIn">
+      <div class="book">
+        <div id="diaryPage" class="dpage"></div>
+      </div>
+      <div class="ovBar">
+        <button type="button" id="dPrev">Página anterior</button>
+        <span id="dNum"></span>
+        <button type="button" id="dNext">Próxima página</button>
+        <button type="button" class="close">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ovLock" class="ov" hidden>
+    <div class="ovIn">
+      <p id="lockTitle" class="lockTitle"></p>
+      <div id="lockBox"></div>
+      <p id="lockMsg" class="lockMsg" aria-live="polite"></p>
+      <div class="ovBar"><button type="button" class="close">Afastar</button></div>
+    </div>
+  </div>
+
+  <div id="ovMural" class="ov" hidden>
+    <div class="ovIn wide">
+      <div id="cork" class="cork"></div>
+      <p id="muralCap" class="muralCap" aria-live="polite">O mural da Cecília. Clique no que quiser ver de perto.</p>
+      <div class="ovBar"><button type="button" class="close">Afastar</button></div>
+    </div>
+  </div>
+
+  <div id="ovVideo" class="ov" hidden>
+    <div class="ovIn">
+      <div class="tvFrame"><canvas id="vhs" width="960" height="720" aria-label="Fita de vídeo"></canvas></div>
+      <p id="vhsSub" class="vhsSub" aria-live="polite"></p>
+      <div class="ovBar"><button type="button" class="close">Parar a fita</button></div>
+    </div>
+  </div>
+
+  <div id="ovTape" class="ov" hidden>
+    <div class="ovIn">
+      <div class="machine">
+        <div class="mLed" id="tapeLed"></div>
+        <div class="mCount" id="tapeCount">000</div>
+        <div class="mBrand">Panasonic · Easa-Phone</div>
+        <div class="mReels"><span></span><span></span></div>
+      </div>
+      <ol id="tapeLines" class="tapeLines" aria-live="polite"></ol>
+      <div class="ovBar"><button type="button" class="close">Desligar</button></div>
+    </div>
+  </div>
+
+  <div id="ovPhone" class="ov" hidden>
+    <div class="ovIn">
+      <div class="phoneWrap">
+        <div id="dial" class="dial" aria-label="Disco do telefone"></div>
+        <div class="phoneSide">
+          <p class="dialed" id="dialed" aria-live="polite">&nbsp;</p>
+          <ol id="callLines" class="tapeLines" aria-live="polite"></ol>
+        </div>
+      </div>
+      <div class="ovBar"><button type="button" id="hangup">Desligar o telefone</button></div>
+    </div>
+  </div>
+
+  <div id="ovCP" class="ov" hidden>
+    <div class="ovIn">
+      <div class="crt">
+        <div id="term" class="term" role="log" aria-live="polite"></div>
+        <label class="termIn"><span id="termPrompt">SENHA:</span><input id="termInput" autocomplete="off" spellcheck="false" aria-label="Digite no computador"></label>
+      </div>
+      <div class="ovBar"><button type="button" class="close">Desligar o computador</button></div>
+    </div>
+  </div>
+
+  <div id="ovMaze" class="ov" hidden>
+    <div class="ovIn">
+      <p class="lockTitle">Labirinto de vidro · incline para a bolinha correr</p>
+      <canvas id="mazeCv" width="320" height="600" aria-label="Labirinto com uma bolinha de aço"></canvas>
+      <p id="mazeMsg" class="lockMsg" aria-live="polite"></p>
+      <div class="ovBar mazeBar">
+        <button type="button" data-d="L" aria-label="Inclinar para a esquerda">←</button>
+        <button type="button" data-d="U" aria-label="Inclinar para cima">↑</button>
+        <button type="button" data-d="D" aria-label="Inclinar para baixo">↓</button>
+        <button type="button" data-d="R" aria-label="Inclinar para a direita">→</button>
+        <button type="button" id="mazeShake">Sacudir e recomeçar</button>
+        <button type="button" id="mazeUV" hidden>Acender a luz negra</button>
+        <button type="button" class="close">Afastar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ovRadio" class="ov" hidden>
+    <div class="ovIn">
+      <div class="radioFace">
+        <div id="magicEye" class="eye" aria-hidden="true"></div>
+        <div class="scale"><div id="needle" class="needle"></div><span class="scratch" aria-hidden="true"></span></div>
+        <p id="freq" class="freq">17.40</p>
+      </div>
+      <label class="tuneLab" for="tune">Sintonia</label>
+      <input type="range" id="tune" min="15" max="30" step="0.01" value="17.4">
+      <p id="morse" class="morse" aria-live="polite"></p>
+      <ol id="radioLines" class="tapeLines" aria-live="polite"></ol>
+      <div class="ovBar"><button type="button" class="close">Desligar o rádio</button></div>
+    </div>
+  </div>
+
+  <div id="ovEnd" class="ov" hidden>
+    <div class="ovIn">
+      <div id="endText"></div>
+      <div class="ovBar"><button type="button" id="btnRetry" hidden>Tentar de novo da oficina</button><button type="button" id="btnRestart">Recomeçar do zero</button></div>
+    </div>
+  </div>
+
+  <div id="rotate">Vire o celular na horizontal.</div>
+</div>
