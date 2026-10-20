@@ -28,3 +28,8 @@ Livro gamificado de terror. Um caderno encontrado num sebo (1996), com cópias d
 - Integrar `fita-ida-vhs5.mp4` no jogo (som `fita-entrando.mp3` ao clicar na fita).
 - Gravar as vozes no ElevenLabs (guia de vozes).
 - Sistema de Páginas (pontos) e cupom.
+
+## Estado em 20/10/2026
+- A fita de ida aprovada é `midia/publico/video/fita-ida.mp4` (32 s, já com VHS, cortes, glitch na lâmpada, voz da mulher escondida e jumpscare no fim). Ela já é o produto final: o jogo deve só tocá-la, SEM o filtro VHS em canvas (`makeVHS`) por cima.
+- `jogo/src/js/wave7.js` tem o encaixe antigo de fita em vídeo, desligado (`FITA_VIDEO.ida = false`) e com a linha do tempo da versão antiga; substituir por um player simples (vídeo em tela cheia dentro da TV da abertura) e ligar.
+- Ao clicar na fita na abertura, tocar `midia/sons/fita-entrando.mp3` (subir uns 10 dB).

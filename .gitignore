@@ -5,3 +5,6 @@ midia/tmp*/
 *.mp4
 *.webm
 target/
+
+# a fita final do jogo vai junto (é publicada no Pages)
+!livros/*/midia/publico/**/*.mp4
