@@ -1,7 +1,7 @@
-jogo/dist/
-midia/raw/
-midia/out/
-midia/tmp*/
+**/jogo/dist/
+**/midia/raw/
+**/midia/out/
+**/midia/tmp*/
 *.mp4
 *.webm
 target/

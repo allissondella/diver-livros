@@ -23,10 +23,13 @@
 
   <div id="intro">
     <div id="tvIntro" class="tvIntro">
-      <div class="tvBox"><canvas id="tvStatic" width="320" height="240" aria-hidden="true"></canvas><span class="tvKnobs" aria-hidden="true"></span></div>
+      <div class="tvBox">
+        <span id="tvScreen" class="tvScreen"><canvas id="tvStatic" width="320" height="240" aria-hidden="true"></canvas><video id="tvIda" src="video/fita-ida.mp4" preload="auto" playsinline disablepictureinpicture aria-label="Fita IDA 7/6, 7 de junho de 1996" hidden></video></span>
+        <span class="tvKnobs" aria-hidden="true"></span>
+      </div>
       <div class="vcrBox" aria-hidden="true"><span class="vcrSlot"></span><span class="vcrBrand">SHARP</span><span class="vcrClock">01:31</span></div>
       <button id="tapeIda" class="tapeIda" type="button" aria-label="Pôr a fita IDA 7/6 no videocassete"><span>IDA 7/6</span></button>
-      <p class="tvHint">Última Parada · clique na fita</p>
+      <p id="tvHint" class="tvHint">Última Parada · clique na fita</p>
     </div>
     <div id="introText"></div>
     <button id="btnStart" type="button" hidden>Acender a lanterna</button>

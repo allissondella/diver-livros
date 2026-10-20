@@ -25,11 +25,11 @@ Livro gamificado de terror. Um caderno encontrado num sebo (1996), com cópias d
 
 ## Pendências
 - Cena no Google Flow: o letreiro do ônibus piscando/apagando.
-- Integrar `fita-ida-vhs5.mp4` no jogo (som `fita-entrando.mp3` ao clicar na fita).
 - Gravar as vozes no ElevenLabs (guia de vozes).
 - Sistema de Páginas (pontos) e cupom.
 
 ## Estado em 20/10/2026
-- A fita de ida aprovada é `midia/publico/video/fita-ida.mp4` (32 s, já com VHS, cortes, glitch na lâmpada, voz da mulher escondida e jumpscare no fim). Ela já é o produto final: o jogo deve só tocá-la, SEM o filtro VHS em canvas (`makeVHS`) por cima.
-- `jogo/src/js/wave7.js` tem o encaixe antigo de fita em vídeo, desligado (`FITA_VIDEO.ida = false`) e com a linha do tempo da versão antiga; substituir por um player simples (vídeo em tela cheia dentro da TV da abertura) e ligar.
-- Ao clicar na fita na abertura, tocar `midia/sons/fita-entrando.mp3` (subir uns 10 dB).
+- A fita de ida aprovada é `midia/publico/video/fita-ida.mp4` (32 s, já com VHS, cortes, glitch na lâmpada, voz da mulher escondida e jumpscare no fim). Ela é o produto final: o jogo só a toca, SEM o filtro VHS em canvas (`makeVHS`) por cima.
+- `jogo/src/js/wave7.js` é o player da fita de ida: o `<video id="tvIda">` (em `body.html`) cobre a tela da TV da abertura; `playFilm(FILM_IDA)` é desviado para ele. Esc interrompe a fita; se o arquivo não carregar, volta a fita desenhada (`FILM_IDA`). Enquanto toca, o chiado e a chuva da abertura ficam mudos.
+- Ao clicar na fita, toca `midia/publico/audio/fita-entrando.mp3`, que é o `midia/sons/fita-entrando.mp3` 10 dB mais alto (`ffmpeg -af volume=10dB`, pico em -3 dB).
+- `jogo/dist/` não vai mais para o git: o workflow do Pages roda o `build.sh`.
