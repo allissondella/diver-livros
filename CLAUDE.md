@@ -15,3 +15,7 @@ Coleção de livros gamificados do Diver (diver.app.br): o leitor lê um capítu
 
 ## Títulos
 - `livros/ultima-parada/` — terror, São Paulo 1976/1986/1996. Em produção.
+
+## Publicação (teste)
+- GitHub Pages, pelo workflow `.github/workflows/pages.yml`, a cada push na `main`: vitrine em `/` (`site/index.html`) e cada livro em `/<titulo>/`.
+- Arquivos de mídia que o jogo carrega (fitas, vozes) vão em `livros/<titulo>/midia/publico/` e são copiados junto.
