@@ -10,3 +10,4 @@ target/
 !livros/*/midia/publico/**/*.mp4
 !livros/*/site/video/*.mp4
 !livros/*/site/video/*.webm
+livros/*/site/porao/

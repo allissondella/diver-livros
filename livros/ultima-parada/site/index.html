@@ -31,16 +31,31 @@
   <header class="barra">
     <span class="barra-titulo">Última Parada</span>
     <span class="barra-paginas" id="paginas" title="Páginas: pontos de leitura que viram desconto no próximo Diver Livro">0 Páginas</span>
-    <button type="button" id="abrir-sumario" class="barra-botao">Sumário</button>
+    <button type="button" id="ir-porao" class="barra-botao" hidden>Voltar ao porão</button>
+    <button type="button" id="abrir-sumario" class="barra-botao">Caderno<span class="selo" id="selo" hidden></span></button>
     <button type="button" id="tema" class="barra-botao" aria-pressed="false" title="Trocar para fundo claro">Fundo claro</button>
   </header>
   <main id="pagina" tabindex="-1"></main>
+  <div id="porao" hidden></div>
+</div>
+
+<!-- a página que se solta do caderno quando o porão revela alguma coisa -->
+<div id="solta" class="sobreposicao solta" hidden role="dialog" aria-modal="true" aria-labelledby="solta-titulo">
+  <div class="solta-caixa">
+    <div class="folha" aria-hidden="true"></div>
+    <p class="solta-cena" id="solta-cena"></p>
+    <h2 id="solta-titulo"></h2>
+    <div class="acoes">
+      <button type="button" id="solta-ler" class="botao cheio">Ler agora</button>
+      <button type="button" id="solta-depois" class="botao">Continuar no porão</button>
+    </div>
+  </div>
 </div>
 
 <!-- sumário -->
 <div id="sumario" class="sobreposicao" hidden role="dialog" aria-modal="true" aria-labelledby="sumario-titulo">
   <div class="sobreposicao-caixa">
-    <h2 id="sumario-titulo">Sumário</h2>
+    <h2 id="sumario-titulo">O caderno</h2>
     <ol id="sumario-lista"></ol>
     <button type="button" id="fechar-sumario" class="botao">Fechar</button>
   </div>

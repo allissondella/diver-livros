@@ -176,3 +176,21 @@ body.tema-leitura.claro .vinculo { background: rgba(0,0,0,.02); }
   .surge { animation: none; opacity: 1; }
   .aviso-texto h1, .fita.entrando, .tremer { animation: none; }
 }
+
+/* ——— o porão dentro do livro ——— */
+#porao { position: fixed; left: 0; right: 0; bottom: 0; top: var(--barra, 46px); background: #000; }
+#porao iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+body.no-porao main { display: none; }
+body.no-porao { overflow: hidden; }
+.selo { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--amarelo); margin-left: 6px; vertical-align: middle; box-shadow: 0 0 8px var(--amarelo); animation: pisca 1.4s steps(2) infinite; }
+.solta { background: rgba(0,0,0,.72); backdrop-filter: blur(2px); }
+.solta-caixa { width: min(30rem, 100%); text-align: center; color: #e9e3d6; font-family: var(--maquina); animation: surge 1.2s ease; }
+.solta-cena { font-family: var(--leitura); font-style: italic; font-size: 1.15rem; line-height: 1.6; color: #cfc6b4; margin: 0 0 18px; }
+.solta-caixa h2 { font-weight: 400; font-size: 1.05rem; letter-spacing: .14em; text-transform: uppercase; color: var(--amarelo); margin: 0 0 22px; }
+.solta-caixa .acoes { justify-content: center; }
+.solta-caixa .botao { color: #e9e3d6; border-color: #6b6458; }
+.solta-caixa .botao.cheio { background: #e9e3d6; color: #0b0b0a; border-color: #e9e3d6; }
+.folha { width: 74px; height: 96px; margin: 0 auto 22px; background: repeating-linear-gradient(#efe6cf 0 15px, #c9bfa6 15px 16px); border-left: 3px solid #b8463e; box-shadow: 0 10px 30px rgba(0,0,0,.6); animation: cai 1.6s cubic-bezier(.3,.7,.4,1) both; }
+@keyframes cai { 0% { transform: translateY(-120px) rotate(-28deg); opacity: 0; } 60% { transform: translateY(8px) rotate(6deg); opacity: 1; } 100% { transform: translateY(0) rotate(-3deg); } }
+.sobreposicao-caixa li .novo { color: var(--amarelo); font-size: .75rem; letter-spacing: .1em; margin-left: 8px; }
+@media (prefers-reduced-motion: reduce) { .folha, .solta-caixa { animation: none; } }
