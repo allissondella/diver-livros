@@ -23,13 +23,20 @@ Livro gamificado de terror. Um caderno encontrado num sebo (1996), com cópias d
 - Senhas: ROTA (cômoda), 0606 (CP-500), volume sete (estante). Capítulo 3 é lido no CP-500 (PAI.TXT, sem acentos).
 - A caixa de chumbo fica no banco do ônibus; a de sapato é "a caixa errada".
 
-## Pendências
-- Cena no Google Flow: o letreiro do ônibus piscando/apagando.
-- Gravar as vozes no ElevenLabs (guia de vozes).
-- Sistema de Páginas (pontos) e cupom.
+## O site do livro (`site/`)
+- É o produto principal: o livro como site, publicado em `/ultima-parada/`. O jogo antigo do porão fica em `/ultima-parada/porao/`.
+- Fluxo: aviso (vermelho) → nota do estúdio (vermelho) → cap. 1 (vermelho) → a fita (TV, vídeo) → vínculo 1 → cap. 2 → vínculo 2 → … → cap. 6 → fim (Páginas e cupom). Capítulos 2 a 6: branco no preto, com botão "Fundo claro".
+- `site/build.py` gera `site/capitulos.js` a partir de `livro/0N-*.md` (só o texto em citação `>` e o bloco de código do cap. 3; ignora "Decisões de escrita"). Rode depois de mudar qualquer capítulo. O workflow também roda.
+- `site/app.js`: motor (etapas, vínculos, Páginas, sumário, tema). Progresso no `localStorage` (`ultima-parada:progresso`).
+- Vínculos: v1 cadeado ROTA · v2 rádio na faixa 23.10 (morse 06 06 96 · 23 10 · 875A 10) + senha 0606 no CP-500 · v3 o trecho dos "onze quilos" · v4 corredor, 5 vezes à esquerda · v5 os dois papéis do corredor. Pista: botão ou 2 erros (tira os pontos do vínculo).
+- Páginas: ler capítulo 10 (só se ficou tempo suficiente: palavras × 0,1 s), vínculo sem pista 5, fita até o fim 5, terminar 20, sem nenhuma pista 15. Máximo 130. Cupom: ≥100 → ULTIMAPARADA10, ≥120 → ULTIMAPARADA15 (códigos provisórios; falta ligar ao Diver).
+- Vídeo: `site/video/fita-ida.mp4` (H.264) e `.webm` (VP9, reserva). Som da fita entrando: `site/sons/fita-entrando.mp3`.
 
-## Estado em 20/10/2026
-- A fita de ida aprovada é `midia/publico/video/fita-ida.mp4` (32 s, já com VHS, cortes, glitch na lâmpada, voz da mulher escondida e jumpscare no fim). Ela é o produto final: o jogo só a toca, SEM o filtro VHS em canvas (`makeVHS`) por cima.
-- `jogo/src/js/wave7.js` é o player da fita de ida: o `<video id="tvIda">` (em `body.html`) cobre a tela da TV da abertura; `playFilm(FILM_IDA)` é desviado para ele. Esc interrompe a fita; se o arquivo não carregar, volta a fita desenhada (`FILM_IDA`). Enquanto toca, o chiado e a chuva da abertura ficam mudos.
-- Ao clicar na fita, toca `midia/publico/audio/fita-entrando.mp3`, que é o `midia/sons/fita-entrando.mp3` 10 dB mais alto (`ffmpeg -af volume=10dB`, pico em -3 dB).
-- `jogo/dist/` não vai mais para o git: o workflow do Pages roda o `build.sh`.
+## A fita (`site/video/fita-ida.mp4`, 49 s)
+Montada por `midia/ferramentas/fita_ida6.py` (precisa dos vídeos brutos do Flow, que ficam fora do git, e do vhsfx compilado):
+Paulista → glitch → ônibus chegando → letreiro apagando até "7 A PERDI" → chiado → corredor até a mulher (frase escondida no chiado) → a lâmpada estoura (glitch) → ela mais perto → chiado → janela → chiado → a casa → chiado → o ônibus indo embora (05:40) → chiado → a caixa de chumbo sozinha no banco, escurecendo → glitch + jumpscare → preto.
+
+## Pendências
+- Gravar as vozes no ElevenLabs (guia de vozes) e a narração opcional dos capítulos.
+- Ligar Páginas e cupom à conta Diver.
+- Decidir se o porão (jogo) continua como extra ou se os vínculos do site bastam.

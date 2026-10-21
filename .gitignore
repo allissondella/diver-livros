@@ -1,10 +1,12 @@
-**/jogo/dist/
-**/midia/raw/
-**/midia/out/
-**/midia/tmp*/
+jogo/dist/
+midia/raw/
+midia/out/
+midia/tmp*/
 *.mp4
 *.webm
 target/
 
 # a fita final do jogo vai junto (é publicada no Pages)
 !livros/*/midia/publico/**/*.mp4
+!livros/*/site/video/*.mp4
+!livros/*/site/video/*.webm

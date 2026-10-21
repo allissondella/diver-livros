@@ -20,10 +20,13 @@ jobs:
         run: |
           mkdir -p _site
           cp site/index.html _site/
+          # Última Parada: o livro na raiz do título, o porão (jogo) em /porao/
+          python3 livros/ultima-parada/site/build.py
+          mkdir -p _site/ultima-parada/porao
+          cp -r livros/ultima-parada/site/. _site/ultima-parada/
+          rm -f _site/ultima-parada/build.py
           sh livros/ultima-parada/jogo/build.sh
-          mkdir -p _site/ultima-parada
-          cp livros/ultima-parada/jogo/dist/index.html _site/ultima-parada/
-          [ -d livros/ultima-parada/midia/publico ] && cp -r livros/ultima-parada/midia/publico/. _site/ultima-parada/ || true
+          cp livros/ultima-parada/jogo/dist/index.html _site/ultima-parada/porao/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

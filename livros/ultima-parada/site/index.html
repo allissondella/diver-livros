@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Última Parada — Diver Livros</title>
+<meta name="description" content="Um caderno e uma fita de vídeo encontrados num sebo de São Paulo.">
+<meta name="theme-color" content="#050505">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Special+Elite&family=VT323&display=swap">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body class="tema-vermelho">
+
+<!-- tela 1: o aviso -->
+<section id="aviso" class="tela-cheia" aria-labelledby="aviso-titulo">
+  <div class="aviso-texto">
+    <h1 id="aviso-titulo" class="surge">Atenção</h1>
+    <p class="surge forte">Isto não é um jogo.</p>
+    <p class="surge">É a reconstituição de uma fita de vídeo e de um diário que chegaram ao nosso estúdio em abril de 2026.</p>
+    <p class="surge">Quem os trouxe foi um amigo, dono de um sebo em São Paulo. Ele os encontrou numa prateleira, amarrados a uma bíblia, e não sabe dizer quem os deixou ali. Leu o diário numa noite. Na manhã seguinte, não quis mais ficar com eles.</p>
+    <p class="surge">Não mudamos nada do que está escrito. Tiramos apenas o que não importava.</p>
+    <button id="entrar" class="botao-entrar surge" type="button">Entre por sua conta e risco.<br><span>Alguns não voltaram.</span></button>
+    <p class="recomecar" hidden><button id="recomecar" type="button" class="link">apagar o que eu já li e começar do zero</button></p>
+  </div>
+</section>
+
+<!-- o livro -->
+<div id="livro" hidden>
+  <header class="barra">
+    <span class="barra-titulo">Última Parada</span>
+    <span class="barra-paginas" id="paginas" title="Páginas: pontos de leitura que viram desconto no próximo Diver Livro">0 Páginas</span>
+    <button type="button" id="abrir-sumario" class="barra-botao">Sumário</button>
+    <button type="button" id="tema" class="barra-botao" aria-pressed="false" title="Trocar para fundo claro">Fundo claro</button>
+  </header>
+  <main id="pagina" tabindex="-1"></main>
+</div>
+
+<!-- sumário -->
+<div id="sumario" class="sobreposicao" hidden role="dialog" aria-modal="true" aria-labelledby="sumario-titulo">
+  <div class="sobreposicao-caixa">
+    <h2 id="sumario-titulo">Sumário</h2>
+    <ol id="sumario-lista"></ol>
+    <button type="button" id="fechar-sumario" class="botao">Fechar</button>
+  </div>
+</div>
+
+<script src="capitulos.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

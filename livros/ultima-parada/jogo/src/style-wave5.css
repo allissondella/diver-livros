@@ -21,7 +21,3 @@
 .tapeIda:hover, .tapeIda:focus-visible { box-shadow: 0 .8em 1.6em rgba(0, 0, 0, .8), 0 0 0 1px var(--amber); }
 .tapeIda.in { transform: translateY(-6.2em) scale(.62); opacity: 0; }
 .tvHint { margin: 1.2em 0 0; color: var(--faint); letter-spacing: .2em; text-transform: uppercase; font-size: .78em; }
-/* a fita de ida em vídeo, em tela cheia dentro da TV (wave7) */
-.tvScreen { position: relative; display: block; width: fit-content; }
-#tvIda { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 1.3em / 1em; background: #000; object-fit: cover; }
-#tvIda[hidden] { display: none; }
