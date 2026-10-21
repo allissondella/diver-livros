@@ -36,3 +36,9 @@
 #endText .fim { font: 2.2em var(--f-led); letter-spacing: .4em; color: var(--paper); margin-top: 1.4em; }
 #endText .score { color: var(--dim); font-size: .9em; }
 #endText b { font-family: var(--f-led); color: #ffb04a; letter-spacing: .12em; font-weight: 400; }
+
+/* tabela de morse do Aurélio (oficina) */
+.paper.morse { width: min(62ch, 94vw); }
+.paper.morse .morse-tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: .15em 1.2em; font: 1.02em/1.55 'Courier New', monospace; color: #1f2a3a; }
+.paper.morse .morse-tab b { display: inline-block; width: 1.3em; font-weight: 700; }
+@media (max-width: 560px) { .paper.morse .morse-tab { grid-template-columns: repeat(3, 1fr); font-size: .92em; } }

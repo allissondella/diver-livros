@@ -47,7 +47,7 @@ Um envelope pardo, grande, sem nome e sem selo, deixado num sebo da Rua Monte Al
 | 4 | Marina, dezoito anos | Cadeado ROTA da cômoda | Fábio; o diário de Marina, abril de 1986 (a oficina, os cadernos 4 a 6, a senha do PAI.TXT) | 0606; a bolinha no vaso |
 | 5 | PAI.TXT | Senha 0606 no CP-500 | Fábio (2 linhas); o PAI.TXT na tela verde; a Folha de 1976 | a oficina: a bolinha e o labirinto de vidro |
 | 6 | A caixa errada | Caixa de chumbo na oficina | Fábio; o bilhete de Lúcia; a bíblia e a carta de Lúcia; a microfita, mensagem 2 (play) | o receptor, 23.10 |
-| 7 | Eu pintei igual | Receptor da oficina em 23.10 | Fábio; o fim do diário de Marina; o Notícias Populares; a fita de 86 | o volume sete da Barsa |
+| 7 | Eu pintei igual | Receptor da oficina em 23.10 | Fábio; o fim do diário de Marina; o Notícias Populares; a fita de 86 | o morse novo do rádio (PUXE O LIVRO 7), traduzido com a tabela da oficina |
 | 8 | A semana de seis horas | Estante gira (volume sete) | Fábio; as páginas da Cecília do outro lado; a página de pontinhos | sempre à esquerda |
 | 9 | Última parada | 05h10, a caixa no ônibus | As páginas datadas do Fábio; o último trecho da fita | — |
 | 10 | Das coisas que eu não trouxe | Abre depois do 9 | A Cecília; a nota final do estúdio | — |
@@ -67,7 +67,7 @@ Máximo de 160. Cupom provisório: 125 Páginas → ULTIMAPARADA10 (10%); 145 �
 
 ## As gravações
 
-Toda secretária eletrônica do livro tem play, e o mesmo áudio toca na secretária do porão. A lista de falas, com os ids dos arquivos, está em `site/audio/LEIA.md`. Grava-se a voz limpa no ElevenLabs; o livro e o jogo põem a banda de telefone, o chiado e o bipe.
+Toda secretária eletrônica do livro tem play, e o mesmo áudio toca na secretária do porão. O roteiro de todas as vozes (elenco, prompts do Voice Design, texto com marcações do Eleven v3 e jeito de dizer) está no documento "Última Parada — vozes para o ElevenLabs"; a lista de ids, em `site/audio/LEIA.md`. Grava-se a voz limpa no ElevenLabs; o livro e o jogo põem a banda de telefone, o chiado e o bipe.
 
 ## A fórmula Diver Livro
 

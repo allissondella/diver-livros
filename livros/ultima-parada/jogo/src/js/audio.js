@@ -98,7 +98,7 @@ function audioTick() {
   if (vis('ovRadio')) {
     const d = Math.abs(parseFloat($('tune').value) - 23.1);
     chiado = Math.max(chiado, d < .035 ? .012 : d < .6 ? .03 : .05);
-    morse = d < .035 ? .012 : d < .6 ? .06 * (1 - d / .6) : 0;
+    morse = d < .035 ? (S.flags.marina && !curVoice ? .05 : .012) : d < .6 ? .06 * (1 - d / .6) : 0;
     scheduleMorse();
   }
   setG('chiado', chiado, .08); setG('morse', morse, .08);
@@ -129,17 +129,19 @@ function audioTick() {
   if (!S.flags.won) AUD.epi = false;
 }
 // morse: 06 06 76 / 23 10 / 875A-10, agendado um pouco à frente
-const MORSE_CODE = { '0': '-----', '1': '.----', '2': '..---', '3': '...--', '5': '.....', '6': '-....', '7': '--...', '8': '---..', 'A': '.-' };
+const MORSE_CODE = { '0': '-----', '1': '.----', '2': '..---', '3': '...--', '5': '.....', '6': '-....', '7': '--...', '8': '---..', 'A': '.-',
+  'P': '.--.', 'U': '..-', 'X': '-..-', 'E': '.', 'O': '---', 'L': '.-..', 'I': '..', 'V': '...-', 'R': '.-.' };
 function scheduleMorse() {
-  const c = AUD.ctx, u = .07, g = AUD.morseGate.gain;
+  const livro = S.flags.marina;   // depois da voz da Marina: PUXE O LIVRO 7, mais devagar
+  const c = AUD.ctx, u = livro ? .1 : .07, g = AUD.morseGate.gain;
   if (AUD.morseAt < c.currentTime) AUD.morseAt = c.currentTime + .05;
   if (AUD.morseAt > c.currentTime + 1.5) return;
   let t = AUD.morseAt;
-  for (const word of ['06', '06', '76', '2310', '875A10']) {
+  for (const word of (livro ? ['PUXE', 'O', 'LIVRO', '7'] : ['06', '06', '76', '2310', '875A10'])) {
     for (const ch of word) { for (const s of MORSE_CODE[ch]) { const len = s === '.' ? u : 3 * u; g.setValueAtTime(1, t); g.setValueAtTime(0, t + len); t += len + u; } t += 2 * u; }
     t += 4 * u;
   }
-  AUD.morseAt = t + 1.2;
+  AUD.morseAt = t + (livro ? 2.2 : 1.2);
 }
 
 // ——— vozes gravadas (ElevenLabs): audio/<id>.mp3 listados em audio/manifest.json ———

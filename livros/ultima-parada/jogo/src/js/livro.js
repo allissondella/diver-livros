@@ -17,7 +17,7 @@ if (NO_LIVRO) {
     ['rota', () => S.open.gav1],       // o cadeado ROTA da cômoda → capítulo 4
     ['pai', () => S.flags.pai],        // a senha 0606 do CP-500 → capítulo 5
     ['caixa', () => S.found.caixa],    // a caixa de chumbo na bancada da oficina → capítulo 6
-    ['radio', () => S.flags.tuned],    // o receptor da oficina em 23.10 → capítulo 7
+    ['radio', () => S.flags.marina],   // o receptor da oficina em 23.10, depois que a voz da Marina termina → capítulo 7
     ['estante', () => S.open.estante], // o volume sete, a estante gira → capítulo 8
     ['fim', () => S.flags.won],        // 05h10, a caixa no ônibus → capítulo 9
   ];
@@ -37,14 +37,20 @@ if (NO_LIVRO) {
     const d = e.data || {};
     if (!d.ultimaParada) return;
     if (d.acao === 'pausa' && !pausado) {
-      pausado = true; ultimo = performance.now();
+      pausado = true; window.LIVRO_PAUSADO = true; ultimo = performance.now();
       if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend();
     } else if (d.acao === 'continua' && pausado) {
-      const dt = performance.now() - ultimo; pausado = false;
+      const dt = performance.now() - ultimo; pausado = false; window.LIVRO_PAUSADO = false;
       if (S.started) { S.t0 += dt; S.nextBatt += dt; S.nextFlick += dt; }
       if (AUD.ctx && AUD.on) AUD.ctx.resume();
     }
   });
+  // o fim ruim também é do livro: tela preta, "VOCÊ FALHOU", e volta ao começo
+  endBad = function () {
+    S.ended = true; closeOv(); hideMsg();
+    if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend();
+    avisa({ falhou: true });
+  };
   // o final é do livro
   finale = function () {
     S.flags.won = true; removeItem('caixa'); dirty(6); S.ended = true; closeOv(); hideMsg();

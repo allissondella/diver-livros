@@ -19,7 +19,7 @@ function placeFuse() {
 spot(0, 'escada', [80, 130, 530, 590], { label: 'Escada',
   act: () => say('Dez degraus de madeira. O sexto range. A Cecília desceu por aqui às 23h10.') });
 spot(0, 'porta', [30, 0, 300, 125], { label: 'Porta lá em cima',
-  act: () => say('Emperrou. Pela fresta entra a luz da cozinha. A Denise anda de um lado pro outro lá em cima. Ninguém vai descer.') });
+  act: () => say('Emperrou. Pela fresta entra a luz da cozinha, que ninguém apagou. Lá em cima, os pais dela dormem. Ninguém vai descer.') });
 spot(0, 'lata', [684, 636, 82, 90], { label: 'Lata de tinta',
   act: () => say('Uma lata de Suvinil vazia, embaixo de uma goteira. Já tem dois dedos de água escura.') });
 spot(0, 'janela', [760, 104, 250, 76], { label: 'Janelinha',
@@ -114,7 +114,7 @@ spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
 spot(3, 'telefone', [1322, 486, 92, 54], { label: 'Telefone',
   act: () => say('Telefone de disco, cinza. Tem linha. Você não sabe pra quem ligar.') });
 spot(3, 'secretaria', [1408, 508, 64, 34], { label: 'Secretária eletrônica',
-  act: () => say(lit() ? 'A luzinha vermelha pisca. A microfita que você trouxe de casa cabe aqui.' : 'Uma secretária eletrônica de microfita. Sem luz, morta.') });
+  act: () => say(lit() ? 'A luzinha vermelha pisca. Tem recado.' : 'Uma secretária eletrônica de microfita. Sem luz, morta.') });
 spot(3, 'cama', [1484, 560, 116, 160], { label: 'Cama da Cecília',
   act: () => say('O cobertor ainda está dobrado. Ela não deitou.') });
 spot(3, 'mochila', [1498, 474, 90, 96], { label: 'Mochila da Cecília',

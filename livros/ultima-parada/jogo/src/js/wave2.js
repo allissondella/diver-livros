@@ -100,7 +100,7 @@ function deskDrawer() {
 }
 
 // ——— mural de perto ———
-const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M8 58 V40 H30 V12 H70 V30" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="70" cy="30" r="3" fill="#7a1910"/><text x="75" y="26" font-size="12" fill="#2b1c0e">?</text></svg>`;
+const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M62 58 V44 H22 V14 H76 V32" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="76" cy="32" r="3" fill="#7a1910"/><text x="81" y="28" font-size="12" fill="#2b1c0e">?</text></svg>`;
 const MURAL = [
   { cls: 'news', x: 4, y: 6, w: 22, h: 34, r: -3, html: '<small>Folha de S.Paulo · 8/6/1976</small>Técnico do IPEN desaparece em Perdizes', paper: 7 },
   { cls: 'news', x: 74, y: 5, w: 22, h: 36, r: 2.5, html: '<small>Notícias Populares · 9/6/1986</small>Filha de desaparecido some na mesma casa, dez anos depois', paper: 10 },

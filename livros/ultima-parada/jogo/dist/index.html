@@ -441,6 +441,12 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
 #endText .fim { font: 2.2em var(--f-led); letter-spacing: .4em; color: var(--paper); margin-top: 1.4em; }
 #endText .score { color: var(--dim); font-size: .9em; }
 #endText b { font-family: var(--f-led); color: #ffb04a; letter-spacing: .12em; font-weight: 400; }
+
+/* tabela de morse do Aurélio (oficina) */
+.paper.morse { width: min(62ch, 94vw); }
+.paper.morse .morse-tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: .15em 1.2em; font: 1.02em/1.55 'Courier New', monospace; color: #1f2a3a; }
+.paper.morse .morse-tab b { display: inline-block; width: 1.3em; font-weight: 700; }
+@media (max-width: 560px) { .paper.morse .morse-tab { grid-template-columns: repeat(3, 1fr); font-size: .92em; } }
 /* ——— Onda 5: a TV de tubo da abertura ——— */
 .tvIntro { display: grid; justify-items: center; gap: 0; }
 .tvBox {
@@ -662,6 +668,11 @@ const VIEWS = ['Escada', 'Estante', 'Parede de tijolos', 'Escrivaninha'];
 // Os 14 papéis da linha do tempo. `date` ordena; `when` é o que aparece.
 // kind define o papel (quadriculado, fichário, caderno, jornal...). `voice` é para o ElevenLabs.
 const PAPERS = [
+  { id: 16, date: '1974-11-02', when: 'nov 1974', kind: 'aurelio morse', voice: '—', where: 'Oficina, pregada na parede',
+    title: 'Tabela de código morse',
+    html: `<div class="stamp">Código Morse · internacional</div>
+      <div class="morse-tab"><span><b>A</b> ·−</span><span><b>B</b> −···</span><span><b>C</b> −·−·</span><span><b>D</b> −··</span><span><b>E</b> ·</span><span><b>F</b> ··−·</span><span><b>G</b> −−·</span><span><b>H</b> ····</span><span><b>I</b> ··</span><span><b>J</b> ·−−−</span><span><b>K</b> −·−</span><span><b>L</b> ·−··</span><span><b>M</b> −−</span><span><b>N</b> −·</span><span><b>O</b> −−−</span><span><b>P</b> ·−−·</span><span><b>Q</b> −−·−</span><span><b>R</b> ·−·</span><span><b>S</b> ···</span><span><b>T</b> −</span><span><b>U</b> ··−</span><span><b>V</b> ···−</span><span><b>W</b> ·−−</span><span><b>X</b> −··−</span><span><b>Y</b> −·−−</span><span><b>Z</b> −−··</span><span><b>1</b> ·−−−−</span><span><b>2</b> ··−−−</span><span><b>3</b> ···−−</span><span><b>4</b> ····−</span><span><b>5</b> ·····</span><span><b>6</b> −····</span><span><b>7</b> −−···</span><span><b>8</b> −−−··</span><span><b>9</b> −−−−·</span><span><b>0</b> −−−−−</span></div>
+      <p class="sign">· ponto curto &nbsp; − traço longo &nbsp;·&nbsp; espaço entre letras, barra entre palavras</p>` },
   { id: 1, date: '1948-01-01', when: '1948', kind: 'planta', voice: '—', where: 'Oficina, na parede',
     title: 'Planta da casa',
     html: `<div class="stamp">Sobrado — Rua Monte Alegre — 1948</div>
@@ -680,7 +691,7 @@ const PAPERS = [
   { id: 4, date: '1975-02-01', when: 'fev 1975', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, dentro do rádio',
     title: 'Caderno 6 de Aurélio',
     html: `<div class="stamp">Caderno 6</div>
-      <p>Decifrei. É morse.</p>
+      <p>Decifrei. Não são letras, são números.</p>
       <p class="h">06 06 76 &nbsp;·&nbsp; 23 10 &nbsp;·&nbsp; 875A-10</p>
       <p>Uma data, uma hora e um número de ônibus. Seis, seis, seis. Não gosto disso.</p>
       <p>Mas alguém está chamando. E chama esta casa.</p>` },
@@ -688,7 +699,7 @@ const PAPERS = [
     title: 'Caderno 8 de Aurélio',
     html: `<div class="stamp">Caderno 8</div>
       <p>Não existe linha 875A-10. Mas existe um ônibus que acaba em Perdizes e passa na Cardoso de Almeida.</p>
-      <p>Dia 6 eu espero na janela. Levo a caixa.</p>
+      <p>Dia 6 eu espero na janela. Não levo a amostra. Levo o receptor pequeno, na caixa de madeira.</p>
       <p>Se for o que eu acho, volto antes de amanhecer.</p>` },
   { id: 6, date: '1976-06-06', when: '6 jun 1976', kind: 'lucia', voice: 'Dona Odete (lendo)', where: 'Oficina, pregado na porta',
     title: 'Bilhete de Lúcia',
@@ -738,11 +749,11 @@ const PAPERS = [
       <p class="h">Filha de desaparecido some na mesma casa, dez anos depois</p>
       <div class="body"><p>Marina Toledo, 18, sumiu na noite de sexta-feira do sobrado da Rua Monte Alegre, em Perdizes, de onde o pai, o técnico Aurélio Toledo, desapareceu em junho de 1976.</p>
       <p>A mãe disse ter ouvido passos na escada do porão às 23h10. Ao descer, não encontrou a filha.</p>
-      <p>A polícia informou que só abre investigação depois de 48 horas.</p></div>` },
+      <p>A polícia informou que só abre investigação depois de 24 horas.</p></div>` },
   { id: 11, date: '1996-05-20', when: 'mai 1996', kind: 'cecilia', voice: 'Cecília', where: 'Caderno da Cecília',
     title: 'Cecília, depois de falar com Dona Odete',
     html: `<p>Dona Odete me contou os dois.</p><p>O pai em 76. A filha em 86.</p>
-      <p>Sempre 6 de junho.</p><p>Este ano acaba em 6.</p><p>Eu moro no quarto deles.</p>` },
+      <p>Sempre 6 de junho.</p><p>Este ano acaba em 6.</p><p>Eu durmo no porão deles.</p>` },
   { id: 12, date: '1996-06-06', when: '6 jun 1996', kind: 'cecilia molhada', voice: 'Cecília', where: 'Corredores, no chão',
     title: 'Cecília, no ônibus',
     html: `<p>No ônibus. O letreiro apagou.</p><p>Ele virou na Monte Alegre.</p>
@@ -792,10 +803,10 @@ const ITEMS = {
 
 const INTRO = [
   { when: 'SEX 07·06·96  02:05' },
-  'A Denise te deixou descer. A porta lá em cima emperrou atrás de você.',
-  'A Cecília desceu esta escada às 23h10 de ontem e ninguém mais viu ela.',
+  'O ônibus te deixou na porta. A porta da frente estava aberta; os pais dela dormem lá em cima.',
+  'A Cecília desceu de um ônibus aqui na frente às 23h10 de ontem e ninguém mais viu ela.',
   'No recado, ela disse que tem pouco tempo. Que fecha às cinco e dez.',
-  'A luz do porão não acende. Você tem a lanterna de pilha da Denise e a câmera ligada na mochila.',
+  'A porta lá em cima emperrou atrás de você. A luz do porão não acende. Você tem uma lanterna de pilha fraca e a filmadora ligada na mochila, no peito.',
 ];
 
 // Labirinto de vidro do Seu Aurélio (5 colunas × 10 linhas). A bolinha desliza até bater.
@@ -1657,6 +1668,18 @@ ART[4] = function (ctx, st) {
   ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(150, WALL_TOP, 18, FLOOR - WALL_TOP);
   if (!st.found.lucia) note(ctx, 34, 300, 84, 70, -.05, '#a98a5c');
 
+  // tabela de morse pregada na parede, ao lado do esquema
+  castShadow(ctx, 192, 132, 238, 160, 14);
+  ctx.fillStyle = '#d9d2b8'; ctx.fillRect(192, 132, 238, 160);
+  ctx.fillStyle = '#26314a'; ctx.font = '600 15px "Architects Daughter", cursive'; ctx.fillText('MORSE', 282, 156);
+  ctx.fillStyle = 'rgba(38,49,74,.75)';
+  for (let r = 0; r < 9; r++) for (let c = 0; c < 4; c++) {
+    const x0 = 206 + c * 56, y0 = 172 + r * 12;
+    ctx.fillRect(x0, y0, 5, 5);
+    for (let k = 0; k < 1 + ((r + c) % 4); k++) ctx.fillRect(x0 + 10 + k * 9, y0 + ((k + r) % 2 ? 1 : 0), (k + c) % 2 ? 7 : 3, 3);
+  }
+  ctx.fillStyle = '#8a1f1f'; ctx.beginPath(); ctx.arc(311, 138, 4, 0, 7); ctx.fill();
+
   // esquema na parede: o porão, a estante e "A LINHA"
   castShadow(ctx, 470, 110, 400, 190, 18);
   ctx.fillStyle = '#c7c0a6'; ctx.fillRect(470, 110, 400, 190);
@@ -1853,16 +1876,17 @@ function resetState() {
   Object.assign(S, {
     view: 0, started: false, ended: false,
     fuse: false, fuseTaken: false, power: false, powerAt: 0,
-    inv: ['microfita'], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
-    open: { gav1: false, gav2: false, gav3: false, tool: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, pigBroken: false,
+    inv: [], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
+    open: { gav1: false, gav2: false, gav3: false, tool: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, pigBroken: false, caixaAt: 0,
     lockVals: { gav1: ['M', 'Z', 'K', 'Q'], gav2: ['0', '0', '0', '0'], tool: [] },
     t0: 0, nextFlick: 0, flickUntil: 0, battUntil: 0, nextBatt: 0,
   });
 }
 resetState();
 
-// a ficção vai de 02:05 a 05:10 (185 min) em 60 minutos reais
-const START_MIN = 125, END_MIN = 310, REAL_MIN = 60;
+// a ficção vai de 02:05 a 05:10 (185 min) em 15 minutos reais: do lado de lá a hora passa mais rápido
+// (no livro, o relógio para enquanto a pessoa lê)
+const START_MIN = 125, END_MIN = 310, REAL_MIN = 15;
 function fictionMin() {
   if (!S.started) return START_MIN;
   const real = (performance.now() - S.t0) / 60000;
@@ -2281,7 +2305,7 @@ function placeFuse() {
 spot(0, 'escada', [80, 130, 530, 590], { label: 'Escada',
   act: () => say('Dez degraus de madeira. O sexto range. A Cecília desceu por aqui às 23h10.') });
 spot(0, 'porta', [30, 0, 300, 125], { label: 'Porta lá em cima',
-  act: () => say('Emperrou. Pela fresta entra a luz da cozinha. A Denise anda de um lado pro outro lá em cima. Ninguém vai descer.') });
+  act: () => say('Emperrou. Pela fresta entra a luz da cozinha, que ninguém apagou. Lá em cima, os pais dela dormem. Ninguém vai descer.') });
 spot(0, 'lata', [684, 636, 82, 90], { label: 'Lata de tinta',
   act: () => say('Uma lata de Suvinil vazia, embaixo de uma goteira. Já tem dois dedos de água escura.') });
 spot(0, 'janela', [760, 104, 250, 76], { label: 'Janelinha',
@@ -2376,7 +2400,7 @@ spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
 spot(3, 'telefone', [1322, 486, 92, 54], { label: 'Telefone',
   act: () => say('Telefone de disco, cinza. Tem linha. Você não sabe pra quem ligar.') });
 spot(3, 'secretaria', [1408, 508, 64, 34], { label: 'Secretária eletrônica',
-  act: () => say(lit() ? 'A luzinha vermelha pisca. A microfita que você trouxe de casa cabe aqui.' : 'Uma secretária eletrônica de microfita. Sem luz, morta.') });
+  act: () => say(lit() ? 'A luzinha vermelha pisca. Tem recado.' : 'Uma secretária eletrônica de microfita. Sem luz, morta.') });
 spot(3, 'cama', [1484, 560, 116, 160], { label: 'Cama da Cecília',
   act: () => say('O cobertor ainda está dobrado. Ela não deitou.') });
 spot(3, 'mochila', [1498, 474, 90, 96], { label: 'Mochila da Cecília',
@@ -2484,7 +2508,7 @@ function deskDrawer() {
 }
 
 // ——— mural de perto ———
-const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M8 58 V40 H30 V12 H70 V30" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="70" cy="30" r="3" fill="#7a1910"/><text x="75" y="26" font-size="12" fill="#2b1c0e">?</text></svg>`;
+const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M62 58 V44 H22 V14 H76 V32" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="76" cy="32" r="3" fill="#7a1910"/><text x="81" y="28" font-size="12" fill="#2b1c0e">?</text></svg>`;
 const MURAL = [
   { cls: 'news', x: 4, y: 6, w: 22, h: 34, r: -3, html: '<small>Folha de S.Paulo · 8/6/1976</small>Técnico do IPEN desaparece em Perdizes', paper: 7 },
   { cls: 'news', x: 74, y: 5, w: 22, h: 36, r: 2.5, html: '<small>Notícias Populares · 9/6/1986</small>Filha de desaparecido some na mesma casa, dez anos depois', paper: 10 },
@@ -2963,7 +2987,7 @@ const TAPE_CECI = [
   { v: 'sec-02', sys: '[BIP] Mensagem dois. Data e hora não registradas.' },
   { v: 'ceci-recado-2', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 1600 },
-  { me: 'Em casa, essa fita só tinha uma mensagem.', d: 0 },
+  { me: 'À meia-noite e quarenta e um, essa fita só tinha uma mensagem.', d: 0 },
 ];
 const TAPE_ODETE = [
   { v: 'sec-04', sys: '[BIP] Você tem uma mensagem.' },
@@ -2987,7 +3011,7 @@ const CALLS = {
     : [{ sys: '[chamando… tuuu… tuuu…]' }, { v: 'odete-tel-1', fx: 'phone', who: 'Dona Odete', text: 'Alô?… Quem é, a essa hora?' },
       { v: 'fabio-tel', me: '— É o Fábio, amigo da Cecília. Eu tô no porão.' },
       { v: 'odete-tel-2', fx: 'phone', who: 'Dona Odete', text: 'No porão. Ai, meu Deus. Eu moro na frente desde sessenta e um, menino.' },
-      { v: 'odete-tel-3', fx: 'phone', who: 'Dona Odete', text: 'Vi o Aurélio sair de casa de noite em setenta e seis, com uma caixa debaixo do braço, e subir num ônibus apagado. Vi a Marina em oitenta e seis, com uma lanterna. Vi a sua amiga ontem, às onze e dez.' },
+      { v: 'odete-tel-3', fx: 'phone', who: 'Dona Odete', text: 'Vi o Aurélio sair de casa de noite em setenta e seis, com uma caixa debaixo do braço, e subir num ônibus apagado. Vi a luz da lanterna da Marina na janelinha do porão, em oitenta e seis. Vi a sua amiga ontem, às onze e dez.' },
       { v: 'odete-tel-4', fx: 'phone', who: 'Dona Odete', text: 'A menina foi atrás do pai, e a sua foi atrás da menina. Agora você tá indo atrás da sua.' },
       { v: 'odete-tel-5', fx: 'phone', who: 'Dona Odete', text: 'Fecha essa coisa, menino.' }, { sys: '[ela desliga]', d: 0 }],
   '190': () => [{ sys: '[chamando…]' }, { v: 'pm-1', fx: 'phone', who: 'Polícia Militar', text: 'Polícia Militar, boa noite.' },
@@ -3060,7 +3084,7 @@ function openCP() {
 function cpFiles() {
   const f = Object.keys(CP_FILES);
   if (S.cp.pai) f.push('PAI.TXT');
-  if (S.flags.ev340 && !S.flags.ceciRead) f.push('CECI.TXT');
+  if (S.flags.ev340 && !S.flags.ceciRead && S.cp.pai) f.push('CECI.TXT');   // só depois do PAI.TXT: ler o CECI.TXT queima o computador
   return f;
 }
 const CP_DATES = { 'MARINA.TXT': '01/06/86', 'DATAS.TXT': '25/05/86', 'RELOGIO.BAS': '02/02/85', 'PAI.TXT': '01/06/86', 'CECI.TXT': '07/06/96' };
@@ -3199,9 +3223,19 @@ spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
 spot(3, 'telefone', [1322, 486, 92, 54], { label: 'Telefone', act: () => openPhone() });
 spot(3, 'secretaria', [1408, 508, 64, 34], { label: 'Secretária eletrônica',
   act: () => { if (!S.power) { say('Uma secretária eletrônica de microfita. Sem luz, morta.'); return; }
-    if (S.flags.microfitaIn) playTape(TAPE_CECI); else playTape(TAPE_ODETE, () => { S.flags.odeteTape = true; }); },
-  use: (it) => { if (it !== 'microfita') return false; if (!S.power) { say('Sem luz, a secretária não liga.'); return true; }
-    removeItem('microfita'); S.flags.microfitaIn = true; playTape(TAPE_CECI, () => { S.flags.recado2 = true; }); return true; } });
+    if (S.flags.secApitou) playTape(TAPE_CECI, () => { S.flags.recado2 = true; }); else playTape(TAPE_ODETE, () => { S.flags.odeteTape = true; }); } });
+// a microfita é a da própria secretária do porão (a mesma que o Fábio ouviu pelo telefone à 0h41).
+// Primeiro ela toca o lado B (a Dona Odete). Depois que a caixa de chumbo sai de baixo da bancada,
+// a máquina apita sozinha e passa a tocar o lado A, com uma mensagem que não estava lá antes.
+TICKS.push(() => {
+  if (S.flags.secApitou || !S.started || S.ended || !S.power || !S.found.caixa) return;
+  const agora = performance.now();
+  if (!S.caixaAt || window.LIVRO_PAUSADO) { S.caixaAt = agora; return; }   // no livro, só conta com o porão na tela
+  if (agora - S.caixaAt < 4000 || overlayOpen()) return;
+  S.flags.secApitou = true;
+  if (typeof SFX !== 'undefined' && SFX.bip) SFX.bip();
+  say('Lá no porão, a secretária eletrônica apita sozinha. A luzinha vermelha volta a piscar.');
+});
 
 // ===== wave4.js — labirinto, oficina, rádio de válvulas, estante, corredores, ponto final =====
 ICONS.bolinha = (g) => { const r = g.createRadialGradient(11, 11, 1, 14, 14, 9); r.addColorStop(0, '#fff'); r.addColorStop(.4, '#a9aba8'); r.addColorStop(1, '#3a3b39');
@@ -3299,16 +3333,18 @@ window.addEventListener('keydown', (e) => {
 
 // ——— rádio de válvulas ———
 const MORSE = '−−−−− −····   −−−−− −····   −−··· −····   ··−−− ···−−   ·−−−− −−−−−   −−−·· −−··· ·····';
+// depois da voz da Marina, o rádio passa a bater outra mensagem, mais devagar: PUXE O LIVRO 7 (a pessoa traduz com a tabela da oficina)
+const MORSE_LIVRO = '·−−· ··− −··− ·  /  −−−  /  ·−·· ·· ···− ·−· −−−  /  −−···';
 const RADIO_MARINA = [
   { sys: '[chiado; por baixo, o morse repetindo, fraco]' },
   { v: 'marina-radio-1', fx: 'radio', who: 'Marina', noisy: true, text: 'Você é o Fábio. Ela falou de você.' },
   { v: 'marina-radio-2', fx: 'radio', who: 'Marina', noisy: true, text: 'Escuta: a caixa de chumbo, na bancada. Não abre. Leva pra ela.' },
   { v: 'marina-radio-3', fx: 'radio', who: 'Marina', noisy: true, text: 'Às cinco e dez o ônibus passa no ponto pela última vez e fecha. Vocês sobem com a caixa, descem na última parada e deixam a caixa no banco. O ônibus vai embora com ela.' },
   { v: 'marina-radio-4', fx: 'radio', who: 'Marina', noisy: true, text: 'Eu fico. Meu pai fica. A gente já era daqui.' },
-  { v: 'marina-radio-5', fx: 'radio', who: 'Marina', noisy: true, text: 'Puxa o volume sete. A estante abre. Segue a pintura.' },
-  { sys: '[o chiado volta]', d: 0 },
+  { v: 'marina-radio-5', fx: 'radio', who: 'Marina', noisy: true, text: 'Escuta o rádio depois de mim. Ele fala do jeito dele. E segue a pintura.' },
+  { sys: '[o chiado volta. Por baixo, pontos e traços novos, mais devagar, repetindo sem parar]', d: 0 },
 ];
-const RADIO_AGAIN = [{ v: 'marina-radio-de-novo', fx: 'radio', who: 'Marina', noisy: true, text: 'Puxa o volume sete. A estante abre. Segue a pintura. Sempre à esquerda.' }, { sys: '[chiado]', d: 0 }];
+const RADIO_AGAIN = [{ sys: '[chiado; os pontos e traços novos, devagar, repetindo]', d: 0 }];
 function openRadio() {
   if (!S.power) { say('Um rádio de válvulas Philips, de madeira. Sem luz, as válvulas não acendem.'); return; }
   if (!S.papers.has(4)) {
@@ -3324,10 +3360,10 @@ function tuneRadio() {
   $('freq').textContent = v.toFixed(2); $('needle').style.left = ((v - 15) / 15 * 100) + '%';
   const eye = $('magicEye'); eye.className = 'eye' + (d < .035 ? ' on' : d < .6 ? ' near' : '');
   const m = $('morse');
-  if (d < .6) { m.textContent = MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
+  if (d < .6) { m.textContent = S.flags.marina ? MORSE_LIVRO : MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
   if (d < .035 && !S.flags.tuned) {
     S.flags.tuned = true; $('tune').value = '23.10'; $('freq').textContent = '23.10';
-    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; });
+    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; $('morse').textContent = MORSE_LIVRO; $('morse').style.opacity = '1'; });
   }
 }
 $('tune').addEventListener('input', tuneRadio);
@@ -3411,6 +3447,8 @@ spot(4, 'gavetaBancada', [300, 552, 240, 62], { label: 'Gaveta da bancada',
   act: () => { if (findPaper(3, true)) { toast('Uma página do caderno 5 foi para a linha do tempo.'); say('Chaves de relojoeiro, molas e, dobrada no fundo, uma página arrancada do caderno 5.'); }
     else say('Chaves de relojoeiro, molas, um cronômetro parado.'); } });
 spot(4, 'radioV', [560, 300, 290, 216], { label: 'Rádio de válvulas', act: () => openRadio() });
+spot(4, 'tabelaMorse', [192, 132, 238, 160], { label: 'Tabela de código morse',
+  act: () => { if (findPaper(16, true)) toast('A tabela de morse foi para a linha do tempo.'); openPaper(16); } });
 spot(4, 'caixa', [930, 440, 180, 80], { label: 'Caixa de chumbo', when: () => !S.found.caixa,
   act: () => { S.found.caixa = true; dirty(4); addItem('caixa'); findPaper(5, true); toast('Uma página do caderno 8 foi para a linha do tempo.');
     say('Você levanta a caixa de chumbo. Pesa como um tijolo. Embaixo dela, uma página do caderno 8.'); } });
@@ -3590,7 +3628,7 @@ function audioTick() {
   if (vis('ovRadio')) {
     const d = Math.abs(parseFloat($('tune').value) - 23.1);
     chiado = Math.max(chiado, d < .035 ? .012 : d < .6 ? .03 : .05);
-    morse = d < .035 ? .012 : d < .6 ? .06 * (1 - d / .6) : 0;
+    morse = d < .035 ? (S.flags.marina && !curVoice ? .05 : .012) : d < .6 ? .06 * (1 - d / .6) : 0;
     scheduleMorse();
   }
   setG('chiado', chiado, .08); setG('morse', morse, .08);
@@ -3621,17 +3659,19 @@ function audioTick() {
   if (!S.flags.won) AUD.epi = false;
 }
 // morse: 06 06 76 / 23 10 / 875A-10, agendado um pouco à frente
-const MORSE_CODE = { '0': '-----', '1': '.----', '2': '..---', '3': '...--', '5': '.....', '6': '-....', '7': '--...', '8': '---..', 'A': '.-' };
+const MORSE_CODE = { '0': '-----', '1': '.----', '2': '..---', '3': '...--', '5': '.....', '6': '-....', '7': '--...', '8': '---..', 'A': '.-',
+  'P': '.--.', 'U': '..-', 'X': '-..-', 'E': '.', 'O': '---', 'L': '.-..', 'I': '..', 'V': '...-', 'R': '.-.' };
 function scheduleMorse() {
-  const c = AUD.ctx, u = .07, g = AUD.morseGate.gain;
+  const livro = S.flags.marina;   // depois da voz da Marina: PUXE O LIVRO 7, mais devagar
+  const c = AUD.ctx, u = livro ? .1 : .07, g = AUD.morseGate.gain;
   if (AUD.morseAt < c.currentTime) AUD.morseAt = c.currentTime + .05;
   if (AUD.morseAt > c.currentTime + 1.5) return;
   let t = AUD.morseAt;
-  for (const word of ['06', '06', '76', '2310', '875A10']) {
+  for (const word of (livro ? ['PUXE', 'O', 'LIVRO', '7'] : ['06', '06', '76', '2310', '875A10'])) {
     for (const ch of word) { for (const s of MORSE_CODE[ch]) { const len = s === '.' ? u : 3 * u; g.setValueAtTime(1, t); g.setValueAtTime(0, t + len); t += len + u; } t += 2 * u; }
     t += 4 * u;
   }
-  AUD.morseAt = t + 1.2;
+  AUD.morseAt = t + (livro ? 2.2 : 1.2);
 }
 
 // ——— vozes gravadas (ElevenLabs): audio/<id>.mp3 listados em audio/manifest.json ———
@@ -3825,7 +3865,7 @@ if (NO_LIVRO) {
     ['rota', () => S.open.gav1],       // o cadeado ROTA da cômoda → capítulo 4
     ['pai', () => S.flags.pai],        // a senha 0606 do CP-500 → capítulo 5
     ['caixa', () => S.found.caixa],    // a caixa de chumbo na bancada da oficina → capítulo 6
-    ['radio', () => S.flags.tuned],    // o receptor da oficina em 23.10 → capítulo 7
+    ['radio', () => S.flags.marina],   // o receptor da oficina em 23.10, depois que a voz da Marina termina → capítulo 7
     ['estante', () => S.open.estante], // o volume sete, a estante gira → capítulo 8
     ['fim', () => S.flags.won],        // 05h10, a caixa no ônibus → capítulo 9
   ];
@@ -3845,14 +3885,20 @@ if (NO_LIVRO) {
     const d = e.data || {};
     if (!d.ultimaParada) return;
     if (d.acao === 'pausa' && !pausado) {
-      pausado = true; ultimo = performance.now();
+      pausado = true; window.LIVRO_PAUSADO = true; ultimo = performance.now();
       if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend();
     } else if (d.acao === 'continua' && pausado) {
-      const dt = performance.now() - ultimo; pausado = false;
+      const dt = performance.now() - ultimo; pausado = false; window.LIVRO_PAUSADO = false;
       if (S.started) { S.t0 += dt; S.nextBatt += dt; S.nextFlick += dt; }
       if (AUD.ctx && AUD.on) AUD.ctx.resume();
     }
   });
+  // o fim ruim também é do livro: tela preta, "VOCÊ FALHOU", e volta ao começo
+  endBad = function () {
+    S.ended = true; closeOv(); hideMsg();
+    if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend();
+    avisa({ falhou: true });
+  };
   // o final é do livro
   finale = function () {
     S.flags.won = true; removeItem('caixa'); dirty(6); S.ended = true; closeOv(); hideMsg();

@@ -4,6 +4,11 @@ const VIEWS = ['Escada', 'Estante', 'Parede de tijolos', 'Escrivaninha'];
 // Os 14 papéis da linha do tempo. `date` ordena; `when` é o que aparece.
 // kind define o papel (quadriculado, fichário, caderno, jornal...). `voice` é para o ElevenLabs.
 const PAPERS = [
+  { id: 16, date: '1974-11-02', when: 'nov 1974', kind: 'aurelio morse', voice: '—', where: 'Oficina, pregada na parede',
+    title: 'Tabela de código morse',
+    html: `<div class="stamp">Código Morse · internacional</div>
+      <div class="morse-tab"><span><b>A</b> ·−</span><span><b>B</b> −···</span><span><b>C</b> −·−·</span><span><b>D</b> −··</span><span><b>E</b> ·</span><span><b>F</b> ··−·</span><span><b>G</b> −−·</span><span><b>H</b> ····</span><span><b>I</b> ··</span><span><b>J</b> ·−−−</span><span><b>K</b> −·−</span><span><b>L</b> ·−··</span><span><b>M</b> −−</span><span><b>N</b> −·</span><span><b>O</b> −−−</span><span><b>P</b> ·−−·</span><span><b>Q</b> −−·−</span><span><b>R</b> ·−·</span><span><b>S</b> ···</span><span><b>T</b> −</span><span><b>U</b> ··−</span><span><b>V</b> ···−</span><span><b>W</b> ·−−</span><span><b>X</b> −··−</span><span><b>Y</b> −·−−</span><span><b>Z</b> −−··</span><span><b>1</b> ·−−−−</span><span><b>2</b> ··−−−</span><span><b>3</b> ···−−</span><span><b>4</b> ····−</span><span><b>5</b> ·····</span><span><b>6</b> −····</span><span><b>7</b> −−···</span><span><b>8</b> −−−··</span><span><b>9</b> −−−−·</span><span><b>0</b> −−−−−</span></div>
+      <p class="sign">· ponto curto &nbsp; − traço longo &nbsp;·&nbsp; espaço entre letras, barra entre palavras</p>` },
   { id: 1, date: '1948-01-01', when: '1948', kind: 'planta', voice: '—', where: 'Oficina, na parede',
     title: 'Planta da casa',
     html: `<div class="stamp">Sobrado — Rua Monte Alegre — 1948</div>
@@ -22,7 +27,7 @@ const PAPERS = [
   { id: 4, date: '1975-02-01', when: 'fev 1975', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, dentro do rádio',
     title: 'Caderno 6 de Aurélio',
     html: `<div class="stamp">Caderno 6</div>
-      <p>Decifrei. É morse.</p>
+      <p>Decifrei. Não são letras, são números.</p>
       <p class="h">06 06 76 &nbsp;·&nbsp; 23 10 &nbsp;·&nbsp; 875A-10</p>
       <p>Uma data, uma hora e um número de ônibus. Seis, seis, seis. Não gosto disso.</p>
       <p>Mas alguém está chamando. E chama esta casa.</p>` },
@@ -30,7 +35,7 @@ const PAPERS = [
     title: 'Caderno 8 de Aurélio',
     html: `<div class="stamp">Caderno 8</div>
       <p>Não existe linha 875A-10. Mas existe um ônibus que acaba em Perdizes e passa na Cardoso de Almeida.</p>
-      <p>Dia 6 eu espero na janela. Levo a caixa.</p>
+      <p>Dia 6 eu espero na janela. Não levo a amostra. Levo o receptor pequeno, na caixa de madeira.</p>
       <p>Se for o que eu acho, volto antes de amanhecer.</p>` },
   { id: 6, date: '1976-06-06', when: '6 jun 1976', kind: 'lucia', voice: 'Dona Odete (lendo)', where: 'Oficina, pregado na porta',
     title: 'Bilhete de Lúcia',
@@ -80,11 +85,11 @@ const PAPERS = [
       <p class="h">Filha de desaparecido some na mesma casa, dez anos depois</p>
       <div class="body"><p>Marina Toledo, 18, sumiu na noite de sexta-feira do sobrado da Rua Monte Alegre, em Perdizes, de onde o pai, o técnico Aurélio Toledo, desapareceu em junho de 1976.</p>
       <p>A mãe disse ter ouvido passos na escada do porão às 23h10. Ao descer, não encontrou a filha.</p>
-      <p>A polícia informou que só abre investigação depois de 48 horas.</p></div>` },
+      <p>A polícia informou que só abre investigação depois de 24 horas.</p></div>` },
   { id: 11, date: '1996-05-20', when: 'mai 1996', kind: 'cecilia', voice: 'Cecília', where: 'Caderno da Cecília',
     title: 'Cecília, depois de falar com Dona Odete',
     html: `<p>Dona Odete me contou os dois.</p><p>O pai em 76. A filha em 86.</p>
-      <p>Sempre 6 de junho.</p><p>Este ano acaba em 6.</p><p>Eu moro no quarto deles.</p>` },
+      <p>Sempre 6 de junho.</p><p>Este ano acaba em 6.</p><p>Eu durmo no porão deles.</p>` },
   { id: 12, date: '1996-06-06', when: '6 jun 1996', kind: 'cecilia molhada', voice: 'Cecília', where: 'Corredores, no chão',
     title: 'Cecília, no ônibus',
     html: `<p>No ônibus. O letreiro apagou.</p><p>Ele virou na Monte Alegre.</p>
@@ -134,10 +139,10 @@ const ITEMS = {
 
 const INTRO = [
   { when: 'SEX 07·06·96  02:05' },
-  'A Denise te deixou descer. A porta lá em cima emperrou atrás de você.',
-  'A Cecília desceu esta escada às 23h10 de ontem e ninguém mais viu ela.',
+  'O ônibus te deixou na porta. A porta da frente estava aberta; os pais dela dormem lá em cima.',
+  'A Cecília desceu de um ônibus aqui na frente às 23h10 de ontem e ninguém mais viu ela.',
   'No recado, ela disse que tem pouco tempo. Que fecha às cinco e dez.',
-  'A luz do porão não acende. Você tem a lanterna de pilha da Denise e a câmera ligada na mochila.',
+  'A porta lá em cima emperrou atrás de você. A luz do porão não acende. Você tem uma lanterna de pilha fraca e a filmadora ligada na mochila, no peito.',
 ];
 
 // Labirinto de vidro do Seu Aurélio (5 colunas × 10 linhas). A bolinha desliza até bater.

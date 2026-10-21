@@ -180,7 +180,22 @@
     const d = e.data || {};
     if (!d.ultimaParada || !jogo || e.source !== jogo.contentWindow) return;
     if (d.marco) registrarMarco(d.marco);
+    if (d.falhou) falhou();
   });
+  // ——— o fim ruim: deu 05h10 no porão ———
+  // tela preta, chiado, VOCÊ FALHOU por 3 segundos, e o livro volta ao começo, sem explicação
+  function falhou() {
+    pararLeitura(); pararFita();
+    if (jogo) { jogo.remove(); jogo = null; }
+    P = novo(); salvar();
+    const tela = el('div', { class: 'falhou', role: 'alert', 'aria-label': 'Você falhou' }, el('p', null, 'VOCÊ', el('br'), 'FALHOU'));
+    document.body.append(tela);
+    // o susto: o grito gravado (grito-falhou), se existir; senão o jumpscare da fita
+    const susto = new Audio(VOZES.has('grito-falhou') ? 'audio/grito-falhou.mp3' : 'sons/jumpscare.mp3'); susto.volume = 1;
+    susto.play().catch(() => { ruido(0.9, 0.4, 2600); });
+    ruido(0.5, 0.3, 1800);
+    setTimeout(() => { location.reload(); }, 3000);
+  }
   function registrarMarco(k) {
     if (P.marcos[k] || !ORDEM.includes(k)) return;
     P.marcos[k] = true;

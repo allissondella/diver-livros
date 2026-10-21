@@ -4,16 +4,17 @@ function resetState() {
   Object.assign(S, {
     view: 0, started: false, ended: false,
     fuse: false, fuseTaken: false, power: false, powerAt: 0,
-    inv: ['microfita'], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
-    open: { gav1: false, gav2: false, gav3: false, tool: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, pigBroken: false,
+    inv: [], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
+    open: { gav1: false, gav2: false, gav3: false, tool: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, pigBroken: false, caixaAt: 0,
     lockVals: { gav1: ['M', 'Z', 'K', 'Q'], gav2: ['0', '0', '0', '0'], tool: [] },
     t0: 0, nextFlick: 0, flickUntil: 0, battUntil: 0, nextBatt: 0,
   });
 }
 resetState();
 
-// a ficção vai de 02:05 a 05:10 (185 min) em 60 minutos reais
-const START_MIN = 125, END_MIN = 310, REAL_MIN = 60;
+// a ficção vai de 02:05 a 05:10 (185 min) em 15 minutos reais: do lado de lá a hora passa mais rápido
+// (no livro, o relógio para enquanto a pessoa lê)
+const START_MIN = 125, END_MIN = 310, REAL_MIN = 15;
 function fictionMin() {
   if (!S.started) return START_MIN;
   const real = (performance.now() - S.t0) / 60000;

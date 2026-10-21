@@ -38,9 +38,9 @@ Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas d
 >>
 >> "Eu fico. Meu pai fica. A gente já era daqui."
 >>
->> "Puxa o volume sete. A estante abre. Segue a pintura."
+>> "Escuta o rádio depois de mim. Ele fala do jeito dele. E segue a pintura."
 >>
->> Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: "O letreiro apagou." Mais adiante, enfiado num cano, um bilhete de outra letra: "Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez." Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.
+>> Depois dela, o rádio voltou a bater pontos e traços, mais devagar. Com a tabela da parede, letra por letra, deu: PUXE O LIVRO 7. Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: "O letreiro apagou." Mais adiante, enfiado num cano, um bilhete de outra letra: "Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez." Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.
 >>
 >> O corredor acaba numa rua que não existe: um poste, um banco, garoa parada no ar. Nenhum ônibus. Só o motor, longe.
 >>

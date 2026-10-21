@@ -59,10 +59,10 @@ estante do porao. Bati atras dela. E oca.
 
 CADERNO 8 - 3 de junho
 
-Pus a estante num eixo. A alavanca e o volume 7 da Barsa: puxa
+Pus a estante num eixo. A alavanca e um dos livros da Barsa: puxa
 ate o fim e ela gira. O trinco e um rele ligado no receptor. Sem o
-receptor em 23.10, o volume trava na metade. Assim ninguem abre
-por acaso.
+receptor em 23.10, o livro trava na metade. Qual livro, eu nao
+escrevo. Quem precisar saber vai ouvir.
 
 CADERNO 8 - 5 de junho
 

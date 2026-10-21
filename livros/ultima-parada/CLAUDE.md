@@ -24,7 +24,7 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 - Portal: 6 de junho dos anos terminados em 6, abre 23h10, fecha 05h10.
 - Aurélio Toledo (41, Ipen) some em 06/06/1976; Marina (18) em 06/06/1986; Cecília (18) em 06/06/1996 e volta com Fábio (19) às 05h10 de 07/06.
 - Ônibus 875A-10 Aeroporto–Perdizes; letreiro apaga até "7 A PERDI". Faixa de rádio 23.10. Morse: 06 06 76 · 23 10 · 875A-10.
-- Senhas: ROTA (cômoda), 0606 (CP-500), volume sete (estante). O capítulo 5 é lido na tela do CP-500 (PAI.TXT, sem acentos). A oficina fica atrás da parede da cômoda (tranca: labirinto de vidro e bolinha); o corredor, atrás da estante do porão (alavanca: volume 7 da Barsa, só com o receptor em 23.10).
+- Senhas: ROTA (cômoda), 0606 (CP-500), volume sete (estante). O capítulo 5 é lido na tela do CP-500 (PAI.TXT, sem acentos). A oficina fica atrás da parede da cômoda (tranca: labirinto de vidro e bolinha); o corredor, atrás da estante do porão (alavanca: volume 7 da Barsa, que só destrava depois do rádio). A pista do volume 7 é um morse que o receptor bate depois da voz da Marina, PUXE O LIVRO 7, traduzido com a tabela de morse pregada na parede da oficina (papel 16 da linha do tempo). Nenhum texto do livro diz "volume 7" antes do capítulo 8.
 - A caixa de chumbo fica no banco do ônibus; a de sapato é "a caixa errada".
 
 ## O livro e o porão juntos (`site/` + `jogo/`)
@@ -33,6 +33,8 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 - Cada marco do porão solta um capítulo (a folha cai na tela, com a cena e "Ler agora" / "Continuar no porão"):
   luz acesa (fusível) → cap. 3 · cadeado ROTA → cap. 4 · senha 0606 no CP-500 → cap. 5 · caixa de chumbo na oficina (que abre com a bolinha no labirinto de vidro) → cap. 6 · receptor da oficina em 23.10 → cap. 7 · estante do porão gira (volume 7 da Barsa) → cap. 8 · 05h10, a caixa no ônibus → cap. 9, que abre sozinho → "Virar a página" → cap. 10 → "Fechar o envelope" → fim.
 - Os capítulos saem sempre em ordem: um marco feito antes da hora fica guardado e solta junto com o anterior ("Capítulos 4 a 5").
+- O porão dura 15 minutos reais: o relógio da ficção vai das 02h05 às 05h10 (`REAL_MIN` em `jogo/src/js/engine.js`); o susto das 03h40 cai perto dos 7 min e meio. Se o tempo acaba depois de abrir a oficina, dá para tentar de novo a partir das 03h40.
+- Fim ruim: se der 05h10 no porão, o livro mostra uma tela preta com "VOCÊ FALHOU" enorme, em vermelho, com um grito (`audio/grito-falhou.mp3`; sem ele, `sons/jumpscare.mp3`), e depois de 3 segundos volta ao aviso com o progresso zerado. Sem explicação.
 - Enquanto a pessoa lê (ou está com o menu Envelope aberto), o relógio da ficção e o som do porão param.
 - Ponte do lado do jogo: `jogo/src/js/livro.js` (pula a abertura da TV, avisa os marcos com postMessage, pausa/continua, entrega o final ao livro). Fora do livro, o jogo funciona sozinho como antes.
 - Lado do livro: `site/app.js`. Progresso no `localStorage` (`ultima-parada:livro:2`). O estado do jogo não é salvo: recarregar a página recomeça o porão, mas os capítulos já soltos continuam.
@@ -47,8 +49,9 @@ Montada por `midia/ferramentas/fita_ida6.py` (precisa dos vídeos brutos do Flow
 Paulista → glitch → ônibus chegando → letreiro apagando até "7 A PERDI" → chiado → corredor até a mulher (frase escondida no chiado) → a lâmpada estoura (glitch) → ela mais perto → chiado → janela → chiado → a casa → chiado → o ônibus indo embora (05:40) → chiado → a caixa de chumbo sozinha no banco, escurecendo → glitch + jumpscare → preto.
 
 ## Pendências
-- Gravar as secretárias eletrônicas no ElevenLabs (lista em `site/audio/LEIA.md`) e as outras vozes do jogo.
+- Gravar as vozes no ElevenLabs: o roteiro completo está no documento "Última Parada — vozes para o ElevenLabs" e a lista de ids em `site/audio/LEIA.md`.
 - A narração opcional dos capítulos.
 - Ligar Páginas e cupom à conta Diver.
 - Salvar o estado do porão (hoje recomeça ao recarregar).
-- O porão tem a própria "Linha do tempo" com os papéis; decidir se ela fica ou se o caderno basta.
+- O porão tem a própria "Linha do tempo" com os papéis e o próprio diário da Marina (na escrivaninha, com frases invertidas); no livro, o diário está na gaveta do ROTA. Decidir se alinha.
+- Guia de teste de todos os enigmas: documento "Última Parada — guia de teste".

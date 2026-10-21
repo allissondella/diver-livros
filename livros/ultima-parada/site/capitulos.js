@@ -241,7 +241,7 @@ window.CAPITULOS = [
  {
   "n": 2,
   "titulo": "A moça do porão",
-  "palavras": 1093,
+  "palavras": 1103,
   "blocos": [
    {
     "tipo": "p",
@@ -437,7 +437,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Ela não tentou o cadeado. Quem tentou fui eu, às duas e pouco da manhã, com a lanterna na boca e a filmadora no peito.",
+    "html": "Ela não tentou o cadeado. Quem tentou fui eu. No alto da escada, olhei o relógio da filmadora no meu peito: duas e cinco daquela madrugada que não acabava. Desci com a lanterna na boca.",
     "classe": "",
     "dentro": false
    },
@@ -906,7 +906,7 @@ window.CAPITULOS = [
  {
   "n": 5,
   "titulo": "PAI.TXT",
-  "palavras": 766,
+  "palavras": 771,
   "blocos": [
    {
     "tipo": "p",
@@ -928,7 +928,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "tela",
-    "texto": "PAI.TXT                                   MARINA T.  18/04/86\n\n(cadernos 7, 8 e 9 do meu pai, Aurelio Toledo. copiei igual.\n o que esta entre parenteses e meu.)\n\nCADERNO 7 - outubro de 1975\n\nPedi transferencia para o setor de salvaguardas, para ninguem\ndesconfiar de mim. Negaram, como eu queria. Fiquei onde estou: e\nali que ficam as amostras baixadas. Nao vou escrever o que peguei. Vou escrever o que pesa:\nonze quilos, com o chumbo. A caixa e de chumbo porque e o que se\nusa. Guardo embaixo da bancada. A Lucia nao desce mais aqui.\n\nO sinal pede. Nao sei o que. Escuto ha um ano e e sempre a mesma\nchamada, como campainha que ninguem atende. Se alguem chama uma\ncasa, chama por alguma coisa que tem nela. O que tem nesta casa\nque nao tem nas outras sou eu; e o que eu tenho que ninguem tem\nesta embaixo da bancada.\n\n(ele nunca escreve o nome da coisa. o dr. amancio tambem nao.)\n\nCADERNO 7 - janeiro de 1976\n\nA menina perguntou por que eu trabalho de noite. Disse que e porque\nde dia tem barulho. Ela disse que de noite tambem tem, que ela ouve\no radio apitar do quarto dela. Pedi para nao contar para a mae.\nEla fez que sim. Ela segura segredo como segura a lanterna: firme\ndemais.\n\nCADERNO 8 - maio de 1976\n\nNao existe linha 875A-10. Fui a CMTC, perguntei, consultei a\ntabela. Existe o 875A, Aeroporto-Perdizes, que desce a Doutor\nArnaldo e acaba em Perdizes passando pela Cardoso de Almeida. O\n\"-10\" nao e de nenhuma linha. Mas a tabela e deste ano.\n\nDia 6 eu espero na janela.\nSe for o que eu acho, volto antes de amanhecer.\n\nCADERNO 8 - 1 de junho de 1976\n\nAchei a planta da casa no armario do corredor, de 1948, de quando\nconstruiram. \"Porao. Carvoeira. Corredor de servico ate a\ntravessa.\" Fechado em 1963. O corredor comeca onde hoje esta a\nestante do porao. Bati atras dela. E oca.\n\n(a planta esta na oficina, pregada na parede. ele pregou.)\n\nCADERNO 8 - 3 de junho\n\nPus a estante num eixo. A alavanca e o volume 7 da Barsa: puxa\nate o fim e ela gira. O trinco e um rele ligado no receptor. Sem o\nreceptor em 23.10, o volume trava na metade. Assim ninguem abre\npor acaso.\n\nCADERNO 8 - 5 de junho\n\nSe o onibus vier, eu entro pela frente da casa, como todo mundo.\nSe nao vier, vou pelo corredor.\n\nNao levo a amostra. Se o que chama quer isso, nao vai ter. Fica\nembaixo da bancada, fechada. Lucia: nao mexa. Levo o receptor\npequeno, o de escuta, na caixa de madeira, para escutar do lado\nde la.\n\nCADERNO 9 - 6 de junho de 1976, 22h40\n\nA Lucia pregou um bilhete na porta. Li. Vou assim mesmo.\nEla nao entende que nao e ir embora. E ir ver.\n\nSe eu nao voltar, a menina vai ler isto um dia. Marina: eu nao fui\nembora. Eu fui ver quem chama. Se voce ouvir, nao va.\n\n(acaba aqui. a caneca de cafe estava do lado.)\n\nRECORTE (minha mae guardou dentro da biblia. tirei para copiar e\ndevolvi.)\n\n  FOLHA DE S.PAULO - terca-feira, 8 de junho de 1976 - Cidade\n\n  TECNICO DO IPEN DESAPARECE EM PERDIZES\n\n  O tecnico Aurelio Toledo, 41, saiu de casa na noite de domingo,\n  no sobrado da Rua Monte Alegre, e nao foi mais visto. Segundo a\n  esposa, a costureira Lucia Toledo, ele saiu de noite carregando\n  uma caixa e nao disse para onde ia. A filha do casal tem oito\n  anos. A policia trabalha com a hipotese de abandono do lar.\n\n(eu.)",
+    "texto": "PAI.TXT                                   MARINA T.  18/04/86\n\n(cadernos 7, 8 e 9 do meu pai, Aurelio Toledo. copiei igual.\n o que esta entre parenteses e meu.)\n\nCADERNO 7 - outubro de 1975\n\nPedi transferencia para o setor de salvaguardas, para ninguem\ndesconfiar de mim. Negaram, como eu queria. Fiquei onde estou: e\nali que ficam as amostras baixadas. Nao vou escrever o que peguei. Vou escrever o que pesa:\nonze quilos, com o chumbo. A caixa e de chumbo porque e o que se\nusa. Guardo embaixo da bancada. A Lucia nao desce mais aqui.\n\nO sinal pede. Nao sei o que. Escuto ha um ano e e sempre a mesma\nchamada, como campainha que ninguem atende. Se alguem chama uma\ncasa, chama por alguma coisa que tem nela. O que tem nesta casa\nque nao tem nas outras sou eu; e o que eu tenho que ninguem tem\nesta embaixo da bancada.\n\n(ele nunca escreve o nome da coisa. o dr. amancio tambem nao.)\n\nCADERNO 7 - janeiro de 1976\n\nA menina perguntou por que eu trabalho de noite. Disse que e porque\nde dia tem barulho. Ela disse que de noite tambem tem, que ela ouve\no radio apitar do quarto dela. Pedi para nao contar para a mae.\nEla fez que sim. Ela segura segredo como segura a lanterna: firme\ndemais.\n\nCADERNO 8 - maio de 1976\n\nNao existe linha 875A-10. Fui a CMTC, perguntei, consultei a\ntabela. Existe o 875A, Aeroporto-Perdizes, que desce a Doutor\nArnaldo e acaba em Perdizes passando pela Cardoso de Almeida. O\n\"-10\" nao e de nenhuma linha. Mas a tabela e deste ano.\n\nDia 6 eu espero na janela.\nSe for o que eu acho, volto antes de amanhecer.\n\nCADERNO 8 - 1 de junho de 1976\n\nAchei a planta da casa no armario do corredor, de 1948, de quando\nconstruiram. \"Porao. Carvoeira. Corredor de servico ate a\ntravessa.\" Fechado em 1963. O corredor comeca onde hoje esta a\nestante do porao. Bati atras dela. E oca.\n\n(a planta esta na oficina, pregada na parede. ele pregou.)\n\nCADERNO 8 - 3 de junho\n\nPus a estante num eixo. A alavanca e um dos livros da Barsa: puxa\nate o fim e ela gira. O trinco e um rele ligado no receptor. Sem o\nreceptor em 23.10, o livro trava na metade. Qual livro, eu nao\nescrevo. Quem precisar saber vai ouvir.\n\nCADERNO 8 - 5 de junho\n\nSe o onibus vier, eu entro pela frente da casa, como todo mundo.\nSe nao vier, vou pelo corredor.\n\nNao levo a amostra. Se o que chama quer isso, nao vai ter. Fica\nembaixo da bancada, fechada. Lucia: nao mexa. Levo o receptor\npequeno, o de escuta, na caixa de madeira, para escutar do lado\nde la.\n\nCADERNO 9 - 6 de junho de 1976, 22h40\n\nA Lucia pregou um bilhete na porta. Li. Vou assim mesmo.\nEla nao entende que nao e ir embora. E ir ver.\n\nSe eu nao voltar, a menina vai ler isto um dia. Marina: eu nao fui\nembora. Eu fui ver quem chama. Se voce ouvir, nao va.\n\n(acaba aqui. a caneca de cafe estava do lado.)\n\nRECORTE (minha mae guardou dentro da biblia. tirei para copiar e\ndevolvi.)\n\n  FOLHA DE S.PAULO - terca-feira, 8 de junho de 1976 - Cidade\n\n  TECNICO DO IPEN DESAPARECE EM PERDIZES\n\n  O tecnico Aurelio Toledo, 41, saiu de casa na noite de domingo,\n  no sobrado da Rua Monte Alegre, e nao foi mais visto. Segundo a\n  esposa, a costureira Lucia Toledo, ele saiu de noite carregando\n  uma caixa e nao disse para onde ia. A filha do casal tem oito\n  anos. A policia trabalha com a hipotese de abandono do lar.\n\n(eu.)",
     "dentro": true
    },
    {
@@ -1142,7 +1142,7 @@ window.CAPITULOS = [
  {
   "n": 7,
   "titulo": "Eu pintei igual",
-  "palavras": 986,
+  "palavras": 1028,
   "blocos": [
    {
     "tipo": "p",
@@ -1194,7 +1194,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Fiz como ele escreveu no caderno 8. Puxei o volume 7 da Barsa até o fim. Travou na metade. Entrei na oficina, liguei o receptor em 23.10, voltei e puxei de novo. A estante girou sem barulho, e atrás dela tinha uma porta de madeira, baixa, com a tinta de 1963 ainda.",
+    "html": "Fiz como ele escreveu no caderno 8: liguei o receptor em 23.10 e esperei. Depois do sinal de sempre, veio outro, mais devagar, que eu nunca tinha ouvido. Copiei com a tabela que ele pregou na parede, letra por letra. Era o nome de um livro da estante. Puxei até o fim. A estante girou sem barulho, e atrás dela tinha uma porta de madeira, baixa, com a tinta de 1963 ainda.",
     "classe": "",
     "dentro": true
    },
@@ -1368,13 +1368,19 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Antes de o chiado voltar, a voz do rádio tinha dito mais uma coisa, a única que eu entendi na hora: \"Puxa o volume sete.\"",
+    "html": "Quando a voz parou, o rádio continuou sozinho: pontos e traços novos, mais devagar, repetindo sem parar. Não era o sinal de 76.",
     "classe": "",
     "dentro": false
    },
    {
     "tipo": "p",
-    "html": "Na estante do porão tem uma Barsa inteira. Falta um volume.",
+    "html": "Na parede da oficina, ao lado do esquema, o Aurélio tinha pregado uma tabela de morse. Eu não sabia morse. Aprendi naquela noite, letra por letra, com o lápis da bancada.",
+    "classe": "",
+    "dentro": false
+   },
+   {
+    "tipo": "p",
+    "html": "Você também vai aprender.",
     "classe": "",
     "dentro": false
    }
@@ -1642,7 +1648,7 @@ window.CAPITULOS = [
  {
   "n": 9,
   "titulo": "Última parada",
-  "palavras": 1020,
+  "palavras": 1050,
   "blocos": [
    {
     "tipo": "p",
@@ -1754,13 +1760,13 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "\"Puxa o volume sete. A estante abre. Segue a pintura.\"",
+    "html": "\"Escuta o rádio depois de mim. Ele fala do jeito dele. E segue a pintura.\"",
     "classe": "",
     "dentro": true
    },
    {
     "tipo": "p",
-    "html": "Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: \"O letreiro apagou.\" Mais adiante, enfiado num cano, um bilhete de outra letra: \"Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez.\" Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.",
+    "html": "Depois dela, o rádio voltou a bater pontos e traços, mais devagar. Com a tabela da parede, letra por letra, deu: PUXE O LIVRO 7. Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: \"O letreiro apagou.\" Mais adiante, enfiado num cano, um bilhete de outra letra: \"Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez.\" Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.",
     "classe": "",
     "dentro": true
    },

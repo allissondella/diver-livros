@@ -30,6 +30,18 @@ ART[4] = function (ctx, st) {
   ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(150, WALL_TOP, 18, FLOOR - WALL_TOP);
   if (!st.found.lucia) note(ctx, 34, 300, 84, 70, -.05, '#a98a5c');
 
+  // tabela de morse pregada na parede, ao lado do esquema
+  castShadow(ctx, 192, 132, 238, 160, 14);
+  ctx.fillStyle = '#d9d2b8'; ctx.fillRect(192, 132, 238, 160);
+  ctx.fillStyle = '#26314a'; ctx.font = '600 15px "Architects Daughter", cursive'; ctx.fillText('MORSE', 282, 156);
+  ctx.fillStyle = 'rgba(38,49,74,.75)';
+  for (let r = 0; r < 9; r++) for (let c = 0; c < 4; c++) {
+    const x0 = 206 + c * 56, y0 = 172 + r * 12;
+    ctx.fillRect(x0, y0, 5, 5);
+    for (let k = 0; k < 1 + ((r + c) % 4); k++) ctx.fillRect(x0 + 10 + k * 9, y0 + ((k + r) % 2 ? 1 : 0), (k + c) % 2 ? 7 : 3, 3);
+  }
+  ctx.fillStyle = '#8a1f1f'; ctx.beginPath(); ctx.arc(311, 138, 4, 0, 7); ctx.fill();
+
   // esquema na parede: o porão, a estante e "A LINHA"
   castShadow(ctx, 470, 110, 400, 190, 18);
   ctx.fillStyle = '#c7c0a6'; ctx.fillRect(470, 110, 400, 190);

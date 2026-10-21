@@ -220,3 +220,9 @@ body.no-porao { overflow: hidden; }
 .sobreposicao-caixa li .novo { color: var(--amarelo); font-size: .75rem; letter-spacing: .1em; margin-left: 8px; }
 @media (prefers-reduced-motion: reduce) { .folha, .solta-caixa { animation: none; } }
 @media (max-width: 520px) { .documento { padding: 16px 14px 4px; } .documento p { font-size: 1.05rem; } }
+
+/* ——— o fim ruim ——— */
+.falhou { position: fixed; inset: 0; z-index: 100; background: #000; display: grid; place-items: center; animation: falhou-entra .25s steps(2) both; }
+.falhou p { margin: 0; color: #ff1f2e; font-family: var(--maquina); font-size: clamp(4.5rem, 21vw, 17rem); line-height: .9; text-align: center; letter-spacing: .04em; text-shadow: 0 0 40px rgba(255,31,46,.65); animation: falhou-susto .45s cubic-bezier(.2,1.6,.4,1) both, tremor 1.1s .45s infinite; }
+@keyframes falhou-susto { from { transform: scale(2.4); opacity: 0; } 30% { opacity: 1; } to { transform: scale(1); } }
+@keyframes falhou-entra { from { opacity: 0; } to { opacity: 1; } }

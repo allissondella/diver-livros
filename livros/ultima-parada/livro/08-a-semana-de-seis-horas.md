@@ -1,6 +1,6 @@
 ## Capítulo 8 — A semana de seis horas
 
-Sai quando a estante da oficina gira (o volume no sete). As páginas que a Cecília escreveu do outro lado, de 6 a "13" de junho, e a página só de pontinhos. Deixa a pista do corredor (sempre à esquerda).
+Sai quando a estante do porão gira (o volume 7 da Barsa). As páginas que a Cecília escreveu do outro lado, de 6 a "13" de junho, e a página só de pontinhos. Deixa a pista do corredor (sempre à esquerda).
 
 > O volume 7 estava deitado no fundo da estante, atrás dos outros. Puxei até o fim. A estante do porão girou sem barulho, devagar, como porta de geladeira velha, e veio um ar frio com cheiro de terra seca.
 >

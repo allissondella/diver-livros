@@ -35,7 +35,7 @@ const TAPE_CECI = [
   { v: 'sec-02', sys: '[BIP] Mensagem dois. Data e hora não registradas.' },
   { v: 'ceci-recado-2', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 1600 },
-  { me: 'Em casa, essa fita só tinha uma mensagem.', d: 0 },
+  { me: 'À meia-noite e quarenta e um, essa fita só tinha uma mensagem.', d: 0 },
 ];
 const TAPE_ODETE = [
   { v: 'sec-04', sys: '[BIP] Você tem uma mensagem.' },
@@ -59,7 +59,7 @@ const CALLS = {
     : [{ sys: '[chamando… tuuu… tuuu…]' }, { v: 'odete-tel-1', fx: 'phone', who: 'Dona Odete', text: 'Alô?… Quem é, a essa hora?' },
       { v: 'fabio-tel', me: '— É o Fábio, amigo da Cecília. Eu tô no porão.' },
       { v: 'odete-tel-2', fx: 'phone', who: 'Dona Odete', text: 'No porão. Ai, meu Deus. Eu moro na frente desde sessenta e um, menino.' },
-      { v: 'odete-tel-3', fx: 'phone', who: 'Dona Odete', text: 'Vi o Aurélio sair de casa de noite em setenta e seis, com uma caixa debaixo do braço, e subir num ônibus apagado. Vi a Marina em oitenta e seis, com uma lanterna. Vi a sua amiga ontem, às onze e dez.' },
+      { v: 'odete-tel-3', fx: 'phone', who: 'Dona Odete', text: 'Vi o Aurélio sair de casa de noite em setenta e seis, com uma caixa debaixo do braço, e subir num ônibus apagado. Vi a luz da lanterna da Marina na janelinha do porão, em oitenta e seis. Vi a sua amiga ontem, às onze e dez.' },
       { v: 'odete-tel-4', fx: 'phone', who: 'Dona Odete', text: 'A menina foi atrás do pai, e a sua foi atrás da menina. Agora você tá indo atrás da sua.' },
       { v: 'odete-tel-5', fx: 'phone', who: 'Dona Odete', text: 'Fecha essa coisa, menino.' }, { sys: '[ela desliga]', d: 0 }],
   '190': () => [{ sys: '[chamando…]' }, { v: 'pm-1', fx: 'phone', who: 'Polícia Militar', text: 'Polícia Militar, boa noite.' },
@@ -132,7 +132,7 @@ function openCP() {
 function cpFiles() {
   const f = Object.keys(CP_FILES);
   if (S.cp.pai) f.push('PAI.TXT');
-  if (S.flags.ev340 && !S.flags.ceciRead) f.push('CECI.TXT');
+  if (S.flags.ev340 && !S.flags.ceciRead && S.cp.pai) f.push('CECI.TXT');   // só depois do PAI.TXT: ler o CECI.TXT queima o computador
   return f;
 }
 const CP_DATES = { 'MARINA.TXT': '01/06/86', 'DATAS.TXT': '25/05/86', 'RELOGIO.BAS': '02/02/85', 'PAI.TXT': '01/06/86', 'CECI.TXT': '07/06/96' };
@@ -271,6 +271,16 @@ spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
 spot(3, 'telefone', [1322, 486, 92, 54], { label: 'Telefone', act: () => openPhone() });
 spot(3, 'secretaria', [1408, 508, 64, 34], { label: 'Secretária eletrônica',
   act: () => { if (!S.power) { say('Uma secretária eletrônica de microfita. Sem luz, morta.'); return; }
-    if (S.flags.microfitaIn) playTape(TAPE_CECI); else playTape(TAPE_ODETE, () => { S.flags.odeteTape = true; }); },
-  use: (it) => { if (it !== 'microfita') return false; if (!S.power) { say('Sem luz, a secretária não liga.'); return true; }
-    removeItem('microfita'); S.flags.microfitaIn = true; playTape(TAPE_CECI, () => { S.flags.recado2 = true; }); return true; } });
+    if (S.flags.secApitou) playTape(TAPE_CECI, () => { S.flags.recado2 = true; }); else playTape(TAPE_ODETE, () => { S.flags.odeteTape = true; }); } });
+// a microfita é a da própria secretária do porão (a mesma que o Fábio ouviu pelo telefone à 0h41).
+// Primeiro ela toca o lado B (a Dona Odete). Depois que a caixa de chumbo sai de baixo da bancada,
+// a máquina apita sozinha e passa a tocar o lado A, com uma mensagem que não estava lá antes.
+TICKS.push(() => {
+  if (S.flags.secApitou || !S.started || S.ended || !S.power || !S.found.caixa) return;
+  const agora = performance.now();
+  if (!S.caixaAt || window.LIVRO_PAUSADO) { S.caixaAt = agora; return; }   // no livro, só conta com o porão na tela
+  if (agora - S.caixaAt < 4000 || overlayOpen()) return;
+  S.flags.secApitou = true;
+  if (typeof SFX !== 'undefined' && SFX.bip) SFX.bip();
+  say('Lá no porão, a secretária eletrônica apita sozinha. A luzinha vermelha volta a piscar.');
+});

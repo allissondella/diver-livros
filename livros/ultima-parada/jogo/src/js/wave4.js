@@ -94,16 +94,18 @@ window.addEventListener('keydown', (e) => {
 
 // ——— rádio de válvulas ———
 const MORSE = '−−−−− −····   −−−−− −····   −−··· −····   ··−−− ···−−   ·−−−− −−−−−   −−−·· −−··· ·····';
+// depois da voz da Marina, o rádio passa a bater outra mensagem, mais devagar: PUXE O LIVRO 7 (a pessoa traduz com a tabela da oficina)
+const MORSE_LIVRO = '·−−· ··− −··− ·  /  −−−  /  ·−·· ·· ···− ·−· −−−  /  −−···';
 const RADIO_MARINA = [
   { sys: '[chiado; por baixo, o morse repetindo, fraco]' },
   { v: 'marina-radio-1', fx: 'radio', who: 'Marina', noisy: true, text: 'Você é o Fábio. Ela falou de você.' },
   { v: 'marina-radio-2', fx: 'radio', who: 'Marina', noisy: true, text: 'Escuta: a caixa de chumbo, na bancada. Não abre. Leva pra ela.' },
   { v: 'marina-radio-3', fx: 'radio', who: 'Marina', noisy: true, text: 'Às cinco e dez o ônibus passa no ponto pela última vez e fecha. Vocês sobem com a caixa, descem na última parada e deixam a caixa no banco. O ônibus vai embora com ela.' },
   { v: 'marina-radio-4', fx: 'radio', who: 'Marina', noisy: true, text: 'Eu fico. Meu pai fica. A gente já era daqui.' },
-  { v: 'marina-radio-5', fx: 'radio', who: 'Marina', noisy: true, text: 'Puxa o volume sete. A estante abre. Segue a pintura.' },
-  { sys: '[o chiado volta]', d: 0 },
+  { v: 'marina-radio-5', fx: 'radio', who: 'Marina', noisy: true, text: 'Escuta o rádio depois de mim. Ele fala do jeito dele. E segue a pintura.' },
+  { sys: '[o chiado volta. Por baixo, pontos e traços novos, mais devagar, repetindo sem parar]', d: 0 },
 ];
-const RADIO_AGAIN = [{ v: 'marina-radio-de-novo', fx: 'radio', who: 'Marina', noisy: true, text: 'Puxa o volume sete. A estante abre. Segue a pintura. Sempre à esquerda.' }, { sys: '[chiado]', d: 0 }];
+const RADIO_AGAIN = [{ sys: '[chiado; os pontos e traços novos, devagar, repetindo]', d: 0 }];
 function openRadio() {
   if (!S.power) { say('Um rádio de válvulas Philips, de madeira. Sem luz, as válvulas não acendem.'); return; }
   if (!S.papers.has(4)) {
@@ -119,10 +121,10 @@ function tuneRadio() {
   $('freq').textContent = v.toFixed(2); $('needle').style.left = ((v - 15) / 15 * 100) + '%';
   const eye = $('magicEye'); eye.className = 'eye' + (d < .035 ? ' on' : d < .6 ? ' near' : '');
   const m = $('morse');
-  if (d < .6) { m.textContent = MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
+  if (d < .6) { m.textContent = S.flags.marina ? MORSE_LIVRO : MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
   if (d < .035 && !S.flags.tuned) {
     S.flags.tuned = true; $('tune').value = '23.10'; $('freq').textContent = '23.10';
-    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; });
+    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; $('morse').textContent = MORSE_LIVRO; $('morse').style.opacity = '1'; });
   }
 }
 $('tune').addEventListener('input', tuneRadio);
@@ -206,6 +208,8 @@ spot(4, 'gavetaBancada', [300, 552, 240, 62], { label: 'Gaveta da bancada',
   act: () => { if (findPaper(3, true)) { toast('Uma página do caderno 5 foi para a linha do tempo.'); say('Chaves de relojoeiro, molas e, dobrada no fundo, uma página arrancada do caderno 5.'); }
     else say('Chaves de relojoeiro, molas, um cronômetro parado.'); } });
 spot(4, 'radioV', [560, 300, 290, 216], { label: 'Rádio de válvulas', act: () => openRadio() });
+spot(4, 'tabelaMorse', [192, 132, 238, 160], { label: 'Tabela de código morse',
+  act: () => { if (findPaper(16, true)) toast('A tabela de morse foi para a linha do tempo.'); openPaper(16); } });
 spot(4, 'caixa', [930, 440, 180, 80], { label: 'Caixa de chumbo', when: () => !S.found.caixa,
   act: () => { S.found.caixa = true; dirty(4); addItem('caixa'); findPaper(5, true); toast('Uma página do caderno 8 foi para a linha do tempo.');
     say('Você levanta a caixa de chumbo. Pesa como um tijolo. Embaixo dela, uma página do caderno 8.'); } });

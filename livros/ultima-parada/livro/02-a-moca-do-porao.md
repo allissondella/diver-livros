@@ -66,7 +66,7 @@ Depois da fita, antes do porão. A Cecília pelas páginas da frente do caderno,
 >>
 >> *\[A entrada acima é a última da parte da frente do caderno. Depois dela, páginas em branco. As últimas páginas foram escritas de trás para a frente, com datas que não batem. — Estúdio\]*
 >
-> Ela não tentou o cadeado. Quem tentou fui eu, às duas e pouco da manhã, com a lanterna na boca e a filmadora no peito.
+> Ela não tentou o cadeado. Quem tentou fui eu. No alto da escada, olhei o relógio da filmadora no meu peito: duas e cinco daquela madrugada que não acabava. Desci com a lanterna na boca.
 >
 > Agora é você. Eu desço junto, se isso te consola; não consola muito, eu sei.
 >

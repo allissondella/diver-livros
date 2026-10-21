@@ -1,6 +1,6 @@
 ## Capítulo 7 — Eu pintei igual
 
-Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Marina (abril a 6 de junho de 1986), o recorte de 1986 e a fita dela. Deixa a pista da estante (o volume sete da Barsa).
+Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Marina (abril a 6 de junho de 1986), o recorte de 1986 e a fita dela. Deixa a pista da estante: um morse novo no rádio, para traduzir com a tabela da oficina (PUXE O LIVRO 7).
 
 > Liguei o receptor. As válvulas acenderam laranja, uma por uma, e eu girei o dial até 23.10. Chiado. Por baixo do chiado, os pontos e traços, fracos, como alguém batendo numa parede do outro lado da casa.
 >
@@ -18,7 +18,7 @@ Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Ma
 >>
 >> **9 de maio** — Abri o corredor.
 >>
->> Fiz como ele escreveu no caderno 8. Puxei o volume 7 da Barsa até o fim. Travou na metade. Entrei na oficina, liguei o receptor em 23.10, voltei e puxei de novo. A estante girou sem barulho, e atrás dela tinha uma porta de madeira, baixa, com a tinta de 1963 ainda.
+>> Fiz como ele escreveu no caderno 8: liguei o receptor em 23.10 e esperei. Depois do sinal de sempre, veio outro, mais devagar, que eu nunca tinha ouvido. Copiei com a tabela que ele pregou na parede, letra por letra. Era o nome de um livro da estante. Puxei até o fim. A estante girou sem barulho, e atrás dela tinha uma porta de madeira, baixa, com a tinta de 1963 ainda.
 >>
 >> O corredor de serviço. Na planta, ele vai da carvoeira até a travessa: quarenta metros. Andei com a lanterna dele. Andei dez minutos. Não chega em travessa nenhuma. Ele vira, e tem bifurcação, e as paredes são de tijolo sem reboco, e o chão é de terra batida, e está seco, o que não faz sentido com a chuva que fez.
 >>
@@ -76,6 +76,8 @@ Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Ma
 >
 > Pintou igual a quê? Eu ainda não sabia.
 >
-> Antes de o chiado voltar, a voz do rádio tinha dito mais uma coisa, a única que eu entendi na hora: "Puxa o volume sete."
+> Quando a voz parou, o rádio continuou sozinho: pontos e traços novos, mais devagar, repetindo sem parar. Não era o sinal de 76.
 >
-> Na estante do porão tem uma Barsa inteira. Falta um volume.
+> Na parede da oficina, ao lado do esquema, o Aurélio tinha pregado uma tabela de morse. Eu não sabia morse. Aprendi naquela noite, letra por letra, com o lápis da bancada.
+>
+> Você também vai aprender.
