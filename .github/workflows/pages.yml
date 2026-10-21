@@ -27,6 +27,8 @@ jobs:
           rm -f _site/ultima-parada/build.py
           sh livros/ultima-parada/jogo/build.sh
           cp livros/ultima-parada/jogo/dist/index.html _site/ultima-parada/porao/
+          # as vozes (secretária, rádio): as mesmas para o livro e para o porão
+          cp -r livros/ultima-parada/site/audio _site/ultima-parada/porao/audio
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

@@ -1,31 +1,24 @@
-## O aviso e a nota do estúdio
+## O aviso
 
-Versão final, a que está no site (`site/index.html` e `site/app.js`). Tela preta, letras vermelhas.
-
-**Tela 1, o aviso**
+Versão final, a que está no site (`site/index.html`). Tela preta, letras vermelhas. A nota do estúdio deixou de ser uma tela: o que ela dizia do achado está aqui e na nota final do capítulo 10.
 
 > ATENÇÃO
 >
 > ISTO NÃO É UM JOGO.
 >
-> É a reconstituição de uma fita de vídeo e de um diário que chegaram ao nosso estúdio em abril de 2026.
+> É a reconstituição do que havia num envelope deixado num sebo de São Paulo, em abril de 2026.
 >
-> Quem os trouxe foi um amigo, dono de um sebo em São Paulo. Ele os encontrou numa prateleira, amarrados a uma bíblia, e não sabe dizer quem os deixou ali. Leu o diário numa noite. Na manhã seguinte, não quis mais ficar com eles.
+> Um envelope pardo, grande, sem nome e sem selo. Dentro dele: uma bíblia, recortes de jornal, documentos, muitas folhas de anotações, uma fita de vídeo e a microfita de uma secretária eletrônica.
+>
+> O dono do sebo, amigo do nosso estúdio, não sabe dizer quem o deixou ali. As câmeras da loja não mostram ninguém entrando com ele. Ele leu tudo numa noite. Na manhã seguinte, não quis mais ficar com o envelope.
 >
 > Não mudamos nada do que está escrito. Tiramos apenas o que não importava.
 >
 > [ ENTRE POR SUA CONTA E RISCO. ALGUNS NÃO VOLTARAM. ]
 
-**Tela 2, a nota do estúdio**
+**Decisões:**
 
-> Como estes papéis foram postos em ordem ficará claro na leitura. Todas as partes inúteis foram tiradas, para que uma história que não cabe bem no que se sabe hoje seja apresentada como simples fato. Não há nela nenhuma lembrança de coisas antigas em que a memória possa errar: todas as anotações escolhidas foram feitas na hora, por quem estava lá, sabendo só o que sabia naquele momento.
->
-> O caderno chegou ao nosso estúdio em abril de 2026, trazido por um amigo, dono de um sebo na Rua Monte Alegre, em Perdizes. Ele o encontrou numa prateleira do fundo da loja, amarrado com barbante a uma bíblia, ao lado de uma fita VHS sem etiqueta. Não se lembra de tê-lo recebido. As câmeras de segurança, que gravam a porta e o balcão, não registraram ninguém deixando o pacote. A bíblia é uma edição comum, de 1961, com um nome na primeira página. A fita tem trinta e dois minutos gravados, e quase tudo é chiado; o que ainda se pode ver está no fim do primeiro capítulo.
->
-> O sebo funciona no térreo de um sobrado. Nas páginas que seguem, esse sobrado é chamado de "a casa".
->
-> As entradas do caderno são de uma moça de dezoito anos. Dentro dele, copiados com a letra dela, estão trechos de cadernos mais antigos, que ela encontrou na casa. Mantivemos as datas como ela anotou. As transcrições das fitas são nossas, e estão marcadas.
->
-> Não pedimos que ninguém acredite.
->
-> Estúdio Diver, São Paulo, 2026
+- O envelope substitui o "caderno amarrado a uma bíblia": cabe tudo o que o livro usa (o caderno, o diário de Marina, o PAI.TXT impresso, os recortes, a carta de Lúcia, a microfita, a fita).
+- A microfita está no envelope para justificar o play: o leitor ouve a secretária como o Fábio ouviu.
+- "Tiramos apenas o que não importava" é o prefácio do Drácula, encurtado.
+- O número da casa nunca aparece. A Rua Monte Alegre existe.

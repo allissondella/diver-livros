@@ -1,6 +1,6 @@
 # Diver Livros
 
-Coleção de livros gamificados do Diver (diver.app.br): o leitor lê um capítulo, ele destrava uma sala; uma descoberta na sala, vinculada ao texto, destrava o capítulo seguinte. Leitura dá Páginas (pontos) que viram desconto no próximo livro.
+Coleção de livros gamificados do Diver (diver.app.br): o livro e uma sala de escape room andam juntos; cada descoberta na sala solta um capítulo, e o capítulo deixa a pista da descoberta seguinte. Os capítulos funcionam como cenas de corte de um jogo. Leitura dá Páginas (pontos) que viram desconto no próximo livro.
 
 ## Estrutura
 - `formula/` — a receita da coleção (método epistolar de Stoker, loop ler → destravar → descobrir → vincular, tabela de Páginas). Leia antes de começar um título novo.
@@ -8,9 +8,9 @@ Coleção de livros gamificados do Diver (diver.app.br): o leitor lê um capítu
 - `compartilhado/` — o que serve a todos os livros: `ferramentas/vhsfx` (simulador de VHS, Rust + ntsc-rs). Futuro: motor do loop, sistema de Páginas, telas de aviso.
 
 ## Regras da coleção
-- Só documentos, sem narrador; toda entrada datada; notas do "Estúdio Diver" entre colchetes.
-- Abre com aviso + nota do estúdio (o achado) e fecha com "Não pedimos que ninguém acredite."
-- Capítulos curtos (2 a 5 páginas) terminando em corte; um vínculo por capítulo (decifrar, ouvir, encontrar), nunca o mesmo duas vezes seguidas.
+- Documentos datados, como no Drácula de Stoker, e uma pessoa da história que conversa com o leitor, como o Brás Cubas de Machado; notas do "Estúdio Diver" entre colchetes.
+- Abre com o aviso (o achado) e fecha com a nota final do estúdio: "Não pedimos que ninguém acredite."
+- Capítulos curtos (3 a 6 minutos de leitura) terminando em corte; uma pista por capítulo (decifrar, ouvir, encontrar), nunca o mesmo tipo duas vezes seguidas. Toda gravação citada no texto tem play.
 - Arquivos pesados (vídeo bruto, fitas montadas) fora do git.
 
 ## Títulos

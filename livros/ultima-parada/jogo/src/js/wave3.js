@@ -30,10 +30,10 @@ function playLines(listEl, ovId, lines, onEnd) {
 // ——— secretária eletrônica ———
 const TAPE_CECI = [
   { v: 'sec-01', sys: '[BIP] Mensagem um. Sexta-feira, zero hora e quarenta e um minutos.' },
-  { v: 'ceci-recado-1', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio? É a Ceci. Eu tô na última parada. Não dá pra explicar. Eu tenho pouco tempo. Fecha às cinco e dez. Vem. Desce no porão. Lê o diá—' },
-  { sys: '[o chiado engole a última palavra]', d: 1800 },
+  { v: 'ceci-recado-1', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio? É a Ceci. Eu tô na última parada. Não dá pra explicar. Eu tenho pouco tempo. Fecha às cinco e dez. Vem. Desce no porão. Lê o diaaaah—' },
+  { v: 'ceci-grito', fx: 'radio', sys: '[um grito, longe; o chiado corta seco]', d: 1800 },
   { v: 'sec-02', sys: '[BIP] Mensagem dois. Data e hora não registradas.' },
-  { v: 'ceci-recado-2', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio. A parede da cômoda. Ele guardou tudo lá. Eu trouxe a caixa errada.' },
+  { v: 'ceci-recado-2', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 1600 },
   { me: 'Em casa, essa fita só tinha uma mensagem.', d: 0 },
 ];
@@ -64,7 +64,7 @@ const CALLS = {
       { v: 'odete-tel-5', fx: 'phone', who: 'Dona Odete', text: 'Fecha essa coisa, menino.' }, { sys: '[ela desliga]', d: 0 }],
   '190': () => [{ sys: '[chamando…]' }, { v: 'pm-1', fx: 'phone', who: 'Polícia Militar', text: 'Polícia Militar, boa noite.' },
     { v: 'fabio-pm', me: '— Minha amiga sumiu dentro de casa. Num porão.' },
-    { v: 'pm-2', fx: 'phone', who: 'Polícia Militar', text: 'Maior de idade? Desaparecimento só depois de quarenta e oito horas, senhor. Liga de novo no sábado à noite.' }, { sys: '[desligam]', d: 0 }],
+    { v: 'pm-2', fx: 'phone', who: 'Polícia Militar', text: 'Maior de idade? Então tem que esperar vinte e quatro horas, senhor. Liga de novo amanhã à noite.' }, { sys: '[desligam]', d: 0 }],
 };
 let dialed = '', dialing = false, inCall = false;
 function fmtNum(n) { return n.length > 4 ? n.slice(0, 4) + '-' + n.slice(4) : n; }
@@ -262,7 +262,7 @@ spot(3, 'tv', [1082, 188, 220, 284], { label: 'TV Telefunken',
   act: () => {
     if (!S.power) { say('TV de tubo, 20 polegadas, antena de chifre. Sem luz, não liga.'); return; }
     S.tvOn = !S.tvOn;
-    say(S.tvOn ? 'Liga com um estalo. Chuvisco, e um plantão que vai e volta: “…jovem de dezoito anos desaparecida desde ontem à noite em Perdizes. A polícia aguarda o prazo de quarenta e oito horas…” Depois, o Minhocão fechado para obras. Depois, chuvisco.' : 'Você desliga. O ponto branco demora a sumir da tela.');
+    say(S.tvOn ? 'Liga com um estalo. Chuvisco, e um plantão que vai e volta: “…jovem de dezoito anos desaparecida desde ontem à noite em Perdizes. A polícia aguarda o prazo de vinte e quatro horas…” Depois, o Minhocão fechado para obras. Depois, chuvisco.' : 'Você desliga. O ponto branco demora a sumir da tela.');
   } });
 spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
   act: () => { if (!S.flags.fitaIn) say('Vazio. Esperando uma fita.'); else if (!S.power) say('Sem luz.'); else watch86(); },

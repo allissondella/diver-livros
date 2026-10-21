@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
-"""Gera capitulos.js a partir de ../livro/0N-*.md.
-Pega só o texto do livro (o que está em citação '>' e o bloco de código do cap. 3) e ignora
-o cabeçalho de rascunho e as 'Decisões de escrita'. Rode de novo sempre que mudar um capítulo:
+"""Gera capitulos.js a partir de ../livro/NN-*.md (01 a 10) e audio/manifest.json.
+
+Formato dos capítulos (só o que está em citação entra no livro):
+    > texto          a voz de quem conversa com o leitor (o Fábio; no 10, a Cecília)
+    >> texto         documento (diário, fita, recorte, carta), num quadro à parte
+    >> {{ouvir}}     o play da microfita: toca as falas seguintes do mesmo documento
+    >> {v:id} texto  a fala que toca o áudio audio/<id>.mp3 (os mesmos ids do jogo)
+    ```              bloco de tela (o PAI.TXT, na tela verde do CP-500)
+A linha de descrição logo abaixo do título e qualquer coisa fora de citação são ignoradas.
+Rode de novo sempre que mudar um capítulo ou pôr um áudio novo em site/audio/:
     python3 livros/ultima-parada/site/build.py
 """
 import glob, html, json, os, re
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 LIVRO = os.path.join(AQUI, '..', 'livro')
+AUDIO = os.path.join(AQUI, 'audio')
 
 
 def inline(t):
@@ -23,29 +31,38 @@ def capitulo(caminho):
     m = re.match(r'## Cap[ií]tulo (\d+) [—-] (.+)', linhas[0])
     n, titulo = int(m.group(1)), m.group(2).strip()
     blocos, par, em_codigo, codigo = [], [], False, []
+    estado = {'dentro': False}
 
     def fecha():
-        if par:
-            texto = '<br>'.join(inline(l) for l in par)
-            classe = ''
-            puro = re.sub(r'<[^>]+>', '', texto).strip()
-            if puro.startswith('[') and puro.endswith(']'):
-                classe = 'nota'
-            else:
-                mm = re.match(r'<strong>([^<]+)</strong>', texto)
-                if mm and mm.group(1) == mm.group(1).upper() and '—' not in puro and len(par) == 1:
-                    classe = 'doc'      # cabeçalho de documento: CADERNO DE CECÍLIA, PAI.TXT, FITA 2...
-            if puro.startswith('→'):
-                par.clear(); return
-            blocos.append({'tipo': 'p', 'html': texto, 'classe': classe})
-            par.clear()
+        if not par:
+            return
+        dentro = estado['dentro']
+        bruto = ' '.join(par).strip()
+        if bruto == '{{ouvir}}':
+            blocos.append({'tipo': 'ouvir', 'dentro': True}); par.clear(); return
+        v = None
+        mv = re.match(r'\{v:([a-z0-9-]+)\}\s*', par[0])
+        if mv:
+            v = mv.group(1); par[0] = par[0][mv.end():]
+        texto = '<br>'.join(inline(l) for l in par)
+        puro = re.sub(r'<[^>]+>', '', texto).strip()
+        classe = ''
+        if puro.startswith('[') and puro.endswith(']'):
+            classe = 'nota'
+        elif re.fullmatch(r'<strong>[^<]+</strong>', texto):
+            classe = 'doc'      # cabeçalho de documento: CADERNO DE CECÍLIA, PAI.TXT, FITA…
+        b = {'tipo': 'p', 'html': texto, 'classe': classe, 'dentro': dentro}
+        if v:
+            b['v'] = v
+        blocos.append(b)
+        par.clear()
 
     for l in linhas[1:]:
         if l.startswith('**Decisões'):
             break
         if l.startswith('```'):
             if em_codigo:
-                blocos.append({'tipo': 'tela', 'texto': '\n'.join(codigo)}); codigo = []
+                blocos.append({'tipo': 'tela', 'texto': '\n'.join(codigo), 'dentro': True}); codigo = []
             else:
                 fecha()
             em_codigo = not em_codigo
@@ -53,11 +70,15 @@ def capitulo(caminho):
         if em_codigo:
             codigo.append(l); continue
         if l.startswith('>'):
-            c = l[1:].lstrip(' ') if len(l) > 1 else ''
-            if c.strip() == '':
+            dentro = l.startswith('>>')
+            c = l[2:] if dentro else l[1:]
+            c = c.strip()
+            if dentro != estado['dentro']:
+                fecha(); estado['dentro'] = dentro
+            if c == '':
                 fecha()
             else:
-                par.append(c.rstrip())
+                par.append(c)
         else:
             fecha()
     fecha()
@@ -65,8 +86,18 @@ def capitulo(caminho):
     return {'n': n, 'titulo': titulo, 'palavras': palavras, 'blocos': blocos}
 
 
-caps = [capitulo(c) for c in sorted(glob.glob(os.path.join(LIVRO, '0[1-9]-*.md')))]
+arquivos = sorted(glob.glob(os.path.join(LIVRO, '[0-9][0-9]-*.md')))
+caps = [capitulo(c) for c in arquivos if not os.path.basename(c).startswith('00-')]
+caps.sort(key=lambda c: c['n'])
 with open(os.path.join(AQUI, 'capitulos.js'), 'w', encoding='utf-8') as f:
     f.write('// gerado por build.py a partir de ../livro — não edite à mão\n')
     f.write('window.CAPITULOS = ' + json.dumps(caps, ensure_ascii=False, indent=1) + ';\n')
-print(' · '.join(f"{c['n']}: {c['titulo']} ({c['palavras']} palavras, {len(c['blocos'])} blocos)" for c in caps))
+
+# os áudios que existem (o livro e o jogo leem a mesma lista)
+os.makedirs(AUDIO, exist_ok=True)
+vozes = sorted(os.path.splitext(os.path.basename(a))[0] for a in glob.glob(os.path.join(AUDIO, '*.mp3')))
+with open(os.path.join(AUDIO, 'manifest.json'), 'w', encoding='utf-8') as f:
+    json.dump(vozes, f)
+
+print(' · '.join(f"{c['n']}: {c['titulo']} ({c['palavras']} palavras)" for c in caps))
+print(f"{sum(c['palavras'] for c in caps)} palavras no total · {len(vozes)} áudios em site/audio")

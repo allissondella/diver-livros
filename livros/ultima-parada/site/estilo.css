@@ -1,4 +1,4 @@
-/* Última Parada — o livro. Tela preta; o aviso e o capítulo 1 em vermelho; o resto em branco sobre preto, com opção de fundo claro. */
+/* Última Parada — o livro. Tela preta; o aviso, os capítulos 1 e 2 e a fita em vermelho; o resto em branco sobre preto, com opção de fundo claro. */
 :root {
   --fundo: #050505;
   --vermelho: #e0313f;
@@ -77,10 +77,35 @@ body.tema-vermelho article { text-shadow: 0 0 1px rgba(224,49,63,.4); }
 .fim-cap { text-align: center; margin: 64px 0 0; font-family: var(--maquina); color: var(--cor-apagada); letter-spacing: .3em; }
 .aviso-pressa { font-size: .9rem; font-style: italic; color: var(--cor-apagada); text-align: center; }
 
+/* ——— documentos (diários, fitas, recortes, cartas) dentro da voz de quem conta ——— */
+.documento { margin: 30px 0 34px; padding: 22px 22px 8px; background: rgba(255,255,255,.028); border-left: 2px solid var(--linha); }
+body.tema-vermelho .documento { background: rgba(224,49,63,.045); border-left-color: #4a1419; }
+body.tema-leitura.claro .documento { background: rgba(0,0,0,.035); }
+.documento p { font-size: 1.12rem; }
+.documento p.doc:first-child { margin-top: 0; }
+.documento .cp500 { margin-top: 4px; }
+article > p:first-of-type { margin-top: 0; }
+
+/* ——— o play da microfita ——— */
+.ouvir {
+  display: inline-flex; align-items: center; gap: 12px; margin: 4px 0 18px; padding: 9px 16px 9px 12px; cursor: pointer;
+  background: transparent; border: 1px solid var(--cor-apagada); border-radius: 2px; color: var(--cor);
+  font-family: var(--maquina); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase;
+}
+.ouvir:hover, .ouvir:focus-visible { border-color: var(--cor); }
+.microfita { position: relative; width: 38px; height: 24px; border-radius: 3px; background: #0c0c0b; box-shadow: inset 0 0 0 2px #3a362f; display: flex; justify-content: space-around; align-items: center; padding: 0 5px; }
+.microfita i { width: 9px; height: 9px; border-radius: 50%; border: 2px dashed #7a7366; }
+.ouvir.tocando .microfita i { animation: gira 1.4s linear infinite; border-color: var(--cor); }
+.ouvir.tocando { border-color: var(--cor); }
+@keyframes gira { to { transform: rotate(360deg); } }
+.documento.em-play p { opacity: .38; transition: opacity .35s; }
+.documento.em-play p.tocando, .documento.em-play p.doc { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .ouvir.tocando .microfita i { animation: none; } }
+
 /* ——— CP-500 (capítulo 3 e senha) ——— */
 .cp500 {
   position: relative; background: #021407; color: var(--verde); border-radius: 14px; padding: 22px 20px;
-  font: 1.28rem/1.25 var(--terminal); white-space: pre-wrap; word-break: break-word;
+  font: clamp(.98rem, 2.4vw, 1.14rem)/1.3 var(--terminal); white-space: pre-wrap; word-break: break-word;
   box-shadow: inset 0 0 60px rgba(0,0,0,.85), 0 0 0 10px #1b1a17, 0 0 0 11px #2f2c27; text-shadow: 0 0 6px rgba(93,255,134,.55);
   overflow: hidden; margin: 12px 0 28px;
 }
@@ -194,3 +219,4 @@ body.no-porao { overflow: hidden; }
 @keyframes cai { 0% { transform: translateY(-120px) rotate(-28deg); opacity: 0; } 60% { transform: translateY(8px) rotate(6deg); opacity: 1; } 100% { transform: translateY(0) rotate(-3deg); } }
 .sobreposicao-caixa li .novo { color: var(--amarelo); font-size: .75rem; letter-spacing: .1em; margin-left: 8px; }
 @media (prefers-reduced-motion: reduce) { .folha, .solta-caixa { animation: none; } }
+@media (max-width: 520px) { .documento { padding: 16px 14px 4px; } .documento p { font-size: 1.05rem; } }

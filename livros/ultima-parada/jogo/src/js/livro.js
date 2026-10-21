@@ -3,7 +3,7 @@
 // - não mostra a abertura da TV (o livro já passou a fita) e começa direto no escuro;
 // - avisa o livro a cada marco da investigação, e o livro solta a página seguinte do caderno;
 // - para o relógio e o som enquanto a pessoa lê;
-// - no final, entrega a última cena para o livro (capítulo 6) em vez do filme do jogo.
+// - no final, entrega a última cena para o livro (capítulos 9 e 10) em vez do filme do jogo.
 const NO_LIVRO = /[?&]livro=1/.test(location.search) && window.parent !== window;
 if (NO_LIVRO) {
   const avisa = (d) => { try { window.parent.postMessage(Object.assign({ ultimaParada: true }, d), '*'); } catch (e) { /* sem livro */ } };
@@ -13,12 +13,13 @@ if (NO_LIVRO) {
   };
   // os marcos, na ordem do livro: cada um solta um capítulo (o livro garante a ordem)
   const MARCOS = [
-    ['luz', () => S.power],            // o fusível: a luz acende → capítulo 1
-    ['rota', () => S.open.gav1],       // o cadeado da cômoda → capítulo 2
-    ['pai', () => S.flags.pai],        // a senha do CP-500 → capítulo 3
-    ['caixa', () => S.found.caixa],    // a caixa de chumbo na bancada → capítulo 4
-    ['estante', () => S.open.estante], // o volume sete, a estante gira → capítulo 5
-    ['fim', () => S.flags.won],        // 05h10, a caixa no ônibus → capítulo 6
+    ['luz', () => S.power],            // o fusível: a luz acende → capítulo 3
+    ['rota', () => S.open.gav1],       // o cadeado ROTA da cômoda → capítulo 4
+    ['pai', () => S.flags.pai],        // a senha 0606 do CP-500 → capítulo 5
+    ['caixa', () => S.found.caixa],    // a caixa de chumbo na bancada da oficina → capítulo 6
+    ['radio', () => S.flags.tuned],    // o receptor da oficina em 23.10 → capítulo 7
+    ['estante', () => S.open.estante], // o volume sete, a estante gira → capítulo 8
+    ['fim', () => S.flags.won],        // 05h10, a caixa no ônibus → capítulo 9
   ];
   const enviados = new Set();
   TICKS.push(() => {
