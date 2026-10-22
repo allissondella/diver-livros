@@ -1,13 +1,13 @@
 // ===== wall5.js — os corredores amarelos (o lado de lá: mofado e encardido) =====
-LIGHTS[5] = { x: 800, y: 120, tint: [235, 215, 150], glow: [250, 245, 210], vy: 380 };
+LIGHTS[5] = { x: 800, y: 150, tint: [225, 190, 130], glow: [255, 220, 150], vy: 380 };
 LIGHTS[6] = { x: 1110, y: 150, tint: [255, 168, 88], glow: [255, 180, 90], vy: 420 };
 
 // cada cruzamento: aberturas possíveis e o que tem no chão. O certo é sempre à esquerda.
 const CORR = [
-  { open: ['L', 'F', 'R'], obj: { id: 'brinco', x: 740, y: 780, label: 'Brinco', text: 'Um brinco de argola, prateado. A Cecília usava esse. Você guarda no bolso.' } },
-  { open: ['L', 'F'], obj: { id: 'elastico', x: 880, y: 800, label: 'Elástico de cabelo', text: 'Um elástico de cabelo, roxo, enrolado. Dela. Ela passou por aqui.' } },
-  { open: ['L', 'R'], paper: 12, px: 820, py: 790 },
-  { open: ['L', 'F', 'R'], paper: 13, pipe: true },
+  { open: ['L', 'F', 'R'], paper: 12, px: 820, py: 790 },   // a página da Cecília, na primeira bifurcação
+  { open: ['L', 'F'] },
+  { open: ['L', 'R'], paper: 13, pipe: true },                 // o bilhete da Marina, enfiado num cano onde a faixa vira
+  { open: ['L', 'F', 'R'] },
 ];
 const CV = { x: 800, y: 400, bx0: 650, bx1: 950, by0: 300, by1: 520 }; // ponto de fuga e fundo
 
@@ -20,54 +20,69 @@ function sideQuad(left, t1, t2, hFrac) { // abertura numa parede lateral, entre 
 }
 ART[5] = function (ctx, st) {
   const J = CORR[Math.min(st.corr, CORR.length - 1)], r = rng(500 + st.corr);
-  const wallL = '#a88a35', wallR = '#8a7029', ceil = '#c9b468', floorC = '#4e3f1c';
+  // corredor de serviço de 1948: tijolo sem reboco, chão de terra batida, seco. A faixa amarela na altura do ombro.
+  const wallL = '#5a3f32', wallR = '#4a3329', ceil = '#2a211b', floorC = '#6a5536';
   ctx.fillStyle = wallL; poly(ctx, [[0, 0], [CV.bx0, CV.by0], [CV.bx0, CV.by1], [0, H]]); ctx.fill();
   ctx.fillStyle = wallR; poly(ctx, [[W, 0], [CV.bx1, CV.by0], [CV.bx1, CV.by1], [W, H]]); ctx.fill();
   ctx.fillStyle = ceil; poly(ctx, [[0, 0], [W, 0], [CV.bx1, CV.by0], [CV.bx0, CV.by0]]); ctx.fill();
   ctx.fillStyle = floorC; poly(ctx, [[0, H], [W, H], [CV.bx1, CV.by1], [CV.bx0, CV.by1]]); ctx.fill();
-  // fundo: continua (frente aberta) ou parede com mancha
+  // fiadas de tijolo em perspectiva, dos dois lados
+  const brickWall = (left) => {
+    const xAt = (t) => left ? CV.bx0 * t : W - (W - CV.bx1) * t;
+    const top = (t) => CV.by0 * t, bot = (t) => H - (H - CV.by1) * t;
+    ctx.strokeStyle = 'rgba(25,15,10,.55)'; ctx.lineWidth = 2;
+    for (let k = 0; k <= 14; k++) { const f = k / 14; ctx.beginPath(); ctx.moveTo(xAt(0), top(0) + (bot(0) - top(0)) * f); ctx.lineTo(xAt(1), top(1) + (bot(1) - top(1)) * f); ctx.stroke(); }
+    for (let i = 1; i < 26; i++) { const t = 1 - Math.pow(1 - i / 26, 1.8); const x = xAt(t); ctx.strokeStyle = 'rgba(25,15,10,.35)';
+      for (let k = (i % 2); k < 14; k += 2) { const y0 = top(t) + (bot(t) - top(t)) * k / 14, y1 = top(t) + (bot(t) - top(t)) * (k + 1) / 14; ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y1); ctx.stroke(); } }
+    // a faixa amarela de Marina, na altura do ombro, tinta de parede com pincel grosso
+    const hf0 = .5, hf1 = .58;
+    ctx.fillStyle = 'rgba(214,176,52,.85)';
+    poly(ctx, [[xAt(0), top(0) + (bot(0) - top(0)) * hf0], [xAt(1), top(1) + (bot(1) - top(1)) * hf0], [xAt(1), top(1) + (bot(1) - top(1)) * hf1], [xAt(0), top(0) + (bot(0) - top(0)) * hf1]]); ctx.fill();
+    for (let i = 0; i < 40; i++) { const t = r(); const y = top(t) + (bot(t) - top(t)) * (hf0 + (r() - .5) * .02); ctx.strokeStyle = `rgba(${200 + r() * 40 | 0},${160 + r() * 40 | 0},40,.35)`; ctx.lineWidth = 1 + r() * 2; ctx.beginPath(); ctx.moveTo(xAt(t), y); ctx.lineTo(xAt(Math.min(1, t + .03)), y + (r() - .5) * 4); ctx.stroke(); }
+  };
+  brickWall(true); brickWall(false);
+  // fundo: continua (frente aberta) ou parede de tijolo
   if (J.open.includes('F')) {
-    ctx.fillStyle = '#7d6626'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0);
-    ctx.fillStyle = '#5a491b'; poly(ctx, [[CV.bx0, CV.by0], [770, 380], [770, 430], [CV.bx0, CV.by1]]); ctx.fill();
-    ctx.fillStyle = '#4a3c15'; poly(ctx, [[CV.bx1, CV.by0], [830, 380], [830, 430], [CV.bx1, CV.by1]]); ctx.fill();
+    ctx.fillStyle = '#3a2820'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0);
+    ctx.fillStyle = '#2a1c15'; poly(ctx, [[CV.bx0, CV.by0], [770, 380], [770, 430], [CV.bx0, CV.by1]]); ctx.fill();
+    ctx.fillStyle = '#231710'; poly(ctx, [[CV.bx1, CV.by0], [830, 380], [830, 430], [CV.bx1, CV.by1]]); ctx.fill();
     ctx.fillStyle = '#0b0904'; ctx.fillRect(770, 380, 60, 50);
-  } else { ctx.fillStyle = '#9b7f30'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0); stain(ctx, 800, 420, 120, 90, 'rgba(40,45,20,A)', .6); }
+  } else { ctx.fillStyle = '#4e362b'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0); stain(ctx, 800, 420, 120, 90, 'rgba(40,25,15,A)', .6);
+    ctx.fillStyle = 'rgba(214,176,52,.8)'; ctx.fillRect(CV.bx0, CV.by0 + (CV.by1 - CV.by0) * .5, CV.bx1 - CV.bx0, (CV.by1 - CV.by0) * .08); }
   for (const side of ['L', 'R']) {
     if (!J.open.includes(side)) continue;
     const q = sideQuad(side === 'L', .38, .62, .78);
-    ctx.fillStyle = '#120e05'; poly(ctx, q); ctx.fill();
+    ctx.fillStyle = '#0e0905'; poly(ctx, q); ctx.fill();
     const g = ctx.createLinearGradient(q[0][0], 0, q[1][0], 0);
-    g.addColorStop(0, 'rgba(200,170,70,.25)'); g.addColorStop(1, 'rgba(200,170,70,0)'); ctx.fillStyle = g; poly(ctx, q); ctx.fill();
-    ctx.strokeStyle = 'rgba(30,22,8,.8)'; ctx.lineWidth = 4; poly(ctx, q); ctx.stroke();
+    g.addColorStop(0, 'rgba(200,150,70,.2)'); g.addColorStop(1, 'rgba(200,150,70,0)'); ctx.fillStyle = g; poly(ctx, q); ctx.fill();
+    ctx.strokeStyle = 'rgba(20,12,6,.8)'; ctx.lineWidth = 4; poly(ctx, q); ctx.stroke();
+    // a faixa vira para a esquerda: entra na abertura da esquerda e acaba antes da direita
+    if (side === 'L') { ctx.fillStyle = 'rgba(214,176,52,.85)'; poly(ctx, [[q[0][0] - 30, q[0][1] + (q[3][1] - q[0][1]) * .5], [q[0][0] + 10, q[0][1] + (q[3][1] - q[0][1]) * .5], [q[0][0] + 10, q[0][1] + (q[3][1] - q[0][1]) * .58], [q[0][0] - 30, q[0][1] + (q[3][1] - q[0][1]) * .58]]); ctx.fill(); }
   }
-  // luminárias fluorescentes no teto (o brilho vem do EMIT)
+  // lâmpadas nuas penduradas no fio
   for (const t of [.15, .45, .72]) {
-    const y = CV.by0 * t + 8, half = (1 - t) * 220 + 40;
-    ctx.fillStyle = '#e8e2c4'; ctx.fillRect(CV.x - half, y, half * 2, (1 - t) * 16 + 4);
+    const y = CV.by0 * t + 8, x = CV.x + (t - .45) * 30;
+    ctx.strokeStyle = '#111'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, y); ctx.stroke();
+    ctx.fillStyle = '#e8d8a4'; ctx.beginPath(); ctx.arc(x, y + 10 * (1 - t), 8 * (1 - t) + 3, 0, 7); ctx.fill();
   }
-  // mofo, infiltração, carpete úmido
-  for (let i = 0; i < 40; i++) stain(ctx, r() * W, r() * H, 40 + r() * 140, 30 + r() * 110, 'rgba(45,50,22,A)', .25 + r() * .2);
-  for (let i = 0; i < 10; i++) stain(ctx, r() * W, 760 + r() * 140, 80 + r() * 200, 20 + r() * 30, 'rgba(15,12,4,A)', .5);
-  drips(ctx, 0, 0, W, 420, 520 + st.corr, 'rgba(40,36,14,A)', 1.2);
-  speckle(ctx, 0, 0, W, H, 9000, 530 + st.corr, ['rgba(30,26,10,.3)', 'rgba(210,190,120,.12)', 'rgba(40,60,25,.25)'], 2.5);
+  // poeira, terra, teias
+  for (let i = 0; i < 30; i++) stain(ctx, r() * W, r() * H, 40 + r() * 140, 30 + r() * 110, 'rgba(30,20,12,A)', .2 + r() * .2);
+  for (let i = 0; i < 10; i++) stain(ctx, r() * W, 760 + r() * 140, 80 + r() * 200, 20 + r() * 30, 'rgba(60,45,25,A)', .5);
+  speckle(ctx, 0, 0, W, H, 9000, 530 + st.corr, ['rgba(20,12,6,.3)', 'rgba(210,170,110,.1)', 'rgba(90,60,30,.25)'], 2.5);
+  speckle(ctx, 0, CV.by1, W, H - CV.by1, 3000, 540 + st.corr, ['rgba(0,0,0,.3)', 'rgba(180,150,100,.15)'], 3);
   if (J.pipe || st.corr % 2) pipe(ctx, [[W, 150], [CV.bx1 + 30, CV.by0 + 30]], 12, '#5a5440', 'rgba(230,220,180,.25)');
   // o que está no chão
-  if (J.obj && !st.found[J.obj.id]) {
-    ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.beginPath(); ctx.ellipse(J.obj.x + 4, J.obj.y + 8, 22, 6, 0, 0, 7); ctx.fill();
-    if (J.obj.id === 'brinco') { ctx.strokeStyle = '#d9d6cc'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(J.obj.x, J.obj.y, 12, 0, 7); ctx.stroke(); }
-    else { ctx.strokeStyle = '#6d3a8c'; ctx.lineWidth = 5; ctx.beginPath(); ctx.ellipse(J.obj.x, J.obj.y, 16, 7, .3, 0, 7); ctx.stroke(); }
-  }
   if (J.paper === 12 && !st.papers.has(12)) { ctx.save(); ctx.translate(J.px, J.py); ctx.rotate(.3); ctx.fillStyle = '#bdb391'; ctx.fillRect(-36, -22, 72, 44); ctx.fillStyle = 'rgba(40,50,90,.35)'; ctx.fillRect(-28, -12, 50, 3); ctx.fillRect(-28, -2, 40, 3); ctx.restore(); }
   if (J.paper === 13 && !st.papers.has(13)) note(ctx, 1200, 190, 56, 70, .25, '#a99c74');
 };
 EMIT[5] = function (ctx, st, t) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   [.15, .45, .72].forEach((tt, i) => {
-    let a = .22; if (i === 1 && (t % 3700) < 260) a = Math.random() * .08; // uma delas pisca
-    const y = CV.by0 * tt + 10, half = (1 - tt) * 220 + 40;
-    const g = ctx.createRadialGradient(CV.x, y, 0, CV.x, y, half * 1.4);
-    g.addColorStop(0, `rgba(255,250,220,${a})`); g.addColorStop(1, 'rgba(255,250,220,0)');
-    ctx.fillStyle = g; ctx.fillRect(CV.x - half * 1.4, y - half * 1.4, half * 2.8, half * 2.8);
+    let a = .18; if (i === 1 && (t % 3700) < 260) a = Math.random() * .06; // uma delas pisca
+    const y = CV.by0 * tt + 10, x = CV.x + (tt - .45) * 30, half = (1 - tt) * 200 + 40;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, half * 1.3);
+    g.addColorStop(0, `rgba(255,220,150,${a})`); g.addColorStop(1, 'rgba(255,220,150,0)');
+    ctx.fillStyle = g; ctx.fillRect(x - half * 1.3, y - half * 1.3, half * 2.6, half * 2.6);
   });
   ctx.restore();
 };

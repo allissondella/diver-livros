@@ -7,7 +7,7 @@
     <button id="btnBack" type="button" hidden>Voltar</button>
     <div id="top">
       <span id="viewName">Escada</span>
-      <span id="clock" hidden>02:05</span>
+      <span id="clock" class="rec" hidden><i aria-hidden="true"></i>02:05</span>
     </div>
     <div id="label" aria-live="polite"></div>
     <div id="msg" hidden></div>
@@ -16,7 +16,7 @@
       <div id="inv" aria-label="Seus itens"></div>
       <div id="tools">
         <button id="btnTimeline" type="button">Linha do tempo <b id="tlCount">0</b></button>
-        <button id="btnNotes" type="button">Caderno</button>
+        <button id="btnNotes" type="button">Anotações</button>
       </div>
     </div>
   </div>
@@ -58,13 +58,9 @@
   <div id="ovNotes" class="ov" hidden>
     <div class="ovIn wide">
       <div class="spiral">
-        <section class="pg cec">
-          <h3>Caderno da Cecília</h3>
-          <ul id="cecNotes"></ul>
-        </section>
         <section class="pg mine">
           <h3><label for="notes">Suas anotações</label></h3>
-          <textarea id="notes" spellcheck="false" placeholder="Escreva aqui o que achar. Fica salvo."></textarea>
+          <textarea id="notes" spellcheck="false" placeholder="Escreva aqui o que achar: senhas, horas, o que o rádio disse. Fica salvo."></textarea>
         </section>
       </div>
       <div class="ovBar"><button type="button" class="close">Fechar</button></div>

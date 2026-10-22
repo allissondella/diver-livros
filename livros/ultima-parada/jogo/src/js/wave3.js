@@ -117,71 +117,57 @@ function openPhone() {
 $('hangup').addEventListener('click', () => { clearTimeout(linesTimer); inCall = false; closeOv(); });
 
 // ——— CP-500 ———
+// No livro: o computador está apagado até o diário sair da gaveta; depois acende sozinho pedindo quatro números.
+// A senha certa (0606) escreve o PAI.TXT, linha por linha. Depois, DIR e TYPE para o resto.
 const CP_FILES = {
-  'MARINA.TXT': 'MEU PAI NAO FUGIU.\nELE MONTOU UM RECEPTOR NUMA OFICINA ESCONDIDA\nATRAS DA PAREDE DA COMODA. O LABIRINTO ABRE.\n\nEM 1974 O RADIO PEGOU UM SINAL EM MORSE.\nUMA DATA, UMA HORA, UM ONIBUS.\nEM 6/6/76, AS 23:10, ELE SUBIU NO ONIBUS.\n\nA PASSAGEM ABRE TODO 6 DE JUNHO DE ANO\nQUE ACABA EM 6 E FICA ABERTA SEIS HORAS.\n\nEU VOU BUSCAR ELE.',
+  'MARINA.TXT': 'MEU PAI NAO FUGIU.\nELE MONTOU UM RECEPTOR NA OFICINA, ATRAS DA\nPAREDE DA COMODA. O LABIRINTO ABRE.\n\nEM 1974 O RADIO PEGOU UM SINAL EM MORSE.\nUMA DATA, UMA HORA, UM ONIBUS.\nEM 6/6/76, AS 23:10, ELE SUBIU NO ONIBUS.\n\nESTA CHAMANDO DE NOVO. EU VOU.',
   'DATAS.TXT': '06/06/1976 - PAPAI\n06/06/1986 - ?\n06/06/1996\n06/06/2006\n06/06/2016\n06/06/2026\n06/06/2036\n06/06/2046',
   'RELOGIO.BAS': '10 REM RELOGIO - A.T. 1985\n20 H=23 : M=10\n30 PRINT H;":";M\n40 GOTO 30',
 };
-const CP_PAI = 'TRANSCRICAO DOS CADERNOS DO PAPAI (M.T., 1986)\n\nCAD. 4  MONTOU O RECEPTOR COM VALVULAS DO RADIO VELHO.\nCAD. 5  SINAL NA FAIXA 23.10. PONTOS E TRACOS.\nCAD. 6  DECIFROU:  06 06 76 / 23 10 / 875A-10\nCAD. 8  "DEIXEI ABERTO. SEIS HORAS.\n         VOLTO PELO MESMO ONIBUS."\n\n          N (ESCADA)\n   +---------------------+\n M |                     | E\n E |       PORAO         | S ===> A LINHA\n S |                     | T\n A |                     |\n   +-------[COMODA]------+\n           |OFICINA|\n           +-------+';
+const CP_PAI = 'PAI.TXT                          MARINA T.  18/04/86\n\n(cadernos 7, 8 e 9 do meu pai, Aurelio Toledo.\n copiei igual. o que esta entre parenteses e meu.)\n\nCADERNO 7 - outubro de 1975\nNao vou escrever o que peguei. Vou escrever o que\npesa: onze quilos, com o chumbo. Guardo embaixo da\nbancada. A Lucia nao desce mais aqui.\n\nCADERNO 8 - 1 de junho de 1976\nAchei a planta da casa, de 1948. "Porao. Carvoeira.\nCorredor de servico ate a travessa." Fechado em 1963.\nO corredor comeca onde hoje esta a estante do porao.\nBati atras dela. E oca.\n\nCADERNO 8 - 3 de junho\nPus a estante num eixo. A alavanca e um dos livros da\nBarsa: puxa ate o fim e ela gira. O trinco e um rele\nligado no receptor. Sem o receptor em 23.10, o livro\ntrava na metade. Qual livro, eu nao escrevo. Quem\nprecisar saber vai ouvir.\n\nCADERNO 8 - 5 de junho\nNao levo a amostra. Se o que chama quer isso, nao vai\nter. Fica embaixo da bancada, fechada. Lucia: nao mexa.\n\nCADERNO 9 - 6 de junho de 1976, 22h40\nSe eu nao voltar, a menina vai ler isto um dia.\nMarina: eu nao fui embora. Eu fui ver quem chama.\nSe voce ouvir, nao va.\n\n(acaba aqui. a caneca de cafe estava do lado.)';
 const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().trim().replace(/\s+/g, ' ');
 function termPrint(txt) { const t = $('term'); t.textContent += txt + '\n'; t.scrollTop = t.scrollHeight; }
 function setPrompt(p) { $('termPrompt').textContent = p; }
 function cpBoot() {
-  $('term').textContent = ''; $('ovCP').querySelector('.crt').classList.remove('dead');
+  $('term').textContent = '';
   termPrint('PROLOGICA CP-500   48K\nSISTEMA DOS 500   VERSAO 1.3\n');
-  if (S.cp.logged) { termPrint('A>'); setPrompt('A>'); } else setPrompt('SENHA:');
+  if (S.cp.pai) { termPrint('A>'); setPrompt('A>'); }
+  else { termPrint('ARQUIVO PROTEGIDO: PAI.TXT\nDIGITE A SENHA (4 NUMEROS)\n'); setPrompt('SENHA:'); }
 }
 function openCP() {
   if (!S.power) { say('Um Prológica CP-500, bege. Sem energia.'); return; }
-  if (S.flags.cpDead) { say('Não liga mais. Cheiro de componente queimado.'); return; }
-  if (!S.cp) S.cp = { logged: false, fails: 0, mode: 'pass', pai: false };
+  if (!S.open.gav1) { say('O botão de ligar fica atrás. Estala, zumbe, e a tela continua preta.'); return; }
+  if (!S.cp) { S.cp = { fails: 0, pai: false }; say('Você não ligou. Está aceso, verde, com o cursor piscando, pedindo uma senha de quatro números.'); }
   openOv('ovCP'); cpBoot(); setTimeout(() => $('termInput').focus(), 50);
 }
-function cpFiles() {
-  const f = Object.keys(CP_FILES);
-  if (S.cp.pai) f.push('PAI.TXT');
-  if (S.flags.ev340 && !S.flags.ceciRead && S.cp.pai) f.push('CECI.TXT');   // só depois do PAI.TXT: ler o CECI.TXT queima o computador
-  return f;
+function cpFiles() { const f = Object.keys(CP_FILES); if (S.cp.pai) f.unshift('PAI.TXT'); return f; }
+const CP_DATES = { 'PAI.TXT': '18/04/86', 'MARINA.TXT': '01/06/86', 'DATAS.TXT': '25/05/86', 'RELOGIO.BAS': '02/02/85' };
+// o PAI.TXT escreve sozinho, uma linha de cada vez
+function termSlow(txt, done) {
+  const inp = $('termInput'); inp.disabled = true;
+  const lines = txt.split('\n'); let i = 0;
+  const step = () => { if ($('ovCP').hidden) { inp.disabled = false; return; }
+    termPrint(lines[i++]); if (i < lines.length) setTimeout(step, 90); else { inp.disabled = false; inp.focus(); done && done(); } };
+  step();
 }
-const CP_DATES = { 'MARINA.TXT': '01/06/86', 'DATAS.TXT': '25/05/86', 'RELOGIO.BAS': '02/02/85', 'PAI.TXT': '01/06/86', 'CECI.TXT': '07/06/96' };
 function cpType(name) {
-  if (name === 'CECI.TXT' && cpFiles().includes(name)) { cpCeci(); return; }
   if (name === 'PAI.TXT' && S.cp.pai) { termPrint(CP_PAI); return; }
-  if (CP_FILES[name] && name.endsWith('.TXT')) { termPrint(CP_FILES[name]); return; }
   if (CP_FILES[name]) { termPrint(CP_FILES[name]); return; }
   termPrint('?ARQUIVO NAO ENCONTRADO');
 }
-function cpCeci() {
-  const inp = $('termInput'); inp.disabled = true; S.flags.ceciRead = true;
-  const msg = 'a caixa de chumbo'; let i = 0;
-  const t = $('term'); t.textContent += '\n';
-  const iv = setInterval(() => {
-    t.textContent += msg[i++]; t.scrollTop = t.scrollHeight;
-    if (i >= msg.length) { clearInterval(iv);
-      setTimeout(() => { $('ovCP').querySelector('.crt').classList.add('dead'); S.flags.cpDead = true;
-        setTimeout(() => { inp.disabled = false; closeOv(); say('A tela se apaga num risco branco. Cheiro de componente queimado. O computador não liga mais.'); }, 1100); }, 900); }
-  }, 260);
-}
 function cpCommand(raw) {
   const c = norm(raw); const cp = S.cp;
-  if (cp.mode === 'pass') {
+  if (!cp.pai) {
     termPrint('SENHA: ' + '*'.repeat(raw.length));
-    if (c === 'TITO') { cp.logged = true; cp.mode = 'cmd'; termPrint('\nBEM-VINDA, MARINA.\nDIGITE AJUDA PARA VER OS COMANDOS.\n'); setPrompt('A>'); }
-    else { cp.fails++; termPrint(cp.fails >= 3 ? 'VOCE NAO E A MARINA.' : 'SENHA INCORRETA.'); }
-    return;
-  }
-  if (cp.mode === 'filepass') {
-    termPrint('SENHA DO ARQUIVO: ' + '*'.repeat(raw.length));
-    cp.mode = 'cmd'; setPrompt('A>');
-    if (c === '0606' || c === '06/06' || c === '0606' || c === '06 06') { cp.pai = true; S.flags.pai = true; termPrint('RECUPERADO: PAI.TXT\n'); termPrint(CP_PAI); }
-    else termPrint('SENHA INCORRETA.\nLEMBRETE DA AUTORA: O DIA E O MES DELE.');
+    if (c.replace(/[^0-9]/g, '') === '0606' && c.replace(/[^0-9]/g, '').length === 4) { cp.pai = true; S.flags.pai = true; termPrint('\nRECUPERADO: PAI.TXT\n'); termSlow(CP_PAI, () => { termPrint('\nA>'); setPrompt('A>'); }); }
+    else { cp.fails++; termPrint(cp.fails >= 3 ? 'SENHA INCORRETA.\nLEMBRETE DA AUTORA: O DIA E O MES QUE ELE MARCOU.' : 'SENHA INCORRETA.'); }
     return;
   }
   termPrint('A>' + c);
   if (!c) return;
   const [cmd, ...rest] = c.split(' '); let arg = rest.join(' ');
   const fix = (n) => { if (!n) return n; if (n.includes('.')) return n; const hit = cpFiles().find(f => f.startsWith(n + '.')); return hit || n; };
-  if (cmd === 'AJUDA' || cmd === 'HELP') termPrint('DIR              LISTA OS ARQUIVOS\nTYPE <ARQUIVO>   MOSTRA UM ARQUIVO\nRUN <PROGRAMA>   RODA UM PROGRAMA\nRECUPERA         PROCURA ARQUIVOS APAGADOS\nCLS              LIMPA A TELA');
+  if (cmd === 'AJUDA' || cmd === 'HELP') termPrint('DIR              LISTA OS ARQUIVOS\nTYPE <ARQUIVO>   MOSTRA UM ARQUIVO\nRUN <PROGRAMA>   RODA UM PROGRAMA\nCLS              LIMPA A TELA');
   else if (cmd === 'DIR') { termPrint(' DIRETORIO A:'); for (const f of cpFiles()) { const [n, e] = f.split('.'); termPrint(` ${n.padEnd(9)}${e.padEnd(6)}${CP_DATES[f]}`); } termPrint(` ${cpFiles().length} ARQUIVOS`); }
   else if (cmd === 'TYPE' || cmd === 'LIST' || cmd === 'LER' || cmd === 'CAT' || cmd === 'ABRIR') cpType(fix(arg));
   else if (cmd === 'RUN' || cmd === 'RODAR') {
@@ -189,11 +175,6 @@ function cpCommand(raw) {
       setTimeout(() => { termPrint(' 23 : 10\n 23 : 10\n 23 : 10'); }, 700);
       setTimeout(() => { termPrint('BREAK EM 30\nPRONTO'); inp.disabled = false; inp.focus(); }, 3200); }
     else termPrint('?PROGRAMA NAO ENCONTRADO');
-  }
-  else if (cmd === 'RECUPERA') {
-    if (!arg) { termPrint('PROCURANDO SETORES APAGADOS...'); termPrint(S.cp.pai ? 'NADA MAIS PARA RECUPERAR.' : ' *APAGADO*  PAI.TXT   (PROTEGIDO)\nUSE: RECUPERA PAI.TXT'); }
-    else if (fix(arg) === 'PAI.TXT' || arg === 'PAI') { if (S.cp.pai) termPrint('JA RECUPERADO. USE: TYPE PAI.TXT'); else { cp.mode = 'filepass'; setPrompt('SENHA DO ARQUIVO:'); } }
-    else termPrint('?NADA COM ESSE NOME');
   }
   else if (cmd === 'CLS') $('term').textContent = '';
   else if (cmd === 'SAIR' || cmd === 'EXIT') closeOv();
@@ -211,9 +192,10 @@ function drawTVScreen(ctx, t) {
   ctx.save(); ctx.beginPath(); ctx.roundRect(1104, 320, 136, 128, 22); ctx.clip();
   ctx.globalAlpha = .85; ctx.drawImage(grains[(t / 50 | 0) % grains.length], 1104, 320, 136, 128);
   ctx.globalAlpha = 1; ctx.fillStyle = 'rgba(150,170,200,.28)'; ctx.fillRect(1104, 320, 136, 128);
-  if ((t % 9000) < 3600) {
-    ctx.fillStyle = 'rgba(20,40,120,.75)'; ctx.fillRect(1104, 372, 136, 30);
-    ctx.fillStyle = 'rgba(240,240,240,.85)'; ctx.font = 'bold 15px Arial'; ctx.fillText('PLANTÃO', 1140, 393);
+  if ((t % 9000) < 3600) { // a tela de ajuste
+    const cols = ['#c8c8c8', '#c8c800', '#00c8c8', '#00c800', '#c800c8', '#c80000', '#0000c8'];
+    cols.forEach((c, i) => { ctx.fillStyle = c; ctx.globalAlpha = .55; ctx.fillRect(1104 + i * 19.5, 320, 19.5, 90); });
+    ctx.globalAlpha = 1;
   }
   ctx.restore();
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -252,25 +234,22 @@ TICKS.push(() => {
   if (S.flags.ev340 || !S.started || S.ended || fictionMin() < 220 || overlayOpen() || S.view > 3) return;
   S.flags.ev340 = true;
   const now = performance.now();
-  S.blackoutUntil = now + 1500; S.tvOn = false;
+  S.blackoutUntil = now + 1500; S.tvOn = false; S.dropPauseUntil = now + 120000;
   setTimeout(() => {
-    const closed = S.open.esc; if (closed) { S.open.esc = false; S.flags.escClosed = true; }
     dirty();
     say(S.power
-      ? 'O relógio parado dá um tique. Um só. A lâmpada morre e volta. Na estante, o rádio de pilha, que não tem pilha, chia por dois segundos.' + (closed ? ' Quando a luz volta, a gaveta da escrivaninha está fechada. Você não fechou.' : '')
-      : 'No escuro, o relógio parado dá um tique. Um só. Na estante, o rádio de pilha, que não tem pilha, chia por dois segundos.');
+      ? 'O relógio parado, em cima da cômoda, dá um tique. Um só. A lâmpada morre e volta.' + (S.open.oficina ? ' Na oficina, o receptor chia sozinho por dois segundos.' : '') + ' E a gota parou de cair.'
+      : 'No escuro, o relógio parado dá um tique. Um só. E a gota parou de cair.');
   }, 1600);
 });
 
 // ——— pontos clicáveis desta onda (ficam por cima dos antigos) ———
-spot(1, 'radio', [576, 400, 186, 112], { label: 'Rádio de pilha',
-  act: () => say(S.flags.ev340 ? 'O lugar das pilhas continua vazio. Mas ele chiou. Você ouviu.' : 'Um Motoradio de capa de couro. O lugar das pilhas está vazio.') });
 spot(3, 'cp500', [702, 284, 210, 192], { label: 'Computador CP-500', act: () => openCP() });
 spot(3, 'tv', [1082, 188, 220, 284], { label: 'TV Telefunken',
   act: () => {
     if (!S.power) { say('TV de tubo, 20 polegadas, antena de chifre. Sem luz, não liga.'); return; }
     S.tvOn = !S.tvOn;
-    say(S.tvOn ? 'Liga com um estalo. Chuvisco, e um plantão que vai e volta: “…jovem de dezoito anos desaparecida desde ontem à noite em Perdizes. A polícia aguarda o prazo de vinte e quatro horas…” Depois, o Minhocão fechado para obras. Depois, chuvisco.' : 'Você desliga. O ponto branco demora a sumir da tela.');
+    say(S.tvOn ? 'Liga com um estalo. Chuvisco. Você gira o seletor: num canal, a tela de ajuste com o apito fino; no outro, um filme antigo com o som no mínimo; no resto, chuvisco. Três da manhã é isso.' : 'Você desliga. O ponto branco demora a sumir da tela.');
   } });
 spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
   act: () => { if (!S.flags.fitaIn) say('Vazio. Esperando uma fita.'); else if (!S.power) say('Sem luz.'); else watch86(); },

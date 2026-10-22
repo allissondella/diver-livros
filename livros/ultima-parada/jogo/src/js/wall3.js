@@ -1,4 +1,4 @@
-// ===== wall3.js — escrivaninha (mural, diário, caderno, CP-500, TV, telefone, cama) =====
+// ===== wall3.js — escrivaninha (mural, CP-500, TV, telefone, cama) =====
 function photo(ctx, x, y, w, h, rot, inner) {
   ctx.save(); ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot);
   ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(-w / 2 + 4, -h / 2 + 5, w, h);
@@ -60,15 +60,10 @@ ART[3] = function (ctx, st) {
   ctx.fillStyle = '#6c6355'; ctx.fillRect(552, 492 + dy, 210, 46); bevel(ctx, 552, 492 + dy, 210, 46, 3);
   ctx.fillStyle = '#2a2722'; ctx.fillRect(640, 510 + dy, 34, 7);
 
-  // diário de Marina aberto e o caderno espiral da Cecília
-  ctx.fillStyle = '#163021'; poly(ctx, [[526, 470], [614, 470], [624, 446], [538, 446]]); ctx.fill();
-  ctx.fillStyle = '#d3c7a2'; poly(ctx, [[532, 467], [568, 467], [574, 449], [542, 449]]); ctx.fill();
-  ctx.fillStyle = '#cdbf98'; poly(ctx, [[572, 467], [608, 467], [618, 449], [578, 449]]); ctx.fill();
-  ctx.strokeStyle = 'rgba(30,50,120,.45)'; ctx.lineWidth = 1;
-  for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(540 - i * .3, 452 + i * 4); ctx.lineTo(568, 452 + i * 4); ctx.moveTo(578, 452 + i * 4); ctx.lineTo(610, 452 + i * 4); ctx.stroke(); }
-  ctx.fillStyle = '#23407e'; poly(ctx, [[624, 470], [704, 470], [712, 448], [632, 448]]); ctx.fill();
-  ctx.fillStyle = '#d8d0b8'; ctx.fillRect(642, 452, 46, 9);
-  ctx.strokeStyle = '#999'; ctx.lineWidth = 1.5; for (let i = 0; i < 14; i++) { ctx.beginPath(); ctx.arc(636 + i * 5.4, 448, 2.2, Math.PI, 0); ctx.stroke(); }
+  // um porta-lápis e a apostila do cursinho (a Cecília levou o caderno)
+  ctx.fillStyle = '#2b2b2b'; ctx.fillRect(540, 440, 26, 30); ctx.fillStyle = '#c9a23c'; ctx.fillRect(545, 424, 3, 18); ctx.fillStyle = '#3a6fb0'; ctx.fillRect(552, 420, 3, 22); ctx.fillStyle = '#b03a3a'; ctx.fillRect(559, 428, 3, 14);
+  ctx.fillStyle = '#cfc4a4'; poly(ctx, [[600, 470], [700, 470], [708, 448], [610, 448]]); ctx.fill();
+  ctx.fillStyle = '#7a1f1f'; ctx.fillRect(612, 452, 60, 5); ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.font = '10px Arial'; ctx.fillText('CURSINHO', 622, 466);
 
   // Prológica CP-500
   castShadow(ctx, 720, 292, 176, 150, 24);
@@ -82,20 +77,12 @@ ART[3] = function (ctx, st) {
   for (let row = 0; row < 3; row++) for (let k = 0; k < 16; k++) ctx.fillRect(718 + k * 11.2 + row * 2, 451 + row * 6, 9, 4);
   note(ctx, 868, 296, 40, 32, .12, '#d8c773');
 
-  // caixa de ferramentas com cadeado direcional
+  // caixa de ferramentas do pai da Cecília, nova, sem cadeado
   castShadow(ctx, 926, 412, 124, 56, 18);
   ctx.fillStyle = '#6b1d15'; ctx.fillRect(924, 410, 128, 58); bevel(ctx, 924, 410, 128, 58, 3);
-  speckle(ctx, 924, 410, 128, 58, 300, 330, ['rgba(40,20,10,.5)', 'rgba(160,90,40,.3)'], 3);
-  if (st.open.tool) { // tampa levantada para trás, ferramentas aparecendo
-    ctx.fillStyle = '#4e140e'; poly(ctx, [[924, 410], [1052, 410], [1040, 372], [936, 372]]); ctx.fill();
-    ctx.fillStyle = '#121010'; ctx.fillRect(928, 410, 120, 8);
-    ctx.fillStyle = '#7d7c76'; ctx.fillRect(950, 402, 40, 6); ctx.fillStyle = '#5a3a20'; ctx.fillRect(996, 398, 6, 14);
-  } else {
-    ctx.strokeStyle = '#2a2622'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(962, 410); ctx.lineTo(962, 396); ctx.lineTo(1014, 396); ctx.lineTo(1014, 410); ctx.stroke();
-    ctx.fillStyle = '#8e8d84'; ctx.beginPath(); ctx.arc(988, 446, 15, 0, 7); ctx.fill();
-    ctx.fillStyle = '#2c2b27'; ctx.beginPath(); ctx.arc(988, 446, 6, 0, 7); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.arc(983, 441, 3, 0, 7); ctx.fill();
-  }
+  speckle(ctx, 924, 410, 128, 58, 120, 330, ['rgba(40,20,10,.4)', 'rgba(160,90,40,.2)'], 3);
+  ctx.strokeStyle = '#2a2622'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(962, 410); ctx.lineTo(962, 396); ctx.lineTo(1014, 396); ctx.lineTo(1014, 410); ctx.stroke();
+  ctx.fillStyle = '#c9c2b0'; ctx.fillRect(934, 432, 108, 14); ctx.fillStyle = 'rgba(40,20,10,.8)'; ctx.font = '10px Arial'; ctx.fillText('TRAMONTINA', 955, 443);
 
   // TV de tubo no carrinho de ferro, com videocassete
   ctx.fillStyle = '#1b1b19'; for (const lx of [1086, 1292]) ctx.fillRect(lx, 470, 8, FLOOR - 476);
@@ -118,6 +105,11 @@ ART[3] = function (ctx, st) {
   ctx.beginPath(); ctx.moveTo(1186, 298); ctx.lineTo(1132, 196); ctx.moveTo(1196, 298); ctx.lineTo(1262, 190); ctx.stroke();
   ctx.fillStyle = '#222'; ctx.beginPath(); ctx.ellipse(1191, 296, 18, 7, 0, 0, 7); ctx.fill();
 
+  // o papel com os números da agenda, colado ao lado do telefone
+  note(ctx, 1296, 404, 100, 54, -.03, '#e4dcc2');
+  ctx.fillStyle = 'rgba(40,40,90,.85)'; ctx.font = '11px "Architects Daughter", cursive';
+  ctx.fillText('Cursinho 255-1133', 1302, 420); ctx.fillText('Dr. Ribeiro 62-4018', 1302, 434); ctx.fillText('Odete 3862-0147', 1302, 448);
+
   // criado-mudo com telefone e secretária eletrônica
   castShadow(ctx, 1322, 540, 150, 180, 30);
   wood(ctx, 1318, 538, 156, FLOOR - 538, '#3c2816', 351, 'v'); bevel(ctx, 1318, 538, 156, FLOOR - 538, 3);
@@ -136,9 +128,7 @@ ART[3] = function (ctx, st) {
   ctx.fillStyle = '#41314a'; ctx.fillRect(1486, 560, 114, 56);
   ctx.strokeStyle = 'rgba(200,160,90,.25)'; ctx.lineWidth = 3;
   for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.moveTo(1486 + i * 26, 560); ctx.lineTo(1486 + i * 26, 616); ctx.stroke(); ctx.beginPath(); ctx.moveTo(1486, 568 + i * 11); ctx.lineTo(1600, 568 + i * 11); ctx.stroke(); }
-  ctx.fillStyle = '#233552'; ctx.beginPath(); ctx.roundRect(1504, 498, 78, 70, 14); ctx.fill();
-  ctx.fillStyle = '#1a2840'; ctx.fillRect(1514, 530, 58, 30);
-  ctx.strokeStyle = '#111'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(1514, 505); ctx.quadraticCurveTo(1543, 470, 1572, 505); ctx.stroke();
+  ctx.fillStyle = '#5a4a36'; ctx.fillRect(1538, 486, 10, 22); ctx.fillStyle = '#3a2f22'; ctx.beginPath(); ctx.arc(1543, 486, 7, 0, 7); ctx.fill();   // o gancho vazio da mochila
 
   // tomada e fios
   ctx.fillStyle = '#c5bfae'; ctx.fillRect(1004, 598, 30, 44); ctx.fillStyle = '#222'; ctx.fillRect(1013, 610, 4, 8); ctx.fillRect(1021, 610, 4, 8);
@@ -154,5 +144,10 @@ EMIT[3] = function (ctx, st, t) {
   if (blink) { const g = ctx.createRadialGradient(1458, 524, 0, 1458, 524, 26); g.addColorStop(0, 'rgba(255,40,20,.95)'); g.addColorStop(.2, 'rgba(255,40,20,.4)'); g.addColorStop(1, 'rgba(255,40,20,0)'); ctx.fillStyle = g; ctx.fillRect(1430, 496, 56, 56); }
   ctx.fillStyle = 'rgba(255,40,20,.8)'; ctx.fillRect(1282, 446, 4, 4);
   ctx.fillStyle = 'rgba(90,255,120,.7)'; ctx.fillRect(884, 432, 5, 4);
+  if (st.open.gav1 && !st.cp) { // o computador acendeu sozinho: verde, cursor piscando
+    ctx.fillStyle = 'rgba(70,190,90,.22)'; ctx.beginPath(); ctx.roundRect(740, 309, 134, 96, 10); ctx.fill();
+    if ((t % 1000) < 500) { ctx.fillStyle = 'rgba(120,255,140,.9)'; ctx.fillRect(752, 322, 7, 11); }
+    const g = ctx.createRadialGradient(807, 357, 10, 807, 357, 160); g.addColorStop(0, 'rgba(80,220,110,.18)'); g.addColorStop(1, 'rgba(80,220,110,0)'); ctx.fillStyle = g; ctx.fillRect(640, 200, 340, 320);
+  }
   ctx.restore();
 };

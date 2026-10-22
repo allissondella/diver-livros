@@ -54,13 +54,13 @@ Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Ma
 >>
 >> Marina Toledo, 18, sumiu na noite de sexta-feira do sobrado da Rua Monte Alegre, em Perdizes, de onde o pai, o técnico Aurélio Toledo, desapareceu em junho de 1976. A mãe disse ter ouvido passos na escada do porão às 23h10. Ao descer, não encontrou a filha. A polícia informou que só abre investigação depois de 24 horas.
 >
-> Numa gaveta da cômoda tinha uma fita VHS com a etiqueta "JUN 86", na letra dela. Pus no videocassete do porão.
+> Na gaveta de baixo da cômoda, de pé, enfiada entre o fundo e a lateral, atrás de onde estava a caixa de sapato, tinha uma fita VHS com a etiqueta "JUN 86", na letra dela. A Ceci não viu. Eu só vi porque estava procurando qualquer coisa. Pus no videocassete do porão.
 >
 >> **FITA DE MARINA — JUN. 6 1986**
 >>
 >> *\[Reconstituição. A fita de 1986 não estava no envelope; ficou no porão. O que segue é a nota que o Fábio escreveu na margem do caderno da Cecília depois de vê-la, com os horários do relógio da filmadora. — Estúdio\]*
 >>
->> 23:04 — Uma janela, de dentro. A rua vazia, molhada, o poste. A câmera treme.
+>> 23:08 — Uma janela, de dentro. A rua vazia, molhada, o poste. A câmera treme.
 >>
 >> 23:09 — \[um tique de relógio, dentro da casa\]
 >>
@@ -68,11 +68,11 @@ Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Ma
 >>
 >> 23:11 — \[respiração bem perto do microfone\] A câmera fica na janela mais trinta segundos. A porta do ônibus continua aberta.
 >>
->> 23:12 — \[a câmera cai\] Teto. Depois degraus de madeira, de baixo para cima, balançando. \[passos descendo uma escada de madeira\]
+>> 23:13 — \[a câmera cai\] Teto. Depois degraus de madeira, de baixo para cima, balançando. \[passos descendo uma escada de madeira\]
 >>
->> 23:13 — Uma parede de tijolo com uma faixa amarela na altura do ombro, iluminada por lanterna. A faixa vira à esquerda. A câmera vira à esquerda.
+>> 23:14 — Uma parede de tijolo com uma faixa amarela na altura do ombro, iluminada por lanterna. A faixa vira à esquerda. A câmera vira à esquerda.
 >>
->> 23:14 — \[a voz de Marina, baixa, perto\] "Eu pintei igual."
+>> 23:15 — \[a voz de Marina, baixa, perto\] "Eu pintei igual."
 >
 > Pintou igual a quê? Eu ainda não sabia.
 >

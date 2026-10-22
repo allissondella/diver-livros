@@ -23,21 +23,9 @@ const ICONS = {
     g.fillStyle = '#2b2b30'; g.fillRect(3, 11, 16, 7); g.fillStyle = '#44444c'; g.fillRect(17, 9, 6, 11);
     g.fillStyle = '#9b6bff'; g.fillRect(23, 10, 3, 9); g.fillStyle = 'rgba(160,110,255,.35)'; g.fillRect(25, 6, 3, 17);
   },
-  martelo(g) {
-    g.fillStyle = '#6b4a2a'; g.save(); g.translate(14, 15); g.rotate(-.7); g.fillRect(-2, -2, 4, 16);
-    g.fillStyle = '#7d7c76'; g.fillRect(-8, -7, 16, 6); g.restore();
-  },
-  chave(g) {
-    g.strokeStyle = '#b39248'; g.lineWidth = 3; g.beginPath(); g.arc(9, 14, 5, 0, 7); g.stroke();
-    g.fillStyle = '#b39248'; g.fillRect(14, 13, 11, 3); g.fillRect(21, 16, 2, 4); g.fillRect(24, 16, 2, 3);
-  },
   fita(g) {
     g.fillStyle = '#151515'; g.fillRect(2, 7, 24, 15); g.fillStyle = '#d9cfae'; g.fillRect(5, 9, 18, 5);
     g.fillStyle = '#333'; g.beginPath(); g.arc(9, 18, 2.5, 0, 7); g.arc(19, 18, 2.5, 0, 7); g.fill();
-  },
-  cracha(g) {
-    g.fillStyle = '#e0dccd'; g.fillRect(6, 5, 16, 20); g.fillStyle = '#4b5d78'; g.fillRect(6, 5, 16, 5);
-    g.fillStyle = '#8a7a66'; g.fillRect(9, 12, 6, 7); g.fillStyle = '#555'; g.fillRect(16, 13, 4, 1.5); g.fillRect(16, 16, 4, 1.5);
   },
 };
 function renderInv() {
@@ -120,14 +108,7 @@ function loadNotes() { try { return localStorage.getItem(NOTES_KEY) || ''; } cat
 function saveNotes() { try { localStorage.setItem(NOTES_KEY, $('notes').value); } catch (e) { /* sem armazenamento: segue sem salvar */ } }
 $('notes').value = loadNotes();
 $('notes').addEventListener('input', () => { clearTimeout(saveNotes.t); saveNotes.t = setTimeout(saveNotes, 400); });
-(function fillCeci() {
-  const ul = $('cecNotes');
-  for (const n of CECI_NOTES) { const li = document.createElement('li'); li.innerHTML = n; ul.append(li); }
-})();
-function openNotes() {
-  openOv('ovNotes');
-  if (findPaper(11, true)) toast('A página de maio foi para a linha do tempo.');
-}
+function openNotes() { openOv('ovNotes'); }
 $('btnNotes').addEventListener('click', openNotes);
 
 // ——— diário de Marina ———
@@ -149,8 +130,7 @@ function endBad() {
   $('endText').innerHTML = `<span class="when">05:10</span>
     <p>Lá fora, um motor a diesel passa devagar pela Monte Alegre. Não para.</p>
     <p>A lâmpada apaga sozinha. A estante é só uma estante.</p>
-    <p>No escuro, a secretária eletrônica estala e toca uma voz que você conhece, muito longe:</p>
-    <p><em>“Daqui a dez anos, então.”</em></p>`;
+    <p>A gota volta a cair na lata. Uma a cada onze segundos.</p>`;
   $('ovEnd').hidden = false;
 }
 $('btnRestart').addEventListener('click', () => startGame(true));
@@ -170,9 +150,9 @@ $('intro').addEventListener('click', (e) => { if (e.target.id !== 'btnStart' && 
 $('btnStart').addEventListener('click', () => startGame(false));
 
 function startGame(restart) {
-  if (restart) { resetState(); dirty(); renderInv(); if (typeof syncNav === 'function') syncNav(); $('tlCount').textContent = '0'; $('clock').hidden = true; $('ovEnd').hidden = true; diaryPage = 0; showIntro(); return; }
+  if (restart) { resetState(); dirty(); renderInv(); if (typeof syncNav === 'function') syncNav(); $('tlCount').textContent = '0'; $('ovEnd').hidden = true; diaryPage = 0; showIntro(); return; }
   $('intro').hidden = true;
-  S.started = true; S.t0 = performance.now(); S.nextBatt = S.t0 + 9000; S.nextFlick = S.t0 + 12000;
+  S.started = true; S.t0 = performance.now(); S.nextBatt = S.t0 + 9000; S.nextFlick = S.t0 + 12000; $('clock').hidden = false;
   $('viewName').textContent = VIEWS[S.view];
   fit();
   setTimeout(() => say('Escuro. Cheiro de mofo e de cera de chão. Em algum lugar, água pingando numa lata.'), 900);

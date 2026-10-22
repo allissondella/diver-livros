@@ -68,6 +68,10 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
   font-family: var(--f-led); font-size: 1.9em; letter-spacing: .08em; color: var(--led);
   text-shadow: 0 0 6px rgba(255, 50, 20, .7), 0 0 18px rgba(255, 40, 10, .35); line-height: 1;
 }
+/* o relógio é o da filmadora no peito: o ponto vermelho de REC pisca ao lado */
+#clock.rec i { display: inline-block; width: .42em; height: .42em; border-radius: 50%; background: var(--led); margin-right: .4em; vertical-align: .12em;
+  box-shadow: 0 0 8px rgba(255, 40, 10, .8); animation: rec 1.2s steps(1) infinite; }
+@keyframes rec { 50% { opacity: .15; } }
 
 #label {
   position: absolute; left: 0; right: 0; bottom: 15%; text-align: center;
@@ -237,24 +241,21 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
 
 /* ——— Caderno ——— */
 .spiral {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #ddd3b6; color: #1d2f6b;
+  display: grid; grid-template-columns: 1fr; gap: 0; width: min(64ch, 92vw); background: #ddd3b6; color: #1d2f6b;
   box-shadow: 0 18px 50px rgba(0, 0, 0, .8), inset 0 0 80px rgba(70, 50, 20, .4); position: relative;
 }
 .spiral::before {
-  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 18px; transform: translateX(-50%);
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 18px; transform: translateX(-50%);
   background: repeating-linear-gradient(180deg, transparent 0 10px, #222 10px 16px, transparent 16px 26px);
 }
 .pg { padding: 1.4em 2em 1.6em; min-width: 0;
   background-image: repeating-linear-gradient(180deg, transparent 0 1.9em, rgba(70, 100, 160, .3) 1.9em calc(1.9em + 1px)); }
 .pg h3 { margin: 0 0 .6em; font: 400 .78em var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: #6b5f48; }
-#cecNotes { margin: 0; padding: 0; list-style: none; font: 500 clamp(17px, 1.9vw, 22px)/1.72 var(--f-cec); }
-#cecNotes li { margin-bottom: .35em; }
-#cecNotes li small { font-size: .78em; color: #6b5f48; }
 #notes {
   width: 100%; min-height: 22em; height: 100%; resize: none; border: 0; background: transparent;
   font: 500 clamp(17px, 1.9vw, 22px)/1.9em var(--f-cec); color: #33302a; outline: none;
 }
-@media (max-width: 760px) { .spiral { grid-template-columns: 1fr; } .spiral::before { display: none; } }
+@media (max-width: 760px) { .spiral::before { display: none; } }
 
 /* ——— Diário de Marina ——— */
 .book {
@@ -273,6 +274,9 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
 
 #endText { max-width: 48ch; color: var(--ink); line-height: 2; text-align: center; font-size: clamp(14px, 1.6vw, 18px); }
 #endText .when { font-family: var(--f-led); color: var(--led); font-size: 2.4em; display: block; }
+
+/* a folha copiada pela Cecília: a palavra sublinhada duas vezes */
+.paper .dupla { text-decoration: underline double; text-underline-offset: 3px; font-weight: 700; }
 /* ——— Onda 2: cadeados, mural, mapa ——— */
 .lockTitle { margin: 0; color: var(--dim); letter-spacing: .14em; text-transform: uppercase; font-size: .82em; }
 .lockMsg { margin: 0; min-height: 1.6em; color: var(--paper); text-align: center; max-width: 44ch; }
@@ -339,6 +343,9 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
 .pinned.photo { background: #ddd6c2; padding: .45em .45em 1.4em; }
 .pinned.photo span { display: block; width: 100%; height: 100%; background: #3a362e; filter: sepia(.5); }
 .pinned.post { background: #e1cf74; color: #1d2f6b; font: 600 clamp(12px, 1.5vw, 19px)/1.1 var(--f-cec); padding: 1em .5em .5em; }
+.pinned.note { background: #e9e2cf; color: #1d2f6b; font: 500 clamp(11px, 1.35vw, 17px)/1.25 var(--f-cec); padding: 1.1em .6em .5em; text-align: left; }
+.pinned.note small { display: block; font-size: .72em; color: #6b5f48; margin-bottom: .35em; }
+.pinned.note u { text-decoration: underline double; }
 .pinned.map { background: #a5875a; color: #2b1c0e; font: 600 clamp(14px, 1.8vw, 22px) var(--f-cec); padding: .9em .7em .5em; text-align: left; }
 .pinned.map svg { display: block; width: 100%; height: auto; margin-top: .3em; }
 .muralCap { margin: 0; color: var(--ink); text-align: center; min-height: 3.2em; max-width: 64ch; align-self: center; line-height: 1.6; }
@@ -480,7 +487,7 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
     <button id="btnBack" type="button" hidden>Voltar</button>
     <div id="top">
       <span id="viewName">Escada</span>
-      <span id="clock" hidden>02:05</span>
+      <span id="clock" class="rec" hidden><i aria-hidden="true"></i>02:05</span>
     </div>
     <div id="label" aria-live="polite"></div>
     <div id="msg" hidden></div>
@@ -489,7 +496,7 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
       <div id="inv" aria-label="Seus itens"></div>
       <div id="tools">
         <button id="btnTimeline" type="button">Linha do tempo <b id="tlCount">0</b></button>
-        <button id="btnNotes" type="button">Caderno</button>
+        <button id="btnNotes" type="button">Anotações</button>
       </div>
     </div>
   </div>
@@ -531,13 +538,9 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
   <div id="ovNotes" class="ov" hidden>
     <div class="ovIn wide">
       <div class="spiral">
-        <section class="pg cec">
-          <h3>Caderno da Cecília</h3>
-          <ul id="cecNotes"></ul>
-        </section>
         <section class="pg mine">
           <h3><label for="notes">Suas anotações</label></h3>
-          <textarea id="notes" spellcheck="false" placeholder="Escreva aqui o que achar. Fica salvo."></textarea>
+          <textarea id="notes" spellcheck="false" placeholder="Escreva aqui o que achar: senhas, horas, o que o rádio disse. Fica salvo."></textarea>
         </section>
       </div>
       <div class="ovBar"><button type="button" class="close">Fechar</button></div>
@@ -673,51 +676,29 @@ const PAPERS = [
     html: `<div class="stamp">Código Morse · internacional</div>
       <div class="morse-tab"><span><b>A</b> ·−</span><span><b>B</b> −···</span><span><b>C</b> −·−·</span><span><b>D</b> −··</span><span><b>E</b> ·</span><span><b>F</b> ··−·</span><span><b>G</b> −−·</span><span><b>H</b> ····</span><span><b>I</b> ··</span><span><b>J</b> ·−−−</span><span><b>K</b> −·−</span><span><b>L</b> ·−··</span><span><b>M</b> −−</span><span><b>N</b> −·</span><span><b>O</b> −−−</span><span><b>P</b> ·−−·</span><span><b>Q</b> −−·−</span><span><b>R</b> ·−·</span><span><b>S</b> ···</span><span><b>T</b> −</span><span><b>U</b> ··−</span><span><b>V</b> ···−</span><span><b>W</b> ·−−</span><span><b>X</b> −··−</span><span><b>Y</b> −·−−</span><span><b>Z</b> −−··</span><span><b>1</b> ·−−−−</span><span><b>2</b> ··−−−</span><span><b>3</b> ···−−</span><span><b>4</b> ····−</span><span><b>5</b> ·····</span><span><b>6</b> −····</span><span><b>7</b> −−···</span><span><b>8</b> −−−··</span><span><b>9</b> −−−−·</span><span><b>0</b> −−−−−</span></div>
       <p class="sign">· ponto curto &nbsp; − traço longo &nbsp;·&nbsp; espaço entre letras, barra entre palavras</p>` },
-  { id: 1, date: '1948-01-01', when: '1948', kind: 'planta', voice: '—', where: 'Oficina, na parede',
+  { id: 1, date: '1948-01-01', when: '1948', kind: 'planta', voice: '—', where: 'Oficina, pregada na parede',
     title: 'Planta da casa',
     html: `<div class="stamp">Sobrado — Rua Monte Alegre — 1948</div>
       <p>Porão. Carvoeira. Corredor de serviço até a travessa.</p><p class="sign">Fechado 1963.</p>` },
-  { id: 2, date: '1974-03-01', when: 'mar 1974', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, na bancada',
-    title: 'Caderno 4 de Aurélio',
-    html: `<div class="stamp">Caderno 4</div>
-      <p>Montei o receptor com as válvulas do rádio velho e duas que trouxe do IPEN.</p>
-      <p>Pega coisa que a Rádio Gazeta não pega.</p>
-      <p>A Lúcia diz que o porão cheira a queimado. É o estanho.</p>` },
-  { id: 3, date: '1974-11-01', when: 'nov 1974', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, numa gaveta',
-    title: 'Caderno 5 de Aurélio',
-    html: `<div class="stamp">Caderno 5</div>
-      <p>Na faixa 23.10 tem um sinal que repete. Não é radioamador, não é a polícia, não é a torre do Sumaré.</p>
-      <p>Pontos e traços, sempre a mesma sequência. Toda noite.</p><p>Anotei tudo.</p>` },
-  { id: 4, date: '1975-02-01', when: 'fev 1975', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, dentro do rádio',
-    title: 'Caderno 6 de Aurélio',
-    html: `<div class="stamp">Caderno 6</div>
-      <p>Decifrei. Não são letras, são números.</p>
-      <p class="h">06 06 76 &nbsp;·&nbsp; 23 10 &nbsp;·&nbsp; 875A-10</p>
-      <p>Uma data, uma hora e um número de ônibus. Seis, seis, seis. Não gosto disso.</p>
-      <p>Mas alguém está chamando. E chama esta casa.</p>` },
-  { id: 5, date: '1976-05-01', when: 'mai 1976', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, embaixo da caixa de chumbo',
-    title: 'Caderno 8 de Aurélio',
-    html: `<div class="stamp">Caderno 8</div>
-      <p>Não existe linha 875A-10. Mas existe um ônibus que acaba em Perdizes e passa na Cardoso de Almeida.</p>
-      <p>Dia 6 eu espero na janela. Não levo a amostra. Levo o receptor pequeno, na caixa de madeira.</p>
-      <p>Se for o que eu acho, volto antes de amanhecer.</p>` },
-  { id: 6, date: '1976-06-06', when: '6 jun 1976', kind: 'lucia', voice: 'Dona Odete (lendo)', where: 'Oficina, pregado na porta',
+  { id: 2, date: '1976-06-06', when: '6 jun 1976, 22h40', kind: 'aurelio', voice: 'Aurélio', where: 'Oficina, o caderno 9, aberto na última página',
+    title: 'Caderno 9 de Aurélio',
+    html: `<div class="stamp">Caderno 9 · 6 de junho de 1976, 22h40</div>
+      <p>A Lúcia pregou um bilhete na porta. Li. Vou assim mesmo.</p>
+      <p>Ela não entende que não é ir embora. É ir ver.</p>
+      <p>Se eu não voltar, a menina vai ler isto um dia. Marina: eu não fui embora. Eu fui ver quem chama. Se você ouvir, não vá.</p>` },
+  { id: 6, date: '1976-06-06b', when: '6 jun 1976', kind: 'lucia', voice: 'Lúcia', where: 'Oficina, pregado na porta',
     title: 'Bilhete de Lúcia',
     html: `<p>Aurélio, se você descer de novo eu vou embora com a menina.</p>
       <p>Já é quase onze horas. A Marina perguntou por que o relógio da cozinha está fazendo barulho.</p><p class="sign">— L.</p>` },
-  { id: 7, date: '1976-06-08', when: '8 jun 1976', kind: 'recorte', voice: 'Locutor', where: 'Mural de cortiça',
+  { id: 7, date: '1976-06-08', when: '8 jun 1976', kind: 'recorte', voice: 'Locutor', where: 'Oficina, dentro da bíblia de Lúcia',
     title: 'Folha de S.Paulo: técnico desaparece',
     html: `<div class="paperName">Folha de S.Paulo · terça-feira, 8 de junho de 1976 · Cidade</div>
-      <p class="h">Técnico do IPEN desaparece em Perdizes</p>
+      <p class="h">Técnico do Ipen desaparece em Perdizes</p>
       <div class="body"><p>O técnico Aurélio Toledo, 41, saiu de casa na noite de domingo, no sobrado da Rua Monte Alegre, e não foi mais visto.</p>
       <p>Segundo a esposa, a costureira Lúcia Toledo, ele saiu de noite carregando uma caixa e não disse para onde ia. A filha do casal tem oito anos.</p>
       <p>A polícia trabalha com a hipótese de abandono do lar.</p></div>` },
-  { id: 8, date: '1986-04-20', when: 'abr 1986', kind: 'marina', voice: 'Marina', where: 'Gaveta do meio da cômoda',
-    title: 'Folha de fichário de Marina',
-    html: `<p>Li os nove cadernos.</p><p>Ele não fugiu. Ele não largou a gente.</p>
-      <p>Ele foi atrás do sinal.</p><p>Faz dez anos. Este ano acaba em 6.</p>` },
-  { id: 15, date: '1986-04-22', when: '22 abr 1986', kind: 'marina mapa', voice: 'Marina', where: 'Gaveta de cima da cômoda',
-    title: 'Mapas de Marina: o caminho do ônibus',
+  { id: 15, date: '1986-04-22', when: '22 abr 1986', kind: 'marina mapa', voice: 'Marina', where: 'Gaveta de cima da cômoda, dobrado dentro do diário',
+    title: 'Mapa de Marina: o caminho do ônibus',
     html: `<svg viewBox="0 0 320 300" role="img" aria-label="Mapa desenhado à mão do caminho do ônibus 875A, da Paulista até a casa">
       <g fill="none" stroke="#1f3a7a" stroke-width="1.2" opacity=".55">
         <path d="M20 270 H300"/><path d="M80 40 V290"/><path d="M110 20 V250"/><path d="M60 250 H260"/>
@@ -727,38 +708,41 @@ const PAPERS = [
         <text x="94" y="60" transform="rotate(90 94 60)">R. Cardoso de Almeida</text>
         <text x="238" y="138">R. Monte Alegre</text></g>
       <path d="M200 286 V250 H110 V120 H230 V196" fill="none" stroke="#8a1f1f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <g fill="#8a1f1f" font-family="Kalam, cursive" font-size="15">
-        <path d="M200 262 l-7 12 h14z"/><text x="208" y="276">1</text>
-        <path d="M150 250 l12 -7 v14z"/><text x="146" y="270">2</text>
-        <path d="M110 175 l-7 12 h14z"/><text x="88" y="186">3</text>
-        <path d="M180 120 l-12 -7 v14z"/><text x="176" y="140">4</text>
-        <path d="M230 170 l-7 -12 h14z"/><text x="240" y="170">5</text></g>
       <g stroke="#1d1a14" stroke-width="3"><path d="M222 196 l16 16 M238 196 l-16 16"/></g>
       <text x="248" y="216" font-family="Kalam, cursive" font-size="12" fill="#1d1a14">casa</text>
       <text x="150" y="104" font-family="Kalam, cursive" font-size="12" fill="#8a1f1f">aqui ele vira errado</text>
     </svg>
     <p>O 875A não entra na Monte Alegre. Nunca entrou. Só no dia 6.</p>` },
-  { id: 9, date: '1986-06-04', when: '4 jun 1986', kind: 'marina', voice: 'Marina', where: 'Atrás da pintura do corredor',
+  { id: 9, date: '1986-06-04', when: '4 jun 1986', kind: 'marina', voice: 'Marina', where: 'Atrás da pintura do corredor, numa rachadura',
     title: 'Marina, dois dias antes',
-    html: `<p>Pintei o corredor na parede.</p>
+    html: `<p>Terminei a faixa do corredor.</p>
       <p>Se eu não voltar, quem achar a oficina sabe o caminho.</p>
       <p>Amarelo. Sempre à esquerda. Até ouvir o motor.</p>` },
-  { id: 10, date: '1986-06-09', when: '9 jun 1986', kind: 'recorte', voice: 'Locutor', where: 'Mural de cortiça',
+  { id: 10, date: '1986-06-09', when: '9 jun 1986', kind: 'recorte', voice: 'Locutor', where: 'Estante, nos jornais de junho de 1986',
     title: 'Notícias Populares: some na mesma casa',
     html: `<div class="paperName">Notícias Populares · segunda-feira, 9 de junho de 1986</div>
       <p class="h">Filha de desaparecido some na mesma casa, dez anos depois</p>
       <div class="body"><p>Marina Toledo, 18, sumiu na noite de sexta-feira do sobrado da Rua Monte Alegre, em Perdizes, de onde o pai, o técnico Aurélio Toledo, desapareceu em junho de 1976.</p>
       <p>A mãe disse ter ouvido passos na escada do porão às 23h10. Ao descer, não encontrou a filha.</p>
       <p>A polícia informou que só abre investigação depois de 24 horas.</p></div>` },
-  { id: 11, date: '1996-05-20', when: 'mai 1996', kind: 'cecilia', voice: 'Cecília', where: 'Caderno da Cecília',
-    title: 'Cecília, depois de falar com Dona Odete',
-    html: `<p>Dona Odete me contou os dois.</p><p>O pai em 76. A filha em 86.</p>
-      <p>Sempre 6 de junho.</p><p>Este ano acaba em 6.</p><p>Eu durmo no porão deles.</p>` },
-  { id: 12, date: '1996-06-06', when: '6 jun 1996', kind: 'cecilia molhada', voice: 'Cecília', where: 'Corredores, no chão',
+  { id: 17, date: '1986-08-20', when: '20 ago 1986', kind: 'lucia', voice: 'Lúcia', where: 'Oficina, dentro da bíblia, dobrada no Salmo 23',
+    title: 'Carta de Lúcia, não enviada',
+    html: `<div class="stamp">São Paulo, 20 de agosto de 1986</div>
+      <p>Marina, vou embora desta casa amanhã. A Odete fica com a chave até alguém alugar.</p>
+      <p>A caixa do seu pai continua embaixo da bancada. Eu não mexi. Ele pediu, e você também, os dois com a mesma letra.</p>
+      <p>O rádio dele falava sozinho às onze e dez, na faixa que ele marcava em tudo. Ontem ele falou de novo. Tirei da tomada. Continuou.</p>
+      <p>Se você voltar, a chave está com a Odete.</p><p class="sign">Mãe</p>` },
+  { id: 11, date: '1996-05-17', when: 'mai 1996', kind: 'cecilia', voice: 'Cecília', where: 'Mural da Cecília',
+    title: 'A folha de Marina, copiada pela Cecília',
+    html: `<p><small>(copiei da folha que estava embaixo do forro da gaveta do meio. canto de cima: “abr 86”. sem nome.)</small></p>
+      <p>Li os nove cadernos. Ele não fugiu. Ele não largou a gente. Ele foi atrás do sinal. Faz dez anos. Este ano acaba em 6. Preciso saber a <span class="dupla">ROTA</span>.</p>
+      <p><small>sublinhado duas vezes, com força. sublinhado não é senha, é pergunta. ou é?</small></p>` },
+  { id: 12, date: '1996-06-06', when: '6 jun 1996, 22h58', kind: 'cecilia molhada', voice: 'Cecília', where: 'Corredor, no chão da primeira bifurcação',
     title: 'Cecília, no ônibus',
-    html: `<p>No ônibus. O letreiro apagou.</p><p>Ele virou na Monte Alegre.</p>
-      <p>Vou descer e <span class="run">conferir no diário</span>.</p>` },
-  { id: 13, date: '1996-06-07', when: '7 jun 1996', kind: 'marina mofo', voice: 'Marina', where: 'Corredores, preso num cano',
+    html: `<p>Ele não parou na minha esquina. Apertei a campainha e não tocou.</p>
+      <p>O letreiro apagou. 7 A PERDI, depois nada.</p><p>Ele virou na Monte Alegre. 23h09 no relógio do painel.</p>
+      <p>Vou descer e tentar o <span class="run">cadead</span></p>` },
+  { id: 13, date: '1996-06-07', when: '7 jun 1996', kind: 'marina mofo', voice: 'Marina', where: 'Corredor, enfiado num cano, onde a faixa vira',
     title: 'Marina, do lado de lá',
     html: `<p>Ceci está comigo e com meu pai. Trouxe a caixa errada.</p>
       <p>Quem vier: a de chumbo, na bancada.</p><p>Antes das cinco e dez.</p>` },
@@ -767,38 +751,25 @@ const PAPERS = [
     html: `<p>Deixem no banco e desçam.</p><p>Não olhem pra trás.</p><p>Eu abri; eu fecho.</p>` },
 ];
 
-// Diário de Marina (1986). As partes cifradas vêm com as letras invertidas.
+// Diário de Marina (1986): capa dura verde, com elástico. O que está em itálico ela copiou dos cadernos do pai.
 const DIARY = [
-  { d: '12 de março de 1986', t: 'Consegui o porão. Mamãe chorou, disse que lá embaixo é frio. É frio. Mas era dele, e agora é meu. Tito dorme no pé da cama.', c: 'osav on arom zul a' },
-  { d: '3 de abril', t: 'Achei a lanterna do papai na gaveta, a que mostra as marquinhas dos relógios. Mamãe não pode saber que eu mexo nas coisas dele. Tito late para a parede da cômoda.', c: 'orucse on avagrexne iap uem' },
-  { d: '22 de abril', t: 'Desenhei o caminho do ônibus da Paulista até aqui. Tem uma esquina em que ele vira errado. Guardei meus mapas onde só cabe a palavra do ônibus.' },
-  { d: '9 de maio', t: 'Eu tinha oito anos. Ouvi o papai descer a escada e o relógio da cozinha parar. Vinte e três e dez. Mamãe diz que eu sonhei. Tito latiu até de manhã. A casa escuta às 23h10.' },
-  { d: '18 de maio', t: 'Mamãe trancou a gaveta de baixo com as fotos dele. Roubei a chave.', c: 'ohniuqrop on emrod evahc a' },
-  { d: '25 de maio', t: 'Vou filmar o que ele filmou. A Super 8 dele não funciona mais; peguei a VHS do tio emprestada. A fita fica na gaveta de baixo.' },
-  { d: '28 de maio', t: 'Meu pai era o inventor da família. Técnico do IPEN, relojoeiro em casa, nunca comprou nada que pudesse construir. Hoje descobri que o labirinto da parede não é enfeite: é a tranca de uma oficina que ninguém sabia que existia. Primeiro a bolinha, que eu plantei com a planta. Ela roda pelo cano e destrava o painel. Entrei. Tem nove cadernos.' },
-  { d: '1º de junho', t: 'Li os nove. Ele foi atrás do sinal. Um rádio que ele montou pegou, em morse, uma data, uma hora e o número de um ônibus. Ele decifrou, descobriu o ônibus e esperou. Ele deixou aberto: todo seis de junho de ano que acaba em seis, das vinte e três e dez às cinco e dez. Seis horas. Faz dez anos. É daqui a cinco dias.' },
-  { d: '4 de junho', t: 'Atrás da estante tem um corredor amarelo. Vi pela fresta. Eu pintei igual na parede, pra não esquecer o caminho.' },
-  { d: '6 de junho de 1986', t: 'Hoje eu vou buscar ele. Se alguém ler isso: ele para onde a Monte Alegre acaba, às 23h10, e fecha às 5h10. Não entra sem saber fechar.', ceci: '6/6/1996 — eu sei fechar. acho.' },
+  { d: '12 de abril de 1986', t: 'Mãe foi para Sorocaba cuidar da tia Zilda. Duas semanas. Pela primeira vez desde os oito anos eu desci. Eu sabia da oficina. Fica atrás da parede da cômoda, e a tranca é um labirinto de vidro que ele embutiu no tijolo: a bolinha entra por cima, desce, e a parede corre com a cômoda junto. No dia em que ele não voltou, eu enterrei a bolinha no vaso da espada-de-são-jorge, para ninguém entrar. Hoje eu desenterrei.' },
+  { d: '14 de abril', t: 'Li os nove. Não dormi. Copio o que importa.<br><i>CADERNO 5 — novembro de 1974. Na faixa 23.10 tem um sinal que repete. Começa às 23h10 e dura seis minutos. Pontos e traços, sempre a mesma sequência, toda noite.</i><br><i>CADERNO 6 — fevereiro de 1975. Decifrei. Não são letras, são números. 06 06 76 · 23 10 · 875A-10. Uma data, uma hora e um número de ônibus. Mas alguém está chamando. E chama esta casa.</i>' },
+  { d: '18 de abril', t: 'Comecei a passar os cadernos 7, 8 e 9 para o CP-500. Um arquivo só: PAI.TXT. Pus senha, porque a mãe desce aqui de vez em quando para chorar e não precisa ler. A senha é o dia e o mês que ele marcou. Quatro números.' },
+  { d: '20 de abril', t: 'Liguei o receptor. Girei o dial até 23.10. Onze e nove: o relógio dela na parede deu um tique. Um só. Onze e dez: pontos e traços. É igual ao caderno 5, menos o terceiro grupo. Onde era 76, agora é 86. Ele não fugiu. Ele foi atrás do sinal. Está chamando de novo.' },
+  { d: '22 de abril', t: 'Preciso saber a ROTA. Peguei o 875A na Paulista, em frente ao 900, e desenhei por onde ele passa. Passa a dois quarteirões da nossa casa e nunca entra na nossa rua. Marquei onde ele teria que virar, se virasse: “aqui ele vira errado”.' },
+  { d: '25 de abril', t: 'A Dona Odete viu o ônibus parar na nossa porta em 76, de noite, apagado, e meu pai subir com uma caixa. “Esse ônibus não entra na Monte Alegre, menina. Nunca entrou. Só no dia 6.”' },
+  { d: '9 de maio', t: 'Abri o corredor. Depois do sinal de sempre veio outro, mais devagar. Copiei com a tabela que ele pregou na parede, letra por letra. Era o nome de um livro da estante. Puxei até o fim. A estante girou sem barulho. Atrás, uma porta de madeira baixa. Tijolo sem reboco, chão de terra seco. Lá na frente, longe, um motor. Parado, ligado, esperando.' },
+  { d: '12 de maio', t: 'Tinta amarela da garagem. Fui pintando uma faixa na parede do corredor, na altura do ombro, por onde eu ia. Em cada bifurcação, esquerda. A direita volta. A esquerda vai.' },
+  { d: '4 de junho', t: 'Terminei a faixa do corredor. Se eu não voltar, quem achar a oficina sabe o caminho. Amarelo. Sempre à esquerda. Até ouvir o motor.' },
+  { d: '6 de junho de 1986, 22h50', t: 'Deixo este diário na gaveta de cima da cômoda, com o cadeado. A palavra é ROTA. A caixa fica. Ele entrou pela frente, pelo ônibus. Eu vou pelo corredor. Vou descer às onze e dez. Levo a lanterna dele e a filmadora.<br>Mãe: eu não fui embora.' },
 ];
 
-// Páginas que a Cecília já tinha escrito no caderno dela.
-const CECI_NOTES = [
-  'Diário de uma Marina. 1986. Ela morava aqui. Ela sumiu daqui. O pai dela também.',
-  'Código dela: inverte as letras. Às vezes número = letra.',
-  'Fusível no vaso. Luz funciona. Por que ninguém trocou em dez anos?',
-  'Cachorro Tito. Senha?',
-  'Dona Odete: o pai em 76, a menina em 86. Sempre 6 de junho. Sempre 23h10. Este ano acaba em 6.',
-  'Tem uma caixa. Marina fala de uma caixa. Achei uma na gaveta de baixo. Deve ser essa. <small>(riscado depois: não era)</small>',
-  '6/6. No ônibus. O letreiro apagou. Ele entrou na Monte Alegre. Vou conferir no diário e descer.',
-];
 
 const ITEMS = {
-  fusivel: { name: 'Fusível', desc: 'Um fusível de rosca. Parece bom.' },
+  fusivel: { name: 'Fusível', desc: 'Um fusível de rosca, da lata de peças do Aurélio. Parece bom.' },
   uv: { name: 'Luz negra', desc: 'A lanterninha roxa do Seu Aurélio, de ver marca de relojoeiro. Com ela na mão, aparece o que está escrito invisível.' },
-  martelo: { name: 'Martelo', desc: 'Martelo de unha, cabo de madeira, enferrujado.' },
-  chave: { name: 'Chave pequena', desc: 'Uma chave pequena, de gaveta. Estava dentro do porquinho.' },
   fita: { name: 'Fita VHS', desc: 'Uma fita VHS. Na etiqueta, letra da Marina: “JUN 86”.' },
-  cracha: { name: 'Crachá', desc: 'Crachá plastificado do IPEN: AURÉLIO TOLEDO · TÉCNICO · RADIOQUÍMICA. A foto é a do homem do porta-retrato.' },
 };
 
 const INTRO = [
@@ -822,7 +793,7 @@ const MAZE = {
 const VIEWS_EXTRA = ['Oficina', 'Corredor', 'Última parada'];
 VIEWS.push(...VIEWS_EXTRA);
 ITEMS.bolinha = { name: 'Bolinha de aço', desc: 'Uma bolinha de aço, do tamanho de uma bolinha de gude. Estava enterrada na terra da espada-de-são-jorge.' };
-ITEMS.caixa = { name: 'Caixa de chumbo', desc: 'Pesada demais para o tamanho. Chumbo, com o trevo amarelo de radiação pintado à mão. Não abre. Não deve abrir.' };
+ITEMS.caixa = { name: 'Caixa de chumbo', desc: 'Cinza, fosca, com alça. Onze quilos. Fria como se tivesse saído da geladeira. Não abre. Ninguém nesta história abre.' };
 
 // ===== paint.js — texturas e utilidades de desenho =====
 const W = 1600, H = 900, FLOOR = 720, WALL_TOP = 95;
@@ -1008,7 +979,7 @@ function note(ctx, x, y, w, h, rot, col) {
   ctx.restore();
 }
 
-// ===== wall0.js — parede da escada (LED, janelinha, relógio, quadro de luz) =====
+// ===== wall0.js — parede da escada (janelinha, quadro de luz, lata da goteira) =====
 const ART = [], EMIT = [];
 const LAMP_X = [1190, 300, 820, 1330];
 
@@ -1100,29 +1071,6 @@ ART[0] = function (ctx, st) {
   pipe(ctx, [[1010, 112], [1600, 112]], 12, '#3e3c36', 'rgba(220,210,190,.25)');
   pipe(ctx, [[1545, WALL_TOP], [1545, 600], [1510, 640], [1510, FLOOR]], 16, '#b9b2a0', 'rgba(255,255,255,.4)');
 
-  // visor de LED acima da escada
-  castShadow(ctx, 650, 215, 300, 82, 22);
-  ctx.fillStyle = '#0d0c0b'; ctx.fillRect(650, 215, 300, 82);
-  ctx.fillStyle = '#1d0806'; ctx.fillRect(662, 226, 276, 60);
-  seg7(ctx, '88:88', 690, 234, 44, 'rgba(90,20,12,.35)', null);
-  bevel(ctx, 650, 215, 300, 82, 4);
-  ctx.strokeStyle = '#0a0908'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(940, 260); ctx.lineTo(1010, 112); ctx.stroke();
-
-  // relógio de cozinha parado às 23:10
-  const cx = 1040, cy = 300;
-  castShadow(ctx, cx - 52, cy - 52, 104, 104, 24);
-  ctx.fillStyle = '#c9bb92'; ctx.beginPath(); ctx.arc(cx, cy, 60, 0, 7); ctx.fill();
-  ctx.fillStyle = '#e6dcc0'; ctx.beginPath(); ctx.arc(cx, cy, 50, 0, 7); ctx.fill();
-  stain(ctx, cx + 14, cy + 18, 30, 20, 'rgba(120,90,40,A)', .35);
-  ctx.fillStyle = '#2a2418';
-  for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; ctx.fillRect(cx + Math.sin(a) * 42 - 2, cy - Math.cos(a) * 42 - 2, 4, i % 3 ? 4 : 8); }
-  const hand = (ang, len, wd, col) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(ang) * len, cy - Math.cos(ang) * len); ctx.stroke(); };
-  hand((11 + 10 / 60) / 12 * Math.PI * 2, 26, 5, '#1b1712');
-  hand(10 / 60 * Math.PI * 2, 38, 3.5, '#1b1712');
-  hand((st.flags.ev340 ? 42 : 41) / 60 * Math.PI * 2, 40, 1.5, '#8a1d14');
-  ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.beginPath(); ctx.ellipse(cx - 18, cy - 22, 22, 10, -.6, 0, 7); ctx.fill();
-  note(ctx, cx - 30, cy + 66, 62, 38, .06, '#d6c99c');
-
   // quadro de luz
   castShadow(ctx, 1290, 300, 170, 230, 30);
   ctx.fillStyle = '#2b2f29'; ctx.fillRect(1290, 300, 170, 230);
@@ -1151,7 +1099,7 @@ ART[0] = function (ctx, st) {
   lamp(ctx, LAMP_X[0]);
 };
 
-// o que brilha mesmo no escuro: a fresta da porta lá em cima, a rua, o LED ligado
+// o que brilha mesmo no escuro: a fresta da porta lá em cima, a rua
 EMIT[0] = function (ctx, st, t) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   const fl = .8 + Math.sin(t / 900) * .05;
@@ -1163,16 +1111,10 @@ EMIT[0] = function (ctx, st, t) {
   s.addColorStop(0, 'rgba(255,140,50,.16)'); s.addColorStop(1, 'rgba(255,140,50,0)');
   ctx.fillStyle = s; ctx.fillRect(760, 104, 250, 76);
   ctx.fillStyle = 'rgba(255,150,70,.07)'; ctx.fillRect(770, 154, 230, 3);
-  if (st.power) {
-    seg7(ctx, clockText(), 690, 234, 44, '#ff3a1e', null);
-    const lg = ctx.createRadialGradient(800, 256, 10, 800, 256, 220);
-    lg.addColorStop(0, 'rgba(255,40,10,.22)'); lg.addColorStop(1, 'rgba(255,40,10,0)');
-    ctx.fillStyle = lg; ctx.fillRect(580, 120, 440, 280);
-  }
   ctx.restore();
 };
 
-// ===== wall1.js — parede da estante (Barsa, porquinho, pintura de Marina, fusível) =====
+// ===== wall1.js — parede da estante (Barsa, porquinho, pintura de Marina, espada-de-são-jorge) =====
 function shelfFrame(ctx, x, y, w, h, shelves) {
   castShadow(ctx, x, y, w, h, 40);
   wood(ctx, x, y, w, h, '#160e07', 41, 'v');
@@ -1226,8 +1168,8 @@ ART[1] = function (ctx, st) {
     floorShadow(ctx, X, EW, 50);
 
     // prateleira 1: porquinho, santinho, Guia Quatro Rodas, lata de Sonho de Valsa
-    if (!st.pigBroken) porquinho(ctx, 612, 222);
-    else {
+    porquinho(ctx, 612, 222);
+    if (false) {
       ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(615, 249, 60, 5, 0, 0, 7); ctx.fill();
       const shards = [[[566, 249], [590, 222], [606, 238], [598, 249]], [[604, 249], [612, 226], [640, 230], [636, 249]],
         [[640, 249], [650, 236], [676, 241], [668, 249]], [[586, 249], [578, 240], [560, 246]]];
@@ -1244,7 +1186,7 @@ ART[1] = function (ctx, st) {
     ctx.fillStyle = '#8e2b35'; ctx.fillRect(960, 204, 118, 46); ctx.fillStyle = '#b78a3a'; ctx.fillRect(958, 198, 122, 9);
     ctx.fillStyle = 'rgba(240,220,200,.3)'; ctx.font = 'italic 13px Georgia'; ctx.fillText('Sonho de Valsa', 972, 232);
 
-    // prateleira 2: Enciclopédia Barsa, falta o volume 7
+    // prateleira 2: Enciclopédia Barsa; o 7 tombou para o fundo (o buraco)
     let bx = 550;
     for (let v = 1; v <= 14; v++) {
       if (v === 7) { ctx.fillStyle = '#020101'; ctx.fillRect(bx, 276, 36, 104); bx += 38; continue; }
@@ -1285,32 +1227,30 @@ ART[1] = function (ctx, st) {
       ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.fillRect(560 + i * 170, 690, 150, 2); }
   }
 
-  // pintura do corredor amarelo (Marina, 1986)
-  const P = { x: 1200, y: 170, w: 300, h: 440 }, vx = 1352, vy = 362, fx0 = 1322, fx1 = 1382, fy0 = 332, fy1 = 398;
+  // pintura de Marina (1986): o corredor de tijolo, pintado direto no reboco, com a faixa amarela virando à esquerda
+  const P = { x: 1200, y: 170, w: 300, h: 440 }, fx0 = 1322, fx1 = 1382, fy0 = 332, fy1 = 398;
   castShadow(ctx, P.x, P.y, P.w, P.h, 14);
-  ctx.fillStyle = '#d2b44a'; poly(ctx, [[P.x, P.y], [fx0, fy0], [fx0, fy1], [P.x, P.y + P.h]]); ctx.fill();
-  ctx.fillStyle = '#8f7526'; poly(ctx, [[P.x + P.w, P.y], [fx1, fy0], [fx1, fy1], [P.x + P.w, P.y + P.h]]); ctx.fill();
-  ctx.fillStyle = '#efe0a0'; poly(ctx, [[P.x, P.y], [P.x + P.w, P.y], [fx1, fy0], [fx0, fy0]]); ctx.fill();
-  ctx.fillStyle = '#4b3a14'; poly(ctx, [[P.x, P.y + P.h], [P.x + P.w, P.y + P.h], [fx1, fy1], [fx0, fy1]]); ctx.fill();
-  ctx.fillStyle = '#b39535'; ctx.fillRect(fx0, fy0, fx1 - fx0, fy1 - fy0);
-  ctx.fillStyle = '#0a0703'; ctx.fillRect(vx - 14, vy - 16, 28, 50);
-  // portas ao longo do corredor, uma de cada lado
-  const side = (x0, xe, t, h0) => { // x da parede a uma fração t do caminho até o fundo
-    const x = x0 + (xe - x0) * t, yTop = P.y + (fy0 - P.y) * t + 30 * (1 - t), yBot = P.y + P.h + (fy1 - P.y - P.h) * t;
-    return [x, yTop + (yBot - yTop) * h0, yBot];
-  };
-  for (const [x0, xe, col] of [[P.x, fx0, '#3a2c0c'], [P.x + P.w, fx1, '#2a1f08']]) {
-    const a = side(x0, xe, .3, .28), b = side(x0, xe, .48, .28);
-    ctx.fillStyle = col; poly(ctx, [[a[0], a[1]], [b[0], b[1]], [b[0], b[2]], [a[0], a[2]]]); ctx.fill();
+  ctx.fillStyle = '#6a4a3a'; poly(ctx, [[P.x, P.y], [fx0, fy0], [fx0, fy1], [P.x, P.y + P.h]]); ctx.fill();
+  ctx.fillStyle = '#4f352a'; poly(ctx, [[P.x + P.w, P.y], [fx1, fy0], [fx1, fy1], [P.x + P.w, P.y + P.h]]); ctx.fill();
+  ctx.fillStyle = '#2b2119'; poly(ctx, [[P.x, P.y], [P.x + P.w, P.y], [fx1, fy0], [fx0, fy0]]); ctx.fill();
+  ctx.fillStyle = '#7a6240'; poly(ctx, [[P.x, P.y + P.h], [P.x + P.w, P.y + P.h], [fx1, fy1], [fx0, fy1]]); ctx.fill();
+  ctx.fillStyle = '#5a3f32'; ctx.fillRect(fx0, fy0, fx1 - fx0, fy1 - fy0);
+  ctx.fillStyle = '#0a0703'; ctx.fillRect(fx0 + 8, fy0 + 14, 22, 52);
+  // fiadas de tijolo, a pincel
+  ctx.strokeStyle = 'rgba(30,18,10,.5)'; ctx.lineWidth = 2;
+  for (const [x0, xe, yt, yb] of [[P.x, fx0, P.y, P.y + P.h], [P.x + P.w, fx1, P.y, P.y + P.h]]) {
+    for (let k = 1; k < 10; k++) { const f = k / 10; ctx.beginPath(); ctx.moveTo(x0, yt + (yb - yt) * f); ctx.lineTo(xe, fy0 + (fy1 - fy0) * f); ctx.stroke(); }
+    for (let i = 1; i < 8; i++) { const t = i / 8, x = x0 + (xe - x0) * t; for (let k = i % 2; k < 10; k += 2) { const ya = (yt + (yb - yt) * k / 10) * (1 - t) + (fy0 + (fy1 - fy0) * k / 10) * t, yb2 = (yt + (yb - yt) * (k + 1) / 10) * (1 - t) + (fy0 + (fy1 - fy0) * (k + 1) / 10) * t; ctx.beginPath(); ctx.moveTo(x, ya); ctx.lineTo(x, yb2); ctx.stroke(); } }
   }
-  for (let k = 0; k < 3; k++) {
-    const t = [.15, .42, .68][k], lx = (a, b) => a + (b - a) * t;
-    ctx.fillStyle = 'rgba(250,245,215,.85)';
-    poly(ctx, [[lx(1290, 1338), lx(P.y + 8, fy0)], [lx(1410, 1366), lx(P.y + 8, fy0)], [lx(1400, 1362), lx(P.y + 26, fy0 + 3)], [lx(1300, 1342), lx(P.y + 26, fy0 + 3)]]); ctx.fill();
-  }
+  // a faixa amarela, na altura do ombro, dos dois lados; na esquerda ela vira e some numa abertura
+  const faixa = (x0, xe, yt, yb) => { const f0 = .5, f1 = .58; ctx.fillStyle = 'rgba(214,176,52,.9)';
+    poly(ctx, [[x0, yt + (yb - yt) * f0], [xe, fy0 + (fy1 - fy0) * f0], [xe, fy0 + (fy1 - fy0) * f1], [x0, yt + (yb - yt) * f1]]); ctx.fill(); };
+  faixa(P.x, fx0, P.y, P.y + P.h); faixa(P.x + P.w, fx1, P.y, P.y + P.h);
+  ctx.fillStyle = '#120c06'; poly(ctx, [[1262, 268], [1292, 282], [1292, 472], [1262, 500]]); ctx.fill();
+  ctx.fillStyle = 'rgba(214,176,52,.9)'; poly(ctx, [[1240, 368], [1266, 372], [1266, 392], [1240, 390]]); ctx.fill();
   const r = rng(5);
   ctx.lineWidth = 3;
-  for (let i = 0; i < 260; i++) { ctx.strokeStyle = rgba(150 + r() * 80, 120 + r() * 60, 30 + r() * 30, .08);
+  for (let i = 0; i < 260; i++) { ctx.strokeStyle = rgba(120 + r() * 60, 80 + r() * 40, 50 + r() * 30, .08);
     const sx = P.x + r() * P.w, sy = P.y + r() * P.h; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + r() * 30 - 15, sy + r() * 8 - 4); ctx.stroke(); }
   ctx.strokeStyle = 'rgba(40,28,10,.6)'; ctx.lineWidth = 2;
   for (const [a, b] of [[[P.x, P.y], [fx0, fy0]], [[P.x + P.w, P.y], [fx1, fy0]], [[P.x, P.y + P.h], [fx0, fy1]], [[P.x + P.w, P.y + P.h], [fx1, fy1]]]) {
@@ -1319,7 +1259,7 @@ ART[1] = function (ctx, st) {
   ctx.strokeStyle = 'rgba(30,20,8,.5)'; ctx.lineWidth = 1;
   for (let i = 0; i < 6; i++) { let cx = P.x + r() * P.w, cy = P.y + r() * P.h; ctx.beginPath(); ctx.moveTo(cx, cy);
     for (let j = 0; j < 5; j++) { cx += r() * 30 - 15; cy += r() * 24; ctx.lineTo(cx, cy); } ctx.stroke(); }
-  ctx.fillStyle = 'rgba(60,40,10,.8)'; ctx.font = '16px "Kalam", cursive'; ctx.fillText('M.T. 86', P.x + P.w - 70, P.y + P.h - 12);
+  ctx.fillStyle = 'rgba(240,220,160,.85)'; ctx.font = '16px "Kalam", cursive'; ctx.fillText('M.T. 86', P.x + P.w - 70, P.y + P.h - 12);
 
   // espada-de-são-jorge morta
   floorShadow(ctx, 360, 100, 30);
@@ -1334,16 +1274,6 @@ ART[1] = function (ctx, st) {
     ctx.restore();
   });
 
-  // fusível caído no chão
-  if (!st.fuseTaken) {
-    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.beginPath(); ctx.ellipse(1176, 772, 26, 6, 0, 0, 7); ctx.fill();
-    ctx.save(); ctx.translate(1170, 760); ctx.rotate(.35);
-    ctx.fillStyle = '#3a2316'; ctx.fillRect(-16, -11, 26, 22);
-    ctx.fillStyle = '#9c8656'; ctx.fillRect(10, -8, 12, 16);
-    ctx.strokeStyle = '#5c4b2c'; ctx.lineWidth = 1.5; for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(12 + i * 3, -8); ctx.lineTo(12 + i * 3, 8); ctx.stroke(); }
-    ctx.fillStyle = 'rgba(255,240,200,.35)'; ctx.fillRect(-14, -9, 20, 3);
-    ctx.restore();
-  }
   lamp(ctx, LAMP_X[1]);
 };
 EMIT[1] = function () {};
@@ -1464,8 +1394,19 @@ ART[2] = function (ctx, st) {
   drawer(ctx, X + 8, 538, CW - 16, 80, 222, st.open.gav2);
   drawer(ctx, X + 8, 450, CW - 16, 80, 221, st.open.gav1);
   if (!st.open.gav1) padlock(ctx, X + CW - 33, 452, 'letters');
-  if (!st.open.gav2) padlock(ctx, X + CW - 33, 540, 'numbers');
-  if (!st.open.gav3) padlock(ctx, X + CW - 33, 624, 'key');
+  // o relógio de cozinha da Lúcia, parado às 23:10, na parede em cima da cômoda (corre com o painel)
+  { const cx = X + 160, cy = 356;
+    castShadow(ctx, cx - 44, cy - 44, 88, 88, 20);
+    ctx.fillStyle = '#c9bb92'; ctx.beginPath(); ctx.arc(cx, cy, 50, 0, 7); ctx.fill();
+    ctx.fillStyle = '#e6dcc0'; ctx.beginPath(); ctx.arc(cx, cy, 42, 0, 7); ctx.fill();
+    stain(ctx, cx + 12, cy + 15, 24, 16, 'rgba(120,90,40,A)', .35);
+    ctx.fillStyle = '#2a2418';
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; ctx.fillRect(cx + Math.sin(a) * 35 - 2, cy - Math.cos(a) * 35 - 2, 4, i % 3 ? 4 : 7); }
+    const hand = (ang, len, wd, col) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(ang) * len, cy - Math.cos(ang) * len); ctx.stroke(); };
+    hand((11 + 10 / 60) / 12 * Math.PI * 2, 22, 4.5, '#1b1712');
+    hand(10 / 60 * Math.PI * 2, 32, 3, '#1b1712');
+    hand((st.flags.ev340 ? 42 : 41) / 60 * Math.PI * 2, 34, 1.5, '#8a1d14');
+    ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.beginPath(); ctx.ellipse(cx - 15, cy - 18, 18, 8, -.6, 0, 7); ctx.fill(); }
   // paninho de crochê e porta-retrato virado para baixo
   ctx.fillStyle = 'rgba(225,220,200,.85)'; ctx.beginPath(); ctx.ellipse(X + 100, 428, 70, 7, 0, 0, 7); ctx.fill();
   ctx.strokeStyle = 'rgba(120,110,90,.6)'; ctx.lineWidth = 1;
@@ -1477,7 +1418,7 @@ ART[2] = function (ctx, st) {
 };
 EMIT[2] = function () {};
 
-// ===== wall3.js — escrivaninha (mural, diário, caderno, CP-500, TV, telefone, cama) =====
+// ===== wall3.js — escrivaninha (mural, CP-500, TV, telefone, cama) =====
 function photo(ctx, x, y, w, h, rot, inner) {
   ctx.save(); ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot);
   ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(-w / 2 + 4, -h / 2 + 5, w, h);
@@ -1539,15 +1480,10 @@ ART[3] = function (ctx, st) {
   ctx.fillStyle = '#6c6355'; ctx.fillRect(552, 492 + dy, 210, 46); bevel(ctx, 552, 492 + dy, 210, 46, 3);
   ctx.fillStyle = '#2a2722'; ctx.fillRect(640, 510 + dy, 34, 7);
 
-  // diário de Marina aberto e o caderno espiral da Cecília
-  ctx.fillStyle = '#163021'; poly(ctx, [[526, 470], [614, 470], [624, 446], [538, 446]]); ctx.fill();
-  ctx.fillStyle = '#d3c7a2'; poly(ctx, [[532, 467], [568, 467], [574, 449], [542, 449]]); ctx.fill();
-  ctx.fillStyle = '#cdbf98'; poly(ctx, [[572, 467], [608, 467], [618, 449], [578, 449]]); ctx.fill();
-  ctx.strokeStyle = 'rgba(30,50,120,.45)'; ctx.lineWidth = 1;
-  for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(540 - i * .3, 452 + i * 4); ctx.lineTo(568, 452 + i * 4); ctx.moveTo(578, 452 + i * 4); ctx.lineTo(610, 452 + i * 4); ctx.stroke(); }
-  ctx.fillStyle = '#23407e'; poly(ctx, [[624, 470], [704, 470], [712, 448], [632, 448]]); ctx.fill();
-  ctx.fillStyle = '#d8d0b8'; ctx.fillRect(642, 452, 46, 9);
-  ctx.strokeStyle = '#999'; ctx.lineWidth = 1.5; for (let i = 0; i < 14; i++) { ctx.beginPath(); ctx.arc(636 + i * 5.4, 448, 2.2, Math.PI, 0); ctx.stroke(); }
+  // um porta-lápis e a apostila do cursinho (a Cecília levou o caderno)
+  ctx.fillStyle = '#2b2b2b'; ctx.fillRect(540, 440, 26, 30); ctx.fillStyle = '#c9a23c'; ctx.fillRect(545, 424, 3, 18); ctx.fillStyle = '#3a6fb0'; ctx.fillRect(552, 420, 3, 22); ctx.fillStyle = '#b03a3a'; ctx.fillRect(559, 428, 3, 14);
+  ctx.fillStyle = '#cfc4a4'; poly(ctx, [[600, 470], [700, 470], [708, 448], [610, 448]]); ctx.fill();
+  ctx.fillStyle = '#7a1f1f'; ctx.fillRect(612, 452, 60, 5); ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.font = '10px Arial'; ctx.fillText('CURSINHO', 622, 466);
 
   // Prológica CP-500
   castShadow(ctx, 720, 292, 176, 150, 24);
@@ -1561,20 +1497,12 @@ ART[3] = function (ctx, st) {
   for (let row = 0; row < 3; row++) for (let k = 0; k < 16; k++) ctx.fillRect(718 + k * 11.2 + row * 2, 451 + row * 6, 9, 4);
   note(ctx, 868, 296, 40, 32, .12, '#d8c773');
 
-  // caixa de ferramentas com cadeado direcional
+  // caixa de ferramentas do pai da Cecília, nova, sem cadeado
   castShadow(ctx, 926, 412, 124, 56, 18);
   ctx.fillStyle = '#6b1d15'; ctx.fillRect(924, 410, 128, 58); bevel(ctx, 924, 410, 128, 58, 3);
-  speckle(ctx, 924, 410, 128, 58, 300, 330, ['rgba(40,20,10,.5)', 'rgba(160,90,40,.3)'], 3);
-  if (st.open.tool) { // tampa levantada para trás, ferramentas aparecendo
-    ctx.fillStyle = '#4e140e'; poly(ctx, [[924, 410], [1052, 410], [1040, 372], [936, 372]]); ctx.fill();
-    ctx.fillStyle = '#121010'; ctx.fillRect(928, 410, 120, 8);
-    ctx.fillStyle = '#7d7c76'; ctx.fillRect(950, 402, 40, 6); ctx.fillStyle = '#5a3a20'; ctx.fillRect(996, 398, 6, 14);
-  } else {
-    ctx.strokeStyle = '#2a2622'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(962, 410); ctx.lineTo(962, 396); ctx.lineTo(1014, 396); ctx.lineTo(1014, 410); ctx.stroke();
-    ctx.fillStyle = '#8e8d84'; ctx.beginPath(); ctx.arc(988, 446, 15, 0, 7); ctx.fill();
-    ctx.fillStyle = '#2c2b27'; ctx.beginPath(); ctx.arc(988, 446, 6, 0, 7); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.arc(983, 441, 3, 0, 7); ctx.fill();
-  }
+  speckle(ctx, 924, 410, 128, 58, 120, 330, ['rgba(40,20,10,.4)', 'rgba(160,90,40,.2)'], 3);
+  ctx.strokeStyle = '#2a2622'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(962, 410); ctx.lineTo(962, 396); ctx.lineTo(1014, 396); ctx.lineTo(1014, 410); ctx.stroke();
+  ctx.fillStyle = '#c9c2b0'; ctx.fillRect(934, 432, 108, 14); ctx.fillStyle = 'rgba(40,20,10,.8)'; ctx.font = '10px Arial'; ctx.fillText('TRAMONTINA', 955, 443);
 
   // TV de tubo no carrinho de ferro, com videocassete
   ctx.fillStyle = '#1b1b19'; for (const lx of [1086, 1292]) ctx.fillRect(lx, 470, 8, FLOOR - 476);
@@ -1597,6 +1525,11 @@ ART[3] = function (ctx, st) {
   ctx.beginPath(); ctx.moveTo(1186, 298); ctx.lineTo(1132, 196); ctx.moveTo(1196, 298); ctx.lineTo(1262, 190); ctx.stroke();
   ctx.fillStyle = '#222'; ctx.beginPath(); ctx.ellipse(1191, 296, 18, 7, 0, 0, 7); ctx.fill();
 
+  // o papel com os números da agenda, colado ao lado do telefone
+  note(ctx, 1296, 404, 100, 54, -.03, '#e4dcc2');
+  ctx.fillStyle = 'rgba(40,40,90,.85)'; ctx.font = '11px "Architects Daughter", cursive';
+  ctx.fillText('Cursinho 255-1133', 1302, 420); ctx.fillText('Dr. Ribeiro 62-4018', 1302, 434); ctx.fillText('Odete 3862-0147', 1302, 448);
+
   // criado-mudo com telefone e secretária eletrônica
   castShadow(ctx, 1322, 540, 150, 180, 30);
   wood(ctx, 1318, 538, 156, FLOOR - 538, '#3c2816', 351, 'v'); bevel(ctx, 1318, 538, 156, FLOOR - 538, 3);
@@ -1615,9 +1548,7 @@ ART[3] = function (ctx, st) {
   ctx.fillStyle = '#41314a'; ctx.fillRect(1486, 560, 114, 56);
   ctx.strokeStyle = 'rgba(200,160,90,.25)'; ctx.lineWidth = 3;
   for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.moveTo(1486 + i * 26, 560); ctx.lineTo(1486 + i * 26, 616); ctx.stroke(); ctx.beginPath(); ctx.moveTo(1486, 568 + i * 11); ctx.lineTo(1600, 568 + i * 11); ctx.stroke(); }
-  ctx.fillStyle = '#233552'; ctx.beginPath(); ctx.roundRect(1504, 498, 78, 70, 14); ctx.fill();
-  ctx.fillStyle = '#1a2840'; ctx.fillRect(1514, 530, 58, 30);
-  ctx.strokeStyle = '#111'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(1514, 505); ctx.quadraticCurveTo(1543, 470, 1572, 505); ctx.stroke();
+  ctx.fillStyle = '#5a4a36'; ctx.fillRect(1538, 486, 10, 22); ctx.fillStyle = '#3a2f22'; ctx.beginPath(); ctx.arc(1543, 486, 7, 0, 7); ctx.fill();   // o gancho vazio da mochila
 
   // tomada e fios
   ctx.fillStyle = '#c5bfae'; ctx.fillRect(1004, 598, 30, 44); ctx.fillStyle = '#222'; ctx.fillRect(1013, 610, 4, 8); ctx.fillRect(1021, 610, 4, 8);
@@ -1633,6 +1564,11 @@ EMIT[3] = function (ctx, st, t) {
   if (blink) { const g = ctx.createRadialGradient(1458, 524, 0, 1458, 524, 26); g.addColorStop(0, 'rgba(255,40,20,.95)'); g.addColorStop(.2, 'rgba(255,40,20,.4)'); g.addColorStop(1, 'rgba(255,40,20,0)'); ctx.fillStyle = g; ctx.fillRect(1430, 496, 56, 56); }
   ctx.fillStyle = 'rgba(255,40,20,.8)'; ctx.fillRect(1282, 446, 4, 4);
   ctx.fillStyle = 'rgba(90,255,120,.7)'; ctx.fillRect(884, 432, 5, 4);
+  if (st.open.gav1 && !st.cp) { // o computador acendeu sozinho: verde, cursor piscando
+    ctx.fillStyle = 'rgba(70,190,90,.22)'; ctx.beginPath(); ctx.roundRect(740, 309, 134, 96, 10); ctx.fill();
+    if ((t % 1000) < 500) { ctx.fillStyle = 'rgba(120,255,140,.9)'; ctx.fillRect(752, 322, 7, 11); }
+    const g = ctx.createRadialGradient(807, 357, 10, 807, 357, 160); g.addColorStop(0, 'rgba(80,220,110,.18)'); g.addColorStop(1, 'rgba(80,220,110,0)'); ctx.fillStyle = g; ctx.fillRect(640, 200, 340, 320);
+  }
   ctx.restore();
 };
 
@@ -1714,21 +1650,26 @@ ART[4] = function (ctx, st) {
   ctx.fillStyle = '#a28150'; ctx.fillRect(404, 578, 32, 8);
   floorShadow(ctx, 250, 1100, 50);
 
-  // cadernos quadriculados
-  if (!st.found.cadernos) for (let i = 0; i < 9; i++) {
-    ctx.fillStyle = ['#2c4a6b', '#6b2c2c', '#2c6b44', '#6b5a2c', '#3a3a3a'][i % 5];
+  // os nove cadernos de capa preta, numa pilha
+  for (let i = 0; i < 9; i++) {
+    ctx.fillStyle = ['#1a1a1c', '#222124', '#1c1b1e'][i % 3];
     ctx.fillRect(300 + (i % 2) * 4, 506 - i * 8, 150, 8); ctx.fillStyle = 'rgba(230,225,210,.7)'; ctx.fillRect(302 + (i % 2) * 4, 508 - i * 8, 146, 2);
   }
   radioValvulas(ctx, 560, 316);
+  // a bíblia de Lúcia, com a caneca de café virado pedra em cima
+  ctx.fillStyle = '#1e1a16'; ctx.fillRect(474, 488, 84, 28); bevel(ctx, 474, 488, 84, 28, 2);
+  ctx.fillStyle = '#c9b48a'; ctx.fillRect(478, 492, 76, 3); ctx.fillStyle = 'rgba(200,170,90,.6)'; ctx.fillRect(540, 496, 3, 16);
+  ctx.fillStyle = '#d9d2c0'; ctx.fillRect(492, 456, 40, 34); ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(492, 456, 40, 5);
+  ctx.strokeStyle = '#d9d2c0'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(536, 472, 9, -1.2, 1.2); ctx.stroke();
+  ctx.fillStyle = '#2b1a0c'; ctx.beginPath(); ctx.ellipse(512, 459, 16, 3, 0, 0, 7); ctx.fill();
   // caixa de chumbo
   if (!st.found.caixa) {
     castShadow(ctx, 940, 450, 160, 66, 16);
     ctx.fillStyle = '#4c4f50'; ctx.fillRect(936, 446, 168, 70); bevel(ctx, 936, 446, 168, 70, 3);
     ctx.fillStyle = '#3c3f40'; ctx.fillRect(936, 446, 168, 14);
-    const cx = 1020, cy = 488; ctx.fillStyle = '#d8b52a'; ctx.beginPath(); ctx.arc(cx, cy, 20, 0, 7); ctx.fill();
-    ctx.fillStyle = '#151515';
-    for (let k = 0; k < 3; k++) { const a = -Math.PI / 2 + k * 2 * Math.PI / 3; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, 17, a - .5, a + .5); ctx.closePath(); ctx.fill(); }
-    ctx.fillStyle = '#d8b52a'; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, 7); ctx.fill(); ctx.fillStyle = '#151515'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, 7); ctx.fill();
+    // a alça de ferro
+    ctx.strokeStyle = '#2a2b2c'; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(990, 450); ctx.lineTo(990, 434); ctx.lineTo(1050, 434); ctx.lineTo(1050, 450); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.06)'; ctx.fillRect(940, 450, 60, 60);
   }
   // lupa de pé e a luminária articulada
   ctx.strokeStyle = '#1d1d1b'; ctx.lineWidth = 5;
@@ -1753,15 +1694,15 @@ EMIT[4] = function (ctx, st, t) {
 };
 
 // ===== wall5.js — os corredores amarelos (o lado de lá: mofado e encardido) =====
-LIGHTS[5] = { x: 800, y: 120, tint: [235, 215, 150], glow: [250, 245, 210], vy: 380 };
+LIGHTS[5] = { x: 800, y: 150, tint: [225, 190, 130], glow: [255, 220, 150], vy: 380 };
 LIGHTS[6] = { x: 1110, y: 150, tint: [255, 168, 88], glow: [255, 180, 90], vy: 420 };
 
 // cada cruzamento: aberturas possíveis e o que tem no chão. O certo é sempre à esquerda.
 const CORR = [
-  { open: ['L', 'F', 'R'], obj: { id: 'brinco', x: 740, y: 780, label: 'Brinco', text: 'Um brinco de argola, prateado. A Cecília usava esse. Você guarda no bolso.' } },
-  { open: ['L', 'F'], obj: { id: 'elastico', x: 880, y: 800, label: 'Elástico de cabelo', text: 'Um elástico de cabelo, roxo, enrolado. Dela. Ela passou por aqui.' } },
-  { open: ['L', 'R'], paper: 12, px: 820, py: 790 },
-  { open: ['L', 'F', 'R'], paper: 13, pipe: true },
+  { open: ['L', 'F', 'R'], paper: 12, px: 820, py: 790 },   // a página da Cecília, na primeira bifurcação
+  { open: ['L', 'F'] },
+  { open: ['L', 'R'], paper: 13, pipe: true },                 // o bilhete da Marina, enfiado num cano onde a faixa vira
+  { open: ['L', 'F', 'R'] },
 ];
 const CV = { x: 800, y: 400, bx0: 650, bx1: 950, by0: 300, by1: 520 }; // ponto de fuga e fundo
 
@@ -1774,54 +1715,69 @@ function sideQuad(left, t1, t2, hFrac) { // abertura numa parede lateral, entre 
 }
 ART[5] = function (ctx, st) {
   const J = CORR[Math.min(st.corr, CORR.length - 1)], r = rng(500 + st.corr);
-  const wallL = '#a88a35', wallR = '#8a7029', ceil = '#c9b468', floorC = '#4e3f1c';
+  // corredor de serviço de 1948: tijolo sem reboco, chão de terra batida, seco. A faixa amarela na altura do ombro.
+  const wallL = '#5a3f32', wallR = '#4a3329', ceil = '#2a211b', floorC = '#6a5536';
   ctx.fillStyle = wallL; poly(ctx, [[0, 0], [CV.bx0, CV.by0], [CV.bx0, CV.by1], [0, H]]); ctx.fill();
   ctx.fillStyle = wallR; poly(ctx, [[W, 0], [CV.bx1, CV.by0], [CV.bx1, CV.by1], [W, H]]); ctx.fill();
   ctx.fillStyle = ceil; poly(ctx, [[0, 0], [W, 0], [CV.bx1, CV.by0], [CV.bx0, CV.by0]]); ctx.fill();
   ctx.fillStyle = floorC; poly(ctx, [[0, H], [W, H], [CV.bx1, CV.by1], [CV.bx0, CV.by1]]); ctx.fill();
-  // fundo: continua (frente aberta) ou parede com mancha
+  // fiadas de tijolo em perspectiva, dos dois lados
+  const brickWall = (left) => {
+    const xAt = (t) => left ? CV.bx0 * t : W - (W - CV.bx1) * t;
+    const top = (t) => CV.by0 * t, bot = (t) => H - (H - CV.by1) * t;
+    ctx.strokeStyle = 'rgba(25,15,10,.55)'; ctx.lineWidth = 2;
+    for (let k = 0; k <= 14; k++) { const f = k / 14; ctx.beginPath(); ctx.moveTo(xAt(0), top(0) + (bot(0) - top(0)) * f); ctx.lineTo(xAt(1), top(1) + (bot(1) - top(1)) * f); ctx.stroke(); }
+    for (let i = 1; i < 26; i++) { const t = 1 - Math.pow(1 - i / 26, 1.8); const x = xAt(t); ctx.strokeStyle = 'rgba(25,15,10,.35)';
+      for (let k = (i % 2); k < 14; k += 2) { const y0 = top(t) + (bot(t) - top(t)) * k / 14, y1 = top(t) + (bot(t) - top(t)) * (k + 1) / 14; ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y1); ctx.stroke(); } }
+    // a faixa amarela de Marina, na altura do ombro, tinta de parede com pincel grosso
+    const hf0 = .5, hf1 = .58;
+    ctx.fillStyle = 'rgba(214,176,52,.85)';
+    poly(ctx, [[xAt(0), top(0) + (bot(0) - top(0)) * hf0], [xAt(1), top(1) + (bot(1) - top(1)) * hf0], [xAt(1), top(1) + (bot(1) - top(1)) * hf1], [xAt(0), top(0) + (bot(0) - top(0)) * hf1]]); ctx.fill();
+    for (let i = 0; i < 40; i++) { const t = r(); const y = top(t) + (bot(t) - top(t)) * (hf0 + (r() - .5) * .02); ctx.strokeStyle = `rgba(${200 + r() * 40 | 0},${160 + r() * 40 | 0},40,.35)`; ctx.lineWidth = 1 + r() * 2; ctx.beginPath(); ctx.moveTo(xAt(t), y); ctx.lineTo(xAt(Math.min(1, t + .03)), y + (r() - .5) * 4); ctx.stroke(); }
+  };
+  brickWall(true); brickWall(false);
+  // fundo: continua (frente aberta) ou parede de tijolo
   if (J.open.includes('F')) {
-    ctx.fillStyle = '#7d6626'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0);
-    ctx.fillStyle = '#5a491b'; poly(ctx, [[CV.bx0, CV.by0], [770, 380], [770, 430], [CV.bx0, CV.by1]]); ctx.fill();
-    ctx.fillStyle = '#4a3c15'; poly(ctx, [[CV.bx1, CV.by0], [830, 380], [830, 430], [CV.bx1, CV.by1]]); ctx.fill();
+    ctx.fillStyle = '#3a2820'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0);
+    ctx.fillStyle = '#2a1c15'; poly(ctx, [[CV.bx0, CV.by0], [770, 380], [770, 430], [CV.bx0, CV.by1]]); ctx.fill();
+    ctx.fillStyle = '#231710'; poly(ctx, [[CV.bx1, CV.by0], [830, 380], [830, 430], [CV.bx1, CV.by1]]); ctx.fill();
     ctx.fillStyle = '#0b0904'; ctx.fillRect(770, 380, 60, 50);
-  } else { ctx.fillStyle = '#9b7f30'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0); stain(ctx, 800, 420, 120, 90, 'rgba(40,45,20,A)', .6); }
+  } else { ctx.fillStyle = '#4e362b'; ctx.fillRect(CV.bx0, CV.by0, CV.bx1 - CV.bx0, CV.by1 - CV.by0); stain(ctx, 800, 420, 120, 90, 'rgba(40,25,15,A)', .6);
+    ctx.fillStyle = 'rgba(214,176,52,.8)'; ctx.fillRect(CV.bx0, CV.by0 + (CV.by1 - CV.by0) * .5, CV.bx1 - CV.bx0, (CV.by1 - CV.by0) * .08); }
   for (const side of ['L', 'R']) {
     if (!J.open.includes(side)) continue;
     const q = sideQuad(side === 'L', .38, .62, .78);
-    ctx.fillStyle = '#120e05'; poly(ctx, q); ctx.fill();
+    ctx.fillStyle = '#0e0905'; poly(ctx, q); ctx.fill();
     const g = ctx.createLinearGradient(q[0][0], 0, q[1][0], 0);
-    g.addColorStop(0, 'rgba(200,170,70,.25)'); g.addColorStop(1, 'rgba(200,170,70,0)'); ctx.fillStyle = g; poly(ctx, q); ctx.fill();
-    ctx.strokeStyle = 'rgba(30,22,8,.8)'; ctx.lineWidth = 4; poly(ctx, q); ctx.stroke();
+    g.addColorStop(0, 'rgba(200,150,70,.2)'); g.addColorStop(1, 'rgba(200,150,70,0)'); ctx.fillStyle = g; poly(ctx, q); ctx.fill();
+    ctx.strokeStyle = 'rgba(20,12,6,.8)'; ctx.lineWidth = 4; poly(ctx, q); ctx.stroke();
+    // a faixa vira para a esquerda: entra na abertura da esquerda e acaba antes da direita
+    if (side === 'L') { ctx.fillStyle = 'rgba(214,176,52,.85)'; poly(ctx, [[q[0][0] - 30, q[0][1] + (q[3][1] - q[0][1]) * .5], [q[0][0] + 10, q[0][1] + (q[3][1] - q[0][1]) * .5], [q[0][0] + 10, q[0][1] + (q[3][1] - q[0][1]) * .58], [q[0][0] - 30, q[0][1] + (q[3][1] - q[0][1]) * .58]]); ctx.fill(); }
   }
-  // luminárias fluorescentes no teto (o brilho vem do EMIT)
+  // lâmpadas nuas penduradas no fio
   for (const t of [.15, .45, .72]) {
-    const y = CV.by0 * t + 8, half = (1 - t) * 220 + 40;
-    ctx.fillStyle = '#e8e2c4'; ctx.fillRect(CV.x - half, y, half * 2, (1 - t) * 16 + 4);
+    const y = CV.by0 * t + 8, x = CV.x + (t - .45) * 30;
+    ctx.strokeStyle = '#111'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, y); ctx.stroke();
+    ctx.fillStyle = '#e8d8a4'; ctx.beginPath(); ctx.arc(x, y + 10 * (1 - t), 8 * (1 - t) + 3, 0, 7); ctx.fill();
   }
-  // mofo, infiltração, carpete úmido
-  for (let i = 0; i < 40; i++) stain(ctx, r() * W, r() * H, 40 + r() * 140, 30 + r() * 110, 'rgba(45,50,22,A)', .25 + r() * .2);
-  for (let i = 0; i < 10; i++) stain(ctx, r() * W, 760 + r() * 140, 80 + r() * 200, 20 + r() * 30, 'rgba(15,12,4,A)', .5);
-  drips(ctx, 0, 0, W, 420, 520 + st.corr, 'rgba(40,36,14,A)', 1.2);
-  speckle(ctx, 0, 0, W, H, 9000, 530 + st.corr, ['rgba(30,26,10,.3)', 'rgba(210,190,120,.12)', 'rgba(40,60,25,.25)'], 2.5);
+  // poeira, terra, teias
+  for (let i = 0; i < 30; i++) stain(ctx, r() * W, r() * H, 40 + r() * 140, 30 + r() * 110, 'rgba(30,20,12,A)', .2 + r() * .2);
+  for (let i = 0; i < 10; i++) stain(ctx, r() * W, 760 + r() * 140, 80 + r() * 200, 20 + r() * 30, 'rgba(60,45,25,A)', .5);
+  speckle(ctx, 0, 0, W, H, 9000, 530 + st.corr, ['rgba(20,12,6,.3)', 'rgba(210,170,110,.1)', 'rgba(90,60,30,.25)'], 2.5);
+  speckle(ctx, 0, CV.by1, W, H - CV.by1, 3000, 540 + st.corr, ['rgba(0,0,0,.3)', 'rgba(180,150,100,.15)'], 3);
   if (J.pipe || st.corr % 2) pipe(ctx, [[W, 150], [CV.bx1 + 30, CV.by0 + 30]], 12, '#5a5440', 'rgba(230,220,180,.25)');
   // o que está no chão
-  if (J.obj && !st.found[J.obj.id]) {
-    ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.beginPath(); ctx.ellipse(J.obj.x + 4, J.obj.y + 8, 22, 6, 0, 0, 7); ctx.fill();
-    if (J.obj.id === 'brinco') { ctx.strokeStyle = '#d9d6cc'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(J.obj.x, J.obj.y, 12, 0, 7); ctx.stroke(); }
-    else { ctx.strokeStyle = '#6d3a8c'; ctx.lineWidth = 5; ctx.beginPath(); ctx.ellipse(J.obj.x, J.obj.y, 16, 7, .3, 0, 7); ctx.stroke(); }
-  }
   if (J.paper === 12 && !st.papers.has(12)) { ctx.save(); ctx.translate(J.px, J.py); ctx.rotate(.3); ctx.fillStyle = '#bdb391'; ctx.fillRect(-36, -22, 72, 44); ctx.fillStyle = 'rgba(40,50,90,.35)'; ctx.fillRect(-28, -12, 50, 3); ctx.fillRect(-28, -2, 40, 3); ctx.restore(); }
   if (J.paper === 13 && !st.papers.has(13)) note(ctx, 1200, 190, 56, 70, .25, '#a99c74');
 };
 EMIT[5] = function (ctx, st, t) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   [.15, .45, .72].forEach((tt, i) => {
-    let a = .22; if (i === 1 && (t % 3700) < 260) a = Math.random() * .08; // uma delas pisca
-    const y = CV.by0 * tt + 10, half = (1 - tt) * 220 + 40;
-    const g = ctx.createRadialGradient(CV.x, y, 0, CV.x, y, half * 1.4);
-    g.addColorStop(0, `rgba(255,250,220,${a})`); g.addColorStop(1, 'rgba(255,250,220,0)');
-    ctx.fillStyle = g; ctx.fillRect(CV.x - half * 1.4, y - half * 1.4, half * 2.8, half * 2.8);
+    let a = .18; if (i === 1 && (t % 3700) < 260) a = Math.random() * .06; // uma delas pisca
+    const y = CV.by0 * tt + 10, x = CV.x + (tt - .45) * 30, half = (1 - tt) * 200 + 40;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, half * 1.3);
+    g.addColorStop(0, `rgba(255,220,150,${a})`); g.addColorStop(1, 'rgba(255,220,150,0)');
+    ctx.fillStyle = g; ctx.fillRect(x - half * 1.3, y - half * 1.3, half * 2.6, half * 2.6);
   });
   ctx.restore();
 };
@@ -1877,8 +1833,8 @@ function resetState() {
     view: 0, started: false, ended: false,
     fuse: false, fuseTaken: false, power: false, powerAt: 0,
     inv: [], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
-    open: { gav1: false, gav2: false, gav3: false, tool: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, pigBroken: false, caixaAt: 0,
-    lockVals: { gav1: ['M', 'Z', 'K', 'Q'], gav2: ['0', '0', '0', '0'], tool: [] },
+    open: { gav1: false, gav2: false, gav3: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, caixaAt: 0, dropPauseUntil: 0,
+    lockVals: { gav1: ['M', 'Z', 'K', 'Q'] },
     t0: 0, nextFlick: 0, flickUntil: 0, battUntil: 0, nextBatt: 0,
   });
 }
@@ -2013,8 +1969,8 @@ function drawUV(g) {
 
 // coisas que se mexem antes da luz ser aplicada (a goteira na lata)
 function drawDyn(g, t) {
-  if (S.view !== 0) return;
-  const cyc = t % 6200;
+  if (S.view !== 0 || t < S.dropPauseUntil) return;
+  const cyc = t % 11000;
   if (cyc < 650) { const y = 104 + (cyc / 650) ** 2 * 546; g.fillStyle = 'rgba(190,200,190,.6)'; g.beginPath(); g.ellipse(723, y, 2, 4, 0, 0, 7); g.fill(); }
   else if (cyc < 900) { const r = (cyc - 650) / 250 * 22; g.strokeStyle = `rgba(190,200,190,${.5 - r / 50})`; g.lineWidth = 1; g.beginPath(); g.ellipse(723, 652, r, r / 4, 0, 0, 7); g.stroke(); }
 }
@@ -2064,7 +2020,12 @@ cv.addEventListener('pointerdown', (e) => {
 
 // ——— virar entre as paredes ———
 let fade = 0, fadeDir = 0, pendingView = 0;
-function turn(d) { if (fadeDir || !S.started || overlayOpen() || S.view > 3) return; goView((S.view + d + 4) % 4); }
+function turn(d) {
+  if (fadeDir || !S.started || overlayOpen() || S.view > 3) return;
+  const v = (S.view + d + 4) % 4;
+  if (!S.power && v >= 2) { say(v === 2 ? 'Para esse lado, a lanterna não alcança nada: só o escuro e o barulho dos canos. Primeiro, a luz.' : 'Escuro fechado. A lanterna fraca não chega lá. Primeiro, a luz.'); return; }
+  goView(v);
+}
 // troca de cena com escurecida (também entra na oficina, no corredor, no ponto)
 function goView(v, after) { if (fadeDir) return; pendingView = v; fadeDir = 1; hideMsg(); goView.after = after || null; }
 $('turnL').addEventListener('click', () => turn(-1));
@@ -2100,7 +2061,7 @@ function frame(t) {
 const TICKS = []; // verificações periódicas das ondas (ex.: evento das 03:40)
 function tickClock() {
   TICKS.forEach(f => f());
-  if (S.power) { const c = $('clock'); const txt = clockText(); if (c.textContent !== txt) c.textContent = txt; }
+  { const c = $('clock'); const txt = clockText(); if (c.textContent !== txt) c.textContent = txt; }
   if (!S.ended && fictionMin() >= END_MIN) endBad();
 }
 
@@ -2129,21 +2090,9 @@ const ICONS = {
     g.fillStyle = '#2b2b30'; g.fillRect(3, 11, 16, 7); g.fillStyle = '#44444c'; g.fillRect(17, 9, 6, 11);
     g.fillStyle = '#9b6bff'; g.fillRect(23, 10, 3, 9); g.fillStyle = 'rgba(160,110,255,.35)'; g.fillRect(25, 6, 3, 17);
   },
-  martelo(g) {
-    g.fillStyle = '#6b4a2a'; g.save(); g.translate(14, 15); g.rotate(-.7); g.fillRect(-2, -2, 4, 16);
-    g.fillStyle = '#7d7c76'; g.fillRect(-8, -7, 16, 6); g.restore();
-  },
-  chave(g) {
-    g.strokeStyle = '#b39248'; g.lineWidth = 3; g.beginPath(); g.arc(9, 14, 5, 0, 7); g.stroke();
-    g.fillStyle = '#b39248'; g.fillRect(14, 13, 11, 3); g.fillRect(21, 16, 2, 4); g.fillRect(24, 16, 2, 3);
-  },
   fita(g) {
     g.fillStyle = '#151515'; g.fillRect(2, 7, 24, 15); g.fillStyle = '#d9cfae'; g.fillRect(5, 9, 18, 5);
     g.fillStyle = '#333'; g.beginPath(); g.arc(9, 18, 2.5, 0, 7); g.arc(19, 18, 2.5, 0, 7); g.fill();
-  },
-  cracha(g) {
-    g.fillStyle = '#e0dccd'; g.fillRect(6, 5, 16, 20); g.fillStyle = '#4b5d78'; g.fillRect(6, 5, 16, 5);
-    g.fillStyle = '#8a7a66'; g.fillRect(9, 12, 6, 7); g.fillStyle = '#555'; g.fillRect(16, 13, 4, 1.5); g.fillRect(16, 16, 4, 1.5);
   },
 };
 function renderInv() {
@@ -2226,14 +2175,7 @@ function loadNotes() { try { return localStorage.getItem(NOTES_KEY) || ''; } cat
 function saveNotes() { try { localStorage.setItem(NOTES_KEY, $('notes').value); } catch (e) { /* sem armazenamento: segue sem salvar */ } }
 $('notes').value = loadNotes();
 $('notes').addEventListener('input', () => { clearTimeout(saveNotes.t); saveNotes.t = setTimeout(saveNotes, 400); });
-(function fillCeci() {
-  const ul = $('cecNotes');
-  for (const n of CECI_NOTES) { const li = document.createElement('li'); li.innerHTML = n; ul.append(li); }
-})();
-function openNotes() {
-  openOv('ovNotes');
-  if (findPaper(11, true)) toast('A página de maio foi para a linha do tempo.');
-}
+function openNotes() { openOv('ovNotes'); }
 $('btnNotes').addEventListener('click', openNotes);
 
 // ——— diário de Marina ———
@@ -2255,8 +2197,7 @@ function endBad() {
   $('endText').innerHTML = `<span class="when">05:10</span>
     <p>Lá fora, um motor a diesel passa devagar pela Monte Alegre. Não para.</p>
     <p>A lâmpada apaga sozinha. A estante é só uma estante.</p>
-    <p>No escuro, a secretária eletrônica estala e toca uma voz que você conhece, muito longe:</p>
-    <p><em>“Daqui a dez anos, então.”</em></p>`;
+    <p>A gota volta a cair na lata. Uma a cada onze segundos.</p>`;
   $('ovEnd').hidden = false;
 }
 $('btnRestart').addEventListener('click', () => startGame(true));
@@ -2276,9 +2217,9 @@ $('intro').addEventListener('click', (e) => { if (e.target.id !== 'btnStart' && 
 $('btnStart').addEventListener('click', () => startGame(false));
 
 function startGame(restart) {
-  if (restart) { resetState(); dirty(); renderInv(); if (typeof syncNav === 'function') syncNav(); $('tlCount').textContent = '0'; $('clock').hidden = true; $('ovEnd').hidden = true; diaryPage = 0; showIntro(); return; }
+  if (restart) { resetState(); dirty(); renderInv(); if (typeof syncNav === 'function') syncNav(); $('tlCount').textContent = '0'; $('ovEnd').hidden = true; diaryPage = 0; showIntro(); return; }
   $('intro').hidden = true;
-  S.started = true; S.t0 = performance.now(); S.nextBatt = S.t0 + 9000; S.nextFlick = S.t0 + 12000;
+  S.started = true; S.t0 = performance.now(); S.nextBatt = S.t0 + 9000; S.nextFlick = S.t0 + 12000; $('clock').hidden = false;
   $('viewName').textContent = VIEWS[S.view];
   fit();
   setTimeout(() => say('Escuro. Cheiro de mofo e de cera de chão. Em algum lugar, água pingando numa lata.'), 900);
@@ -2295,53 +2236,49 @@ function placeFuse() {
   say('Você rosqueia o fusível. Ele aperta com um rangido de porcelana. Um estalo.');
   setTimeout(() => {
     S.power = true; S.powerAt = performance.now(); S.nextFlick = S.powerAt + 15000;
-    $('clock').hidden = false; dirty();
-    setTimeout(() => say('A lâmpada acende devagar, amarela, zumbindo. Acima da escada, o visor vermelho acorda com a hora.'), 1600);
+    dirty();
+    setTimeout(() => say('A lâmpada acende devagar, amarela, zumbindo. Lá na escrivaninha, uma luzinha vermelha pisca: a secretária eletrônica. Tem recado.'), 1600);
   }, 900);
   return true;
 }
 
 // ——— parede 0: escada ———
 spot(0, 'escada', [80, 130, 530, 590], { label: 'Escada',
-  act: () => say('Dez degraus de madeira. O sexto range. A Cecília desceu por aqui às 23h10.') });
+  act: () => say('Dez degraus de madeira. Rangem todos, menos o quinto. A Cecília desceu por aqui às 23h10.') });
 spot(0, 'porta', [30, 0, 300, 125], { label: 'Porta lá em cima',
   act: () => say('Emperrou. Pela fresta entra a luz da cozinha, que ninguém apagou. Lá em cima, os pais dela dormem. Ninguém vai descer.') });
 spot(0, 'lata', [684, 636, 82, 90], { label: 'Lata de tinta',
-  act: () => say('Uma lata de Suvinil vazia, embaixo de uma goteira. Já tem dois dedos de água escura.') });
+  act: () => say('Uma lata de Suvinil vazia, embaixo da goteira. A Cecília pôs aqui. Uma gota a cada onze segundos, com som de lata, que é pior.') });
 spot(0, 'janela', [760, 104, 250, 76], { label: 'Janelinha',
   act: () => say('A calçada da Monte Alegre, molhada, no nível dos seus olhos. Um poste aceso. Não passa ninguém. Não passa nem carro.') });
-spot(0, 'led', [650, 215, 300, 82], { label: 'Visor de LED',
-  act: () => say(lit() ? `Marca ${clockText()}. A passagem fecha às 05:10.` : 'Um visor vermelho, igual aos de ônibus. Apagado. Tem um fio que vai até o quadro de luz.') });
-spot(0, 'relogio', [976, 236, 128, 176], { label: 'Relógio de parede',
-  act: () => say('Um relógio de cozinha, parado em 23:10. Embaixo, preso com fita crepe, um bilhete na letra da Cecília: “a hora que a casa escuta”.') });
 spot(0, 'cano', [1490, WALL_TOP, 80, 625], { label: 'Cano',
   act: () => say('Cano de PVC. Frio. Lá dentro, água correndo. De vez em quando, uma pancada seca que sobe até o teto.') });
 spot(0, 'lampada', [LAMP_X[0] - 45, 150, 90, 70], { label: 'Lâmpada',
   act: () => say(lit() ? 'Quente demais pra encostar. Treme de vez em quando.' : 'Uma lâmpada de 60 velas, fria. O interruptor lá em cima não faz nada.') });
 spot(0, 'quadro', [1288, 298, 174, 234], { label: 'Quadro de luz',
-  act: () => say(S.fuse ? 'Os quatro fusíveis no lugar. Etiqueta: LUZ PORÃO.' : 'Quadro de fusíveis de rosca. Etiqueta: LUZ PORÃO. A rosca de baixo, à direita, está vazia.'),
+  act: () => say(S.fuse ? 'Os quatro fusíveis no lugar. Etiqueta: LUZ PORÃO.' : 'Quadro de fusíveis de rosca. Etiqueta: LUZ PORÃO. A rosca de baixo, à direita, está vazia. Não queimou: alguém desrosqueou. O Aurélio guardava peça de tudo; deve ter fusível em alguma lata por aqui.'),
   use: (it) => it === 'fusivel' ? placeFuse() : false });
 
 // ——— parede 1: estante ———
 spot(1, 'estante', [520, 120, 600, 600], { label: 'Estante',
   act: () => say('Uma estante de madeira escura, pesada demais pra arrastar. O cano de ferro do teto some atrás dela.') });
-spot(1, 'porquinho', [552, 178, 136, 74], { label: () => S.pigBroken ? 'Cacos do porquinho' : 'Porquinho de barro',
-  act: () => say(S.pigBroken ? 'Cacos de barro e moedas de cruzado. Ninguém vai sentir falta.' : 'Pesado. Chacoalha. Não tem tampa embaixo: só quebrando.'),
-  use: (it) => it === 'martelo' && !S.pigBroken ? breakPig() : false });
+spot(1, 'porquinho', [552, 178, 136, 74], { label: 'Porquinho de barro',
+  act: () => say('Pesado. Chacoalha: moedas de cruzado, de antes do Real. O cofre de uma menina que não voltou para gastar.') });
 spot(1, 'santinho', [698, 174, 66, 78], { label: 'Nossa Senhora Aparecida',
   act: () => say('Um quadrinho de Nossa Senhora Aparecida. Atrás, a lápis: “Marina, 1ª comunhão, 1975”.') });
 spot(1, 'guia', [788, 208, 144, 44], { label: 'Guia Quatro Rodas 1986',
   act: () => say('Uma página dobrada no mapa de Perdizes. A Rua Monte Alegre está circulada a lápis, com força, várias vezes.') });
 spot(1, 'sonho', [956, 196, 126, 56], { label: 'Lata de Sonho de Valsa',
-  act: () => say('Não tem bombom. Tem parafusos, válvulas de rádio e um carretel de estanho.') });
+  act: () => { if (S.fuseTaken) { say('Não tem bombom. Parafusos, válvulas de rádio e um carretel de estanho.'); return; }
+    S.fuseTaken = true; addItem('fusivel'); say('Não tem bombom. Tem parafusos, válvulas de rádio, um carretel de estanho e, no meio, um fusível de rosca, novo. Você guarda.'); } });
 spot(1, 'barsa', [548, 272, 546, 110], { label: 'Enciclopédia Barsa',
-  act: () => say('Catorze volumes vermelhos. Falta o 7. O 8 está tombando no buraco que ele deixou.') });
+  act: () => say('Catorze volumes vermelhos, numerados. No meio da fileira, um buraco: um dos volumes tombou lá para o fundo e o vizinho está caindo em cima.') });
 spot(1, 'radio', [576, 400, 186, 112], { label: 'Rádio de pilha',
   act: () => say('Um Motoradio de capa de couro. O lugar das pilhas está vazio.') });
 spot(1, 'revistas', [782, 454, 86, 58], { label: 'Revistas Manchete',
   act: () => say('Manchete de 1985 e 1986. A umidade grudou as páginas.') });
 spot(1, 'vaso', [866, 396, 128, 116], { label: 'Vaso de porcelana',
-  act: () => say('Vazio. No fundo, a marca retangular de um caderno que ficou guardado aqui muito tempo. Foi daqui que a Cecília tirou o diário.') });
+  act: () => say('Vazio. Poeira e um bilhete de loteria de 1986, sem raspar.') });
 spot(1, 'tecidos', [572, 582, 192, 60], { label: 'Rolos de tecido',
   act: () => say('Rolos de tecido e retalhos. A mãe da Marina costurava.') });
 spot(1, 'costura', [796, 576, 148, 66], { label: 'Caixa de costura',
@@ -2349,15 +2286,14 @@ spot(1, 'costura', [796, 576, 148, 66], { label: 'Caixa de costura',
 spot(1, 'biscoito', [958, 574, 122, 68], { label: 'Lata de biscoito',
   act: () => say('Botões. Centenas de botões.') });
 spot(1, 'jornais', [554, 664, 504, 58], { label: 'Jornais amarrados',
-  act: () => say('Jornais de junho de 1986, amarrados com barbante. Ninguém desamarrou.') });
+  act: () => { if (findPaper(10, true)) { toast('Um recorte foi para a linha do tempo.'); openPaper(10); say('Jornais de junho de 1986, amarrados com barbante. Em cima da pilha, dobrado, um Notícias Populares do dia 9.'); }
+    else say('Jornais de junho de 1986, amarrados com barbante. Ninguém desamarrou.'); } });
 spot(1, 'canoE', [1128, WALL_TOP, 34, 215], { label: 'Cano de ferro',
   act: () => say('Desce do teto e some atrás da estante. Atrás dela, só escuro.') });
 spot(1, 'pintura', [1198, 168, 304, 444], { label: 'Pintura na parede',
-  act: () => say('Um corredor amarelo pintado direto na parede, tinta de parede, pincel grosso. Lâmpadas no teto, uma porta escura no fundo. No canto: M.T. 86. Olhando muito tempo, parece mais fundo do que a parede.') });
+  act: () => say('Um corredor de tijolo pintado direto no reboco, tinta de parede, pincel grosso: a parede, o chão de terra e uma faixa amarela na altura do ombro, que vira à esquerda. No canto: M.T. 86. Olhando muito tempo, parece mais fundo do que a parede.') });
 spot(1, 'espada', [338, 420, 144, 300], { label: 'Espada-de-são-jorge',
   act: () => say('Morta faz tempo. A terra está seca e fofa, como se alguém tivesse cavado e tampado de novo.') });
-spot(1, 'fusivel', [1136, 732, 76, 54], { label: 'Fusível', when: () => !S.fuseTaken,
-  act: () => { S.fuseTaken = true; dirty(1); addItem('fusivel'); say('Um fusível de rosca, caído perto da estante. Parece ter pulado do quadro. Você guarda.'); } });
 
 // ——— parede 2: tijolos ———
 spot(2, 'tijolos', [0, WALL_TOP, W, FLOOR - WALL_TOP], { label: 'Parede de tijolos',
@@ -2370,60 +2306,53 @@ spot(2, 'cano3', [860, 420, 44, 280], { label: 'Cano',
   act: () => say('Desce torto até o chão e some no taco.') });
 spot(2, 'labirinto', [294, 234, 132, 272], { label: 'Labirinto de vidro',
   act: () => say('Um labirinto de vidro embutido no tijolo. Tem um furo em cima, do tamanho de uma bolinha de gude. Embaixo, ele encaixa num cano fino que corre pelo rodapé até a cômoda.') });
+spot(2, 'relogio', cm(1090, 304, 100, 104), { label: 'Relógio de parede',
+  act: () => say(S.flags.ev340 ? 'O relógio da cozinha da Lúcia. Onze e dez. O ponteiro dos segundos andou um traço, e parou de novo.' : 'Um relógio de cozinha, redondo, parado às onze e dez. A pilha é nova. O ponteiro dos segundos treme e não anda, como se alguém segurasse.') });
 spot(2, 'comoda', cm(968, 424, 344, 296), { label: 'Cômoda',
-  act: () => say('Cômoda pintada de branco, descascando. Três gavetas, três cadeados diferentes.') });
+  act: () => say('Cômoda pintada de branco, descascando. Três gavetas. A de cima tem um cadeado de letras.') });
 spot(2, 'gaveta1', cm(988, 450, 304, 80), { label: 'Gaveta de cima',
-  act: () => S.open.gav1 ? say('Vazia. Você já pegou os mapas.') : openLock('gav1') });
+  act: () => S.open.gav1 ? openDiary() : openLock('gav1') });
 spot(2, 'gaveta2', cm(988, 538, 304, 80), { label: 'Gaveta do meio',
-  act: () => S.open.gav2 ? say('Só uma foto de Natal, de 1975. O homem de jaleco e a menina.') : openLock('gav2') });
+  act: () => {
+    if (S.open.gav2) { say('Embaixo do forro, a marca de uma folha dobrada em quatro, que não está mais aqui. E uma foto de Natal, de 1975: o homem de jaleco e a menina.'); return; }
+    if (!S.flags.gav2Try) { S.flags.gav2Try = true; say('Emperrada. A Cecília escreveu que abriu com força e acordou a casa. Mais uma vez.'); return; }
+    S.open.gav2 = true; dirty(2); say('Sai de uma vez, com um barulho que sobe pela escada. Forro de papel. Embaixo dele, a marca de uma folha dobrada em quatro, que a Cecília levou. E uma foto de Natal, de 1975.');
+  } });
 spot(2, 'gaveta3', cm(988, 626, 304, 66), { label: 'Gaveta de baixo',
-  act: () => say(S.open.gav3 ? 'A marca de poeira da caixa de sapato continua lá. A Cecília levou a caixa.' : 'Cadeado de chave. A fechadura é pequena, de chave de gaveta.'),
-  use: (it) => it === 'chave' && !S.open.gav3 ? openGav3() : false });
+  act: () => { if (S.open.gav3) { say('O jornal de 1976 forrando o fundo e a marca de poeira da caixa de sapato. A Cecília levou a caixa.'); return; } openGav3(); } });
 spot(2, 'retrato', cm(1036, 400, 92, 28), { label: 'Porta-retrato virado',
   act: () => say('Você desvira. Um homem de jaleco com uma menina de uns oito anos no colo. Atrás: “Aurélio e Marina, Natal de 1975”. Você deixa virado de novo.') });
 
 // ——— parede 3: escrivaninha ———
 spot(3, 'mural', [74, 154, 432, 312], { label: 'Mural da Cecília', act: () => openMural() });
-spot(3, 'diario', [522, 440, 104, 34], { label: 'Diário de Marina', act: () => openDiary() });
-spot(3, 'caderno', [620, 442, 96, 30], { label: 'Caderno da Cecília', act: () => openNotes() });
 spot(3, 'gavetaEsc', [550, 492, 214, 48], { label: 'Gaveta da escrivaninha', act: () => deskDrawer() });
 spot(3, 'cp500', [702, 284, 210, 192], { label: 'Computador CP-500',
   act: () => say(lit() ? 'O botão de ligar fica atrás. Estala, zumbe, e a tela continua preta.' : 'Um Prológica CP-500, bege. Sem energia.') });
 spot(3, 'bilhete', [862, 290, 52, 44], { label: 'Bilhete no monitor',
   act: () => say('Letra da Marina, desbotada: “se apagar de novo: RECUPERA”.') });
 spot(3, 'ferramentas', [920, 392, 136, 78], { label: 'Caixa de ferramentas',
-  act: () => S.open.tool ? say('Chaves de fenda, um alicate, pregos tortos. Você já pegou o martelo.') : openLock('tool') });
+  act: () => say('Chaves de fenda, um alicate, pregos tortos, um martelo de unha. Ferramenta do pai da Cecília, nova, sem uso.') });
 spot(3, 'tv', [1082, 188, 220, 284], { label: 'TV Telefunken',
   act: () => say(lit() ? 'Você gira o botão. Chuvisco e um chiado baixo. Só pega um canal.' : 'TV de tubo, 20 polegadas, antena de chifre. Sem luz, não liga.') });
 spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
   act: () => say('Vazio. Esperando uma fita.') });
 spot(3, 'telefone', [1322, 486, 92, 54], { label: 'Telefone',
   act: () => say('Telefone de disco, cinza. Tem linha. Você não sabe pra quem ligar.') });
+spot(3, 'agenda', [1290, 398, 110, 62], { label: 'Papel ao lado do telefone',
+  act: () => say('Um papel colado na parede, letra da mãe da Cecília, copiado da agenda da cozinha: “Cursinho 255-1133 · Dr. Ribeiro 62-4018 · Odete (da frente) 3862-0147”.') });
 spot(3, 'secretaria', [1408, 508, 64, 34], { label: 'Secretária eletrônica',
   act: () => say(lit() ? 'A luzinha vermelha pisca. Tem recado.' : 'Uma secretária eletrônica de microfita. Sem luz, morta.') });
 spot(3, 'cama', [1484, 560, 116, 160], { label: 'Cama da Cecília',
-  act: () => say('O cobertor ainda está dobrado. Ela não deitou.') });
-spot(3, 'mochila', [1498, 474, 90, 96], { label: 'Mochila da Cecília',
-  act: () => say('Apostila do cursinho, um walkman, uma fita gravada do rádio, o passe escolar. Ela não levou nada.') });
+  act: () => say('O cobertor ainda está dobrado. Ela não deitou. No gancho da parede, nada: a mochila foi com ela.') });
 
 // ===== wave2.js — cadeados, mural de perto, luz negra =====
 const LOCKS = {
   gav1: { type: 'wheels', chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', answer: 'ROTA', title: 'Gaveta de cima · cadeado de letras',
     open() {
-      S.open.gav1 = true; dirty(2); findPaper(15, true);
-      say('O cadeado abre. Dentro, folhas de caderno dobradas: os mapas da Marina, o caminho do ônibus desenhado à mão.');
-      toast('Os mapas da Marina foram para a linha do tempo.');
-    } },
-  gav2: { type: 'wheels', chars: '0123456789', answer: '2310', title: 'Gaveta do meio · cadeado de números',
-    open() {
-      S.open.gav2 = true; dirty(2); findPaper(8, true);
-      say('Abre. Uma folha de fichário com a letra da Marina, embaixo de uma foto de Natal: o homem de jaleco com uma menina no colo.');
-      toast('Uma folha da Marina foi para a linha do tempo.');
-    } },
-  tool: { type: 'dir', answer: 'ULURD', title: 'Caixa de ferramentas · cadeado direcional',
-    open() {
-      S.open.tool = true; dirty(3); addItem('martelo');
-      say('A bolinha estala e a alça solta. Dentro, ferramentas enferrujadas e um martelo de unha. Você pega o martelo.');
+      S.open.gav1 = true; dirty(2); dirty(3); findPaper(15, true);
+      say('O cadeado abre com um estalo que você sente nos dentes. Dentro, um diário de capa dura verde, com elástico, e um mapa dobrado dentro dele. Atrás de você, na escrivaninha, alguma coisa zumbe e acende.');
+      toast('O mapa da Marina foi para a linha do tempo.');
+      setTimeout(() => { if (!overlayOpen()) openDiary(); }, 2600);
     } },
 };
 const ARROW = { U: '↑', D: '↓', L: '←', R: '→' };
@@ -2433,7 +2362,7 @@ function openLock(id) {
   box.className = ''; box.textContent = '';
   $('lockMsg').textContent = ''; $('lockTitle').textContent = L.title;
   const sh = document.createElement('div'); sh.className = 'shackle'; box.append(sh);
-  if (L.type === 'wheels') buildWheels(id, L, box); else buildDir(id, L, box);
+  buildWheels(id, L, box);
   openOv('ovLock');
 }
 function unlock(id) {
@@ -2461,42 +2390,10 @@ function buildWheels(id, L, box) {
   });
   box.append(body);
 }
-function buildDir(id, L, box) {
-  const body = document.createElement('div'); body.className = 'dirBody';
-  const knob = document.createElement('div'); knob.className = 'knob'; body.append(knob);
-  const seq = document.createElement('div'); seq.className = 'dirSeq'; seq.setAttribute('aria-label', 'Movimentos feitos');
-  const vals = S.lockVals[id] = [];
-  const show = () => { seq.innerHTML = vals.map(v => `<span>${ARROW[v]}</span>`).join('') || '<span> </span>'; };
-  for (const [d, cls, lab] of [['U', 'u', 'Para cima'], ['L', 'l', 'Para a esquerda'], ['R', 'r', 'Para a direita'], ['D', 'd', 'Para baixo']]) {
-    const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = ARROW[d]; b.setAttribute('aria-label', lab);
-    b.addEventListener('click', () => {
-      if (vals.length >= 8) vals.shift();
-      vals.push(d); show();
-      const off = { U: [0, -.6], D: [0, .6], L: [-.6, 0], R: [.6, 0] }[d];
-      knob.style.transform = `translate(${off[0]}em,${off[1]}em)`; setTimeout(() => { knob.style.transform = ''; }, 140);
-    });
-    body.append(b);
-  }
-  const pull = document.createElement('button'); pull.type = 'button'; pull.className = 'dirPull'; pull.textContent = 'Puxar a alça';
-  pull.addEventListener('click', () => {
-    if (vals.join('') === L.answer) { unlock(id); return; }
-    box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
-    $('lockMsg').textContent = vals.length ? 'Não abriu. A bolinha volta pro meio.' : 'Nada. Precisa mexer a bolinha antes.';
-    vals.length = 0; show();
-  });
-  show();
-  box.append(body, seq, pull);
-}
-
 // ——— itens usados nesta onda ———
-function breakPig() {
-  S.pigBroken = true; dirty(1); removeItem('martelo'); addItem('chave');
-  say('Uma batida só. O porquinho racha em quatro pedaços. Moedas de cruzado, um botão de camisa e uma chave pequena, de gaveta.');
-  return true;
-}
 function openGav3() {
-  S.open.gav3 = true; dirty(2); removeItem('chave'); addItem('fita'); addItem('cracha');
-  say('A chave gira. Dentro: uma fita VHS com etiqueta “JUN 86” e um crachá do IPEN. No fundo da gaveta, a marca de poeira de uma caixa de sapato que não está mais aqui.');
+  S.open.gav3 = true; dirty(2); addItem('fita');
+  say('Abre fácil. Jornal de 1976 forrando o fundo e a marca de poeira da caixa de sapato que a Cecília levou. Atrás, de pé, enfiada entre o fundo e a lateral, onde ela não viu: uma fita VHS com etiqueta “JUN 86”.');
   return true;
 }
 function deskDrawer() {
@@ -2510,17 +2407,15 @@ function deskDrawer() {
 // ——— mural de perto ———
 const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M62 58 V44 H22 V14 H76 V32" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="76" cy="32" r="3" fill="#7a1910"/><text x="81" y="28" font-size="12" fill="#2b1c0e">?</text></svg>`;
 const MURAL = [
-  { cls: 'news', x: 4, y: 6, w: 22, h: 34, r: -3, html: '<small>Folha de S.Paulo · 8/6/1976</small>Técnico do IPEN desaparece em Perdizes', paper: 7 },
-  { cls: 'news', x: 74, y: 5, w: 22, h: 36, r: 2.5, html: '<small>Notícias Populares · 9/6/1986</small>Filha de desaparecido some na mesma casa, dez anos depois', paper: 10 },
-  { cls: 'photo', x: 30, y: 5, w: 15, h: 26, r: 2, html: '<span></span>', cap: 'Um homem de jaleco na frente de um prédio de tijolo, crachá no peito. Atrás, a lápis: “IPEN, 1973”.' },
-  { cls: 'photo', x: 56, y: 52, w: 15, h: 26, r: -3, html: '<span></span>', cap: 'Uma menina sentada nesta mesma escada, com um vira-lata no colo. Atrás: “eu e o Tito, abril de 86”.' },
-  { cls: 'map', x: 22, y: 46, w: 30, h: 44, r: 1, html: 'ROTA 875A' + MURAL_MAP, cap: 'Papel de pão, letra da Cecília: “ROTA 875A”. A linha do ônibus desenhada da Paulista até a esquina da Monte Alegre. Na esquina, um ponto de interrogação.' },
-  { cls: 'post', x: 47, y: 8, w: 12, h: 16, r: -6, html: '23h10 — ver' },
-  { cls: 'post', x: 60, y: 28, w: 12, h: 16, r: 5, html: '6/6. seis horas.' },
-  { cls: 'post', x: 5, y: 50, w: 13, h: 17, r: 4, html: 'não é fuga' },
-  { cls: 'post', x: 78, y: 52, w: 13, h: 17, r: -4, html: 'volume 7???' },
-  { cls: 'post', x: 6, y: 74, w: 13, h: 17, r: -2, html: 'que caixa?' },
-  { cls: 'post', x: 78, y: 76, w: 14, h: 16, r: 3, html: 'Odete viu os dois' },
+  { cls: 'map', x: 4, y: 6, w: 30, h: 44, r: -2, html: '875A' + MURAL_MAP, cap: 'Papel de pão, letra da Cecília: “875A — Paulista 900 → Dr. Arnaldo → Cardoso de Almeida. Não entra na nossa rua.” Na esquina da Monte Alegre, um ponto de interrogação.' },
+  { cls: 'note', x: 38, y: 5, w: 30, h: 40, r: 2, html: '<small>folha da Marina (cópia)</small>Li os nove cadernos. Ele não fugiu… Preciso saber a <u>ROTA</u>.', paper: 11 },
+  { cls: 'post', x: 72, y: 8, w: 13, h: 17, r: -5, html: 'ROTA: senha ou pergunta?' },
+  { cls: 'post', x: 72, y: 30, w: 13, h: 17, r: 4, html: '23h10. sempre 23h10' },
+  { cls: 'post', x: 6, y: 56, w: 13, h: 17, r: 3, html: '76 · 86 · 96?' },
+  { cls: 'post', x: 24, y: 60, w: 13, h: 17, r: -3, html: 'Odete conta dois' },
+  { cls: 'post', x: 44, y: 56, w: 14, h: 17, r: 5, html: 'que caixa?' },
+  { cls: 'post', x: 62, y: 62, w: 13, h: 17, r: -2, html: 'a gota: 11 s' },
+  { cls: 'post', x: 80, y: 58, w: 14, h: 17, r: 3, html: 'tentei PERD MONT ABRI' },
 ];
 function openMural() {
   const cork = $('cork');
@@ -2559,12 +2454,7 @@ const UVMARKS = {
     uvInk(ctx); ctx.lineWidth = 2.5; ctx.setLineDash([7, 5]);
     path(ctx, mazeTrace(MAZE.gx, MAZE.gy, MAZE.cw, MAZE.ch), 0, 0); ctx.stroke();
     ctx.setLineDash([]);
-    if (!st.open.oficina) { ctx.font = '26px "Architects Daughter", cursive'; ctx.fillText('23.10', 1128, 372); }
-  },
-  3(ctx) {
-    uvInk(ctx);
-    ctx.font = '21px Kalam, cursive'; ctx.fillText('a senha é quem late no diário', 782, 528);
-    ctx.font = '600 28px Caveat, cursive'; ctx.fillText('Odete: 3862-0147', 1298, 424); ctx.fillText('ela viu os dois', 1316, 456);
+    if (!st.open.oficina) { ctx.font = '26px "Architects Daughter", cursive'; ctx.fillText('23.10', 1236, 340); }
   },
 };
 const uvOn = () => S.sel === 'uv';
@@ -2576,12 +2466,8 @@ spot(1, 'dobra', [1200, 546, 86, 68], { label: 'Canto da pintura', when: () => u
   } });
 spot(2, 'uvLab', [296, 256, 128, 248], { label: 'Traço no vidro', when: uvOn,
   act: () => say('A luz roxa acende um traço fino no vidro, de lápis de relojoeiro: um caminho do furo de cima até a saída de baixo.') });
-spot(2, 'uvPainel', [1100, 334, 160, 54], { label: 'Escrito na argamassa', when: () => uvOn() && !S.open.oficina,
-  act: () => say('Pequeno, na argamassa acima da cômoda, letra de técnico: “23.10”.') });
-spot(3, 'uvMesa', [770, 496, 272, 52], { label: 'Embaixo do tampo', when: uvOn,
-  act: () => say('Embaixo do tampo da escrivaninha, letra de menina: “a senha é quem late no diário”.') });
-spot(3, 'uvFone', [1288, 392, 196, 76], { label: 'Escrito na parede', when: uvOn,
-  act: () => say('Na parede, de marca-texto, letra da Cecília: “Odete: 3862-0147 — ela viu os dois”.') });
+spot(2, 'uvPainel', [1206, 310, 120, 48], { label: 'Escrito na argamassa', when: () => uvOn() && !S.open.oficina,
+  act: () => say('Pequeno, na argamassa acima da cômoda, letra de técnico: “23.10”. Ele marcava em tudo.') });
 
 // ===== vhs.js — fita copiada de fita até sobrar quase nada (lost media) =====
 // Desenha a cena em 320x240, depois estraga: linhas tremendo, faixa de tracking,
@@ -2724,27 +2610,37 @@ function tetoDoPorao(g, t) {
   g.fillStyle = s; g.fillRect(0, 0, VW, VH);
   g.strokeStyle = '#020202'; g.lineWidth = 2; g.beginPath(); g.moveTo(200, 0); g.quadraticCurveTo(204 + Math.sin(t / 700) * 3, 90, 200, 140); g.stroke();
 }
-function corredorAmarelo(g, t) {
+function corredorAmarelo(g, t) { // tijolo sem reboco à luz de lanterna; a faixa amarela na altura do ombro vira à esquerda
   const f = .75 + Math.random() * .25 * (Math.random() < .1 ? -1.5 : 1);
-  g.fillStyle = `rgb(${190 * f | 0},${160 * f | 0},${70 * f | 0})`; g.fillRect(0, 0, VW, VH);
   const cx = 168, cy = 118;
-  g.fillStyle = `rgb(${150 * f | 0},${124 * f | 0},${50 * f | 0})`; poly(g, [[VW, 0], [cx + 18, cy - 14], [cx + 18, cy + 16], [VW, VH]]); g.fill();
-  g.fillStyle = `rgb(${225 * f | 0},${205 * f | 0},${120 * f | 0})`; poly(g, [[0, 0], [VW, 0], [cx + 18, cy - 14], [cx - 18, cy - 14]]); g.fill();
-  g.fillStyle = `rgb(${95 * f | 0},${75 * f | 0},${30 * f | 0})`; poly(g, [[0, VH], [VW, VH], [cx + 18, cy + 16], [cx - 18, cy + 16]]); g.fill();
+  g.fillStyle = `rgb(${70 * f | 0},${48 * f | 0},${36 * f | 0})`; g.fillRect(0, 0, VW, VH);
+  g.fillStyle = `rgb(${52 * f | 0},${36 * f | 0},${28 * f | 0})`; poly(g, [[VW, 0], [cx + 18, cy - 14], [cx + 18, cy + 16], [VW, VH]]); g.fill();
+  g.fillStyle = `rgb(${30 * f | 0},${22 * f | 0},${16 * f | 0})`; poly(g, [[0, 0], [VW, 0], [cx + 18, cy - 14], [cx - 18, cy - 14]]); g.fill();
+  g.fillStyle = `rgb(${96 * f | 0},${78 * f | 0},${48 * f | 0})`; poly(g, [[0, VH], [VW, VH], [cx + 18, cy + 16], [cx - 18, cy + 16]]); g.fill();
+  g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 1;
+  for (let k = 1; k < 7; k++) { const q = k / 7; g.beginPath(); g.moveTo(0, VH * q); g.lineTo(cx - 18, (cy - 14) + 30 * q); g.stroke(); g.beginPath(); g.moveTo(VW, VH * q); g.lineTo(cx + 18, (cy - 14) + 30 * q); g.stroke(); }
+  // a faixa amarela, dos dois lados, e a volta para a esquerda
+  g.fillStyle = `rgb(${214 * f | 0},${176 * f | 0},${52 * f | 0})`;
+  poly(g, [[0, VH * .5], [cx - 18, cy + 1], [cx - 18, cy + 4], [0, VH * .58]]); g.fill();
+  poly(g, [[VW, VH * .5], [cx + 18, cy + 1], [cx + 18, cy + 4], [VW, VH * .58]]); g.fill();
+  const tt = Math.max(0, Math.min(1, (t / 1000 - 46) / 2.5));            // a câmera vira: a faixa some pela esquerda
+  g.fillStyle = `rgb(${214 * f | 0},${176 * f | 0},${52 * f | 0})`; g.fillRect(0, VH * .5 - tt * 6, 40 + tt * 120, 14 + tt * 10);
   g.fillStyle = '#050402'; g.fillRect(cx - 7, cy - 8, 14, 24);
-  g.fillStyle = 'rgba(255,255,230,.8)';
-  for (const k of [.2, .5, .75]) { const y = (cy - 14) * k; g.fillRect(cx - 40 * (1 - k) - 8, y, 80 * (1 - k) + 16, 4 * (1 - k) + 1); }
+  const l = g.createRadialGradient(cx - 60, cy + 20, 10, cx - 60, cy + 20, 190); l.addColorStop(0, 'rgba(255,230,160,.35)'); l.addColorStop(1, 'rgba(0,0,0,.55)');
+  g.fillStyle = l; g.fillRect(0, 0, VW, VH);
 }
 
 // A fita JUN 86 (Marina, 6/6/1986). Tempos em segundos.
 const FILM86 = {
-  dur: 57, motor: [[13, 34, .07]],
-  subs: [[13, 19, '[motor a diesel, chegando devagar]'], [22, 29, '[respiração bem perto do microfone]'], [34, 36, '[a câmera cai]'],
-    [37, 43, '[passos descendo uma escada de madeira]'], [50.5, 53.5, '“Eu pintei igual.”', 'marina-fita']],
+  dur: 54, motor: [[13, 34, .07]],
+  // o relógio da filmadora: 23:08:20 no começo da imagem, 23:09:00 no tique, 23:10 o ônibus, 23:11 a respiração,
+  // 23:13 a câmera cai, 23:14 a faixa amarela, 23:15 "Eu pintei igual" (é o que o capítulo 7 reconstitui)
+  subs: [[9.5, 11.5, '[um tique de relógio, dentro da casa]'], [13, 19, '[motor a diesel, chegando devagar]'], [22, 29, '[respiração bem perto do microfone]'], [34, 36, '[a câmera cai]'],
+    [37, 43, '[passos descendo uma escada de madeira]'], [45.5, 48.5, '[a faixa amarela vira à esquerda. A câmera vira à esquerda]'], [48.6, 51.5, '“Eu pintei igual.”', 'marina-fita']],
   draw(g, t) {
     if (t < 2.2) { vcrBlue(g, 'PLAY ►'); return { snow: 0, track: 0 }; }
     if (t < 6) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .9 - (t - 2.2) * .18, track: 1 }; }
-    const clock = (s) => { const tot = 23 * 3600 + 4 * 60 + Math.max(0, s - 6) * 22.5; const h = Math.floor(tot / 3600) % 24, m = Math.floor(tot / 60) % 60, sc = Math.floor(tot) % 60;
+    const clock = (s) => { const tot = 23 * 3600 + 9 * 60 + (s - 10) * 10; const h = Math.floor(tot / 3600) % 24, m = Math.floor(tot / 60) % 60, sc = Math.floor(tot) % 60;
       return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sc).padStart(2, '0')}`; };
     const stamp = ['JUN. 6 1986', clock(t)];
     if (t < 34) {
@@ -2761,9 +2657,9 @@ const FILM86 = {
       return { stamp, track: .9 };
     }
     if (t < 44) { tetoDoPorao(g, t * 1000); return { stamp, track: .25 }; }
-    if (t < 50) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .85, track: 1 }; }
-    if (t < 53.5) { corredorAmarelo(g, t * 1000); return { track: .35 }; }
-    if (t < 54.5) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .9, track: 1 }; }
+    if (t < 45.5) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .85, track: 1 }; }
+    if (t < 51.5) { corredorAmarelo(g, t * 1000); return { stamp, track: .35 }; }
+    if (t < 52.5) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .9, track: 1 }; }
     vcrBlue(g, 'STOP ■'); return { snow: 0, track: 0 };
   },
 };
@@ -3069,71 +2965,57 @@ function openPhone() {
 $('hangup').addEventListener('click', () => { clearTimeout(linesTimer); inCall = false; closeOv(); });
 
 // ——— CP-500 ———
+// No livro: o computador está apagado até o diário sair da gaveta; depois acende sozinho pedindo quatro números.
+// A senha certa (0606) escreve o PAI.TXT, linha por linha. Depois, DIR e TYPE para o resto.
 const CP_FILES = {
-  'MARINA.TXT': 'MEU PAI NAO FUGIU.\nELE MONTOU UM RECEPTOR NUMA OFICINA ESCONDIDA\nATRAS DA PAREDE DA COMODA. O LABIRINTO ABRE.\n\nEM 1974 O RADIO PEGOU UM SINAL EM MORSE.\nUMA DATA, UMA HORA, UM ONIBUS.\nEM 6/6/76, AS 23:10, ELE SUBIU NO ONIBUS.\n\nA PASSAGEM ABRE TODO 6 DE JUNHO DE ANO\nQUE ACABA EM 6 E FICA ABERTA SEIS HORAS.\n\nEU VOU BUSCAR ELE.',
+  'MARINA.TXT': 'MEU PAI NAO FUGIU.\nELE MONTOU UM RECEPTOR NA OFICINA, ATRAS DA\nPAREDE DA COMODA. O LABIRINTO ABRE.\n\nEM 1974 O RADIO PEGOU UM SINAL EM MORSE.\nUMA DATA, UMA HORA, UM ONIBUS.\nEM 6/6/76, AS 23:10, ELE SUBIU NO ONIBUS.\n\nESTA CHAMANDO DE NOVO. EU VOU.',
   'DATAS.TXT': '06/06/1976 - PAPAI\n06/06/1986 - ?\n06/06/1996\n06/06/2006\n06/06/2016\n06/06/2026\n06/06/2036\n06/06/2046',
   'RELOGIO.BAS': '10 REM RELOGIO - A.T. 1985\n20 H=23 : M=10\n30 PRINT H;":";M\n40 GOTO 30',
 };
-const CP_PAI = 'TRANSCRICAO DOS CADERNOS DO PAPAI (M.T., 1986)\n\nCAD. 4  MONTOU O RECEPTOR COM VALVULAS DO RADIO VELHO.\nCAD. 5  SINAL NA FAIXA 23.10. PONTOS E TRACOS.\nCAD. 6  DECIFROU:  06 06 76 / 23 10 / 875A-10\nCAD. 8  "DEIXEI ABERTO. SEIS HORAS.\n         VOLTO PELO MESMO ONIBUS."\n\n          N (ESCADA)\n   +---------------------+\n M |                     | E\n E |       PORAO         | S ===> A LINHA\n S |                     | T\n A |                     |\n   +-------[COMODA]------+\n           |OFICINA|\n           +-------+';
+const CP_PAI = 'PAI.TXT                          MARINA T.  18/04/86\n\n(cadernos 7, 8 e 9 do meu pai, Aurelio Toledo.\n copiei igual. o que esta entre parenteses e meu.)\n\nCADERNO 7 - outubro de 1975\nNao vou escrever o que peguei. Vou escrever o que\npesa: onze quilos, com o chumbo. Guardo embaixo da\nbancada. A Lucia nao desce mais aqui.\n\nCADERNO 8 - 1 de junho de 1976\nAchei a planta da casa, de 1948. "Porao. Carvoeira.\nCorredor de servico ate a travessa." Fechado em 1963.\nO corredor comeca onde hoje esta a estante do porao.\nBati atras dela. E oca.\n\nCADERNO 8 - 3 de junho\nPus a estante num eixo. A alavanca e um dos livros da\nBarsa: puxa ate o fim e ela gira. O trinco e um rele\nligado no receptor. Sem o receptor em 23.10, o livro\ntrava na metade. Qual livro, eu nao escrevo. Quem\nprecisar saber vai ouvir.\n\nCADERNO 8 - 5 de junho\nNao levo a amostra. Se o que chama quer isso, nao vai\nter. Fica embaixo da bancada, fechada. Lucia: nao mexa.\n\nCADERNO 9 - 6 de junho de 1976, 22h40\nSe eu nao voltar, a menina vai ler isto um dia.\nMarina: eu nao fui embora. Eu fui ver quem chama.\nSe voce ouvir, nao va.\n\n(acaba aqui. a caneca de cafe estava do lado.)';
 const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().trim().replace(/\s+/g, ' ');
 function termPrint(txt) { const t = $('term'); t.textContent += txt + '\n'; t.scrollTop = t.scrollHeight; }
 function setPrompt(p) { $('termPrompt').textContent = p; }
 function cpBoot() {
-  $('term').textContent = ''; $('ovCP').querySelector('.crt').classList.remove('dead');
+  $('term').textContent = '';
   termPrint('PROLOGICA CP-500   48K\nSISTEMA DOS 500   VERSAO 1.3\n');
-  if (S.cp.logged) { termPrint('A>'); setPrompt('A>'); } else setPrompt('SENHA:');
+  if (S.cp.pai) { termPrint('A>'); setPrompt('A>'); }
+  else { termPrint('ARQUIVO PROTEGIDO: PAI.TXT\nDIGITE A SENHA (4 NUMEROS)\n'); setPrompt('SENHA:'); }
 }
 function openCP() {
   if (!S.power) { say('Um Prológica CP-500, bege. Sem energia.'); return; }
-  if (S.flags.cpDead) { say('Não liga mais. Cheiro de componente queimado.'); return; }
-  if (!S.cp) S.cp = { logged: false, fails: 0, mode: 'pass', pai: false };
+  if (!S.open.gav1) { say('O botão de ligar fica atrás. Estala, zumbe, e a tela continua preta.'); return; }
+  if (!S.cp) { S.cp = { fails: 0, pai: false }; say('Você não ligou. Está aceso, verde, com o cursor piscando, pedindo uma senha de quatro números.'); }
   openOv('ovCP'); cpBoot(); setTimeout(() => $('termInput').focus(), 50);
 }
-function cpFiles() {
-  const f = Object.keys(CP_FILES);
-  if (S.cp.pai) f.push('PAI.TXT');
-  if (S.flags.ev340 && !S.flags.ceciRead && S.cp.pai) f.push('CECI.TXT');   // só depois do PAI.TXT: ler o CECI.TXT queima o computador
-  return f;
+function cpFiles() { const f = Object.keys(CP_FILES); if (S.cp.pai) f.unshift('PAI.TXT'); return f; }
+const CP_DATES = { 'PAI.TXT': '18/04/86', 'MARINA.TXT': '01/06/86', 'DATAS.TXT': '25/05/86', 'RELOGIO.BAS': '02/02/85' };
+// o PAI.TXT escreve sozinho, uma linha de cada vez
+function termSlow(txt, done) {
+  const inp = $('termInput'); inp.disabled = true;
+  const lines = txt.split('\n'); let i = 0;
+  const step = () => { if ($('ovCP').hidden) { inp.disabled = false; return; }
+    termPrint(lines[i++]); if (i < lines.length) setTimeout(step, 90); else { inp.disabled = false; inp.focus(); done && done(); } };
+  step();
 }
-const CP_DATES = { 'MARINA.TXT': '01/06/86', 'DATAS.TXT': '25/05/86', 'RELOGIO.BAS': '02/02/85', 'PAI.TXT': '01/06/86', 'CECI.TXT': '07/06/96' };
 function cpType(name) {
-  if (name === 'CECI.TXT' && cpFiles().includes(name)) { cpCeci(); return; }
   if (name === 'PAI.TXT' && S.cp.pai) { termPrint(CP_PAI); return; }
-  if (CP_FILES[name] && name.endsWith('.TXT')) { termPrint(CP_FILES[name]); return; }
   if (CP_FILES[name]) { termPrint(CP_FILES[name]); return; }
   termPrint('?ARQUIVO NAO ENCONTRADO');
 }
-function cpCeci() {
-  const inp = $('termInput'); inp.disabled = true; S.flags.ceciRead = true;
-  const msg = 'a caixa de chumbo'; let i = 0;
-  const t = $('term'); t.textContent += '\n';
-  const iv = setInterval(() => {
-    t.textContent += msg[i++]; t.scrollTop = t.scrollHeight;
-    if (i >= msg.length) { clearInterval(iv);
-      setTimeout(() => { $('ovCP').querySelector('.crt').classList.add('dead'); S.flags.cpDead = true;
-        setTimeout(() => { inp.disabled = false; closeOv(); say('A tela se apaga num risco branco. Cheiro de componente queimado. O computador não liga mais.'); }, 1100); }, 900); }
-  }, 260);
-}
 function cpCommand(raw) {
   const c = norm(raw); const cp = S.cp;
-  if (cp.mode === 'pass') {
+  if (!cp.pai) {
     termPrint('SENHA: ' + '*'.repeat(raw.length));
-    if (c === 'TITO') { cp.logged = true; cp.mode = 'cmd'; termPrint('\nBEM-VINDA, MARINA.\nDIGITE AJUDA PARA VER OS COMANDOS.\n'); setPrompt('A>'); }
-    else { cp.fails++; termPrint(cp.fails >= 3 ? 'VOCE NAO E A MARINA.' : 'SENHA INCORRETA.'); }
-    return;
-  }
-  if (cp.mode === 'filepass') {
-    termPrint('SENHA DO ARQUIVO: ' + '*'.repeat(raw.length));
-    cp.mode = 'cmd'; setPrompt('A>');
-    if (c === '0606' || c === '06/06' || c === '0606' || c === '06 06') { cp.pai = true; S.flags.pai = true; termPrint('RECUPERADO: PAI.TXT\n'); termPrint(CP_PAI); }
-    else termPrint('SENHA INCORRETA.\nLEMBRETE DA AUTORA: O DIA E O MES DELE.');
+    if (c.replace(/[^0-9]/g, '') === '0606' && c.replace(/[^0-9]/g, '').length === 4) { cp.pai = true; S.flags.pai = true; termPrint('\nRECUPERADO: PAI.TXT\n'); termSlow(CP_PAI, () => { termPrint('\nA>'); setPrompt('A>'); }); }
+    else { cp.fails++; termPrint(cp.fails >= 3 ? 'SENHA INCORRETA.\nLEMBRETE DA AUTORA: O DIA E O MES QUE ELE MARCOU.' : 'SENHA INCORRETA.'); }
     return;
   }
   termPrint('A>' + c);
   if (!c) return;
   const [cmd, ...rest] = c.split(' '); let arg = rest.join(' ');
   const fix = (n) => { if (!n) return n; if (n.includes('.')) return n; const hit = cpFiles().find(f => f.startsWith(n + '.')); return hit || n; };
-  if (cmd === 'AJUDA' || cmd === 'HELP') termPrint('DIR              LISTA OS ARQUIVOS\nTYPE <ARQUIVO>   MOSTRA UM ARQUIVO\nRUN <PROGRAMA>   RODA UM PROGRAMA\nRECUPERA         PROCURA ARQUIVOS APAGADOS\nCLS              LIMPA A TELA');
+  if (cmd === 'AJUDA' || cmd === 'HELP') termPrint('DIR              LISTA OS ARQUIVOS\nTYPE <ARQUIVO>   MOSTRA UM ARQUIVO\nRUN <PROGRAMA>   RODA UM PROGRAMA\nCLS              LIMPA A TELA');
   else if (cmd === 'DIR') { termPrint(' DIRETORIO A:'); for (const f of cpFiles()) { const [n, e] = f.split('.'); termPrint(` ${n.padEnd(9)}${e.padEnd(6)}${CP_DATES[f]}`); } termPrint(` ${cpFiles().length} ARQUIVOS`); }
   else if (cmd === 'TYPE' || cmd === 'LIST' || cmd === 'LER' || cmd === 'CAT' || cmd === 'ABRIR') cpType(fix(arg));
   else if (cmd === 'RUN' || cmd === 'RODAR') {
@@ -3141,11 +3023,6 @@ function cpCommand(raw) {
       setTimeout(() => { termPrint(' 23 : 10\n 23 : 10\n 23 : 10'); }, 700);
       setTimeout(() => { termPrint('BREAK EM 30\nPRONTO'); inp.disabled = false; inp.focus(); }, 3200); }
     else termPrint('?PROGRAMA NAO ENCONTRADO');
-  }
-  else if (cmd === 'RECUPERA') {
-    if (!arg) { termPrint('PROCURANDO SETORES APAGADOS...'); termPrint(S.cp.pai ? 'NADA MAIS PARA RECUPERAR.' : ' *APAGADO*  PAI.TXT   (PROTEGIDO)\nUSE: RECUPERA PAI.TXT'); }
-    else if (fix(arg) === 'PAI.TXT' || arg === 'PAI') { if (S.cp.pai) termPrint('JA RECUPERADO. USE: TYPE PAI.TXT'); else { cp.mode = 'filepass'; setPrompt('SENHA DO ARQUIVO:'); } }
-    else termPrint('?NADA COM ESSE NOME');
   }
   else if (cmd === 'CLS') $('term').textContent = '';
   else if (cmd === 'SAIR' || cmd === 'EXIT') closeOv();
@@ -3163,9 +3040,10 @@ function drawTVScreen(ctx, t) {
   ctx.save(); ctx.beginPath(); ctx.roundRect(1104, 320, 136, 128, 22); ctx.clip();
   ctx.globalAlpha = .85; ctx.drawImage(grains[(t / 50 | 0) % grains.length], 1104, 320, 136, 128);
   ctx.globalAlpha = 1; ctx.fillStyle = 'rgba(150,170,200,.28)'; ctx.fillRect(1104, 320, 136, 128);
-  if ((t % 9000) < 3600) {
-    ctx.fillStyle = 'rgba(20,40,120,.75)'; ctx.fillRect(1104, 372, 136, 30);
-    ctx.fillStyle = 'rgba(240,240,240,.85)'; ctx.font = 'bold 15px Arial'; ctx.fillText('PLANTÃO', 1140, 393);
+  if ((t % 9000) < 3600) { // a tela de ajuste
+    const cols = ['#c8c8c8', '#c8c800', '#00c8c8', '#00c800', '#c800c8', '#c80000', '#0000c8'];
+    cols.forEach((c, i) => { ctx.fillStyle = c; ctx.globalAlpha = .55; ctx.fillRect(1104 + i * 19.5, 320, 19.5, 90); });
+    ctx.globalAlpha = 1;
   }
   ctx.restore();
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -3204,25 +3082,22 @@ TICKS.push(() => {
   if (S.flags.ev340 || !S.started || S.ended || fictionMin() < 220 || overlayOpen() || S.view > 3) return;
   S.flags.ev340 = true;
   const now = performance.now();
-  S.blackoutUntil = now + 1500; S.tvOn = false;
+  S.blackoutUntil = now + 1500; S.tvOn = false; S.dropPauseUntil = now + 120000;
   setTimeout(() => {
-    const closed = S.open.esc; if (closed) { S.open.esc = false; S.flags.escClosed = true; }
     dirty();
     say(S.power
-      ? 'O relógio parado dá um tique. Um só. A lâmpada morre e volta. Na estante, o rádio de pilha, que não tem pilha, chia por dois segundos.' + (closed ? ' Quando a luz volta, a gaveta da escrivaninha está fechada. Você não fechou.' : '')
-      : 'No escuro, o relógio parado dá um tique. Um só. Na estante, o rádio de pilha, que não tem pilha, chia por dois segundos.');
+      ? 'O relógio parado, em cima da cômoda, dá um tique. Um só. A lâmpada morre e volta.' + (S.open.oficina ? ' Na oficina, o receptor chia sozinho por dois segundos.' : '') + ' E a gota parou de cair.'
+      : 'No escuro, o relógio parado dá um tique. Um só. E a gota parou de cair.');
   }, 1600);
 });
 
 // ——— pontos clicáveis desta onda (ficam por cima dos antigos) ———
-spot(1, 'radio', [576, 400, 186, 112], { label: 'Rádio de pilha',
-  act: () => say(S.flags.ev340 ? 'O lugar das pilhas continua vazio. Mas ele chiou. Você ouviu.' : 'Um Motoradio de capa de couro. O lugar das pilhas está vazio.') });
 spot(3, 'cp500', [702, 284, 210, 192], { label: 'Computador CP-500', act: () => openCP() });
 spot(3, 'tv', [1082, 188, 220, 284], { label: 'TV Telefunken',
   act: () => {
     if (!S.power) { say('TV de tubo, 20 polegadas, antena de chifre. Sem luz, não liga.'); return; }
     S.tvOn = !S.tvOn;
-    say(S.tvOn ? 'Liga com um estalo. Chuvisco, e um plantão que vai e volta: “…jovem de dezoito anos desaparecida desde ontem à noite em Perdizes. A polícia aguarda o prazo de vinte e quatro horas…” Depois, o Minhocão fechado para obras. Depois, chuvisco.' : 'Você desliga. O ponto branco demora a sumir da tela.');
+    say(S.tvOn ? 'Liga com um estalo. Chuvisco. Você gira o seletor: num canal, a tela de ajuste com o apito fino; no outro, um filme antigo com o som no mínimo; no resto, chuvisco. Três da manhã é isso.' : 'Você desliga. O ponto branco demora a sumir da tela.');
   } });
 spot(3, 'vcr', [1096, 476, 194, 38], { label: 'Videocassete Sharp',
   act: () => { if (!S.flags.fitaIn) say('Vazio. Esperando uma fita.'); else if (!S.power) say('Sem luz.'); else watch86(); },
@@ -3248,8 +3123,8 @@ TICKS.push(() => {
 // ===== wave4.js — labirinto, oficina, rádio de válvulas, estante, corredores, ponto final =====
 ICONS.bolinha = (g) => { const r = g.createRadialGradient(11, 11, 1, 14, 14, 9); r.addColorStop(0, '#fff'); r.addColorStop(.4, '#a9aba8'); r.addColorStop(1, '#3a3b39');
   g.fillStyle = r; g.beginPath(); g.arc(14, 14, 8, 0, 7); g.fill(); };
-ICONS.caixa = (g) => { g.fillStyle = '#4c4f50'; g.fillRect(3, 8, 22, 14); g.fillStyle = '#d8b52a'; g.beginPath(); g.arc(14, 15, 4.5, 0, 7); g.fill();
-  g.fillStyle = '#151515'; g.beginPath(); g.arc(14, 15, 1.5, 0, 7); g.fill(); };
+ICONS.caixa = (g) => { g.fillStyle = '#4c4f50'; g.fillRect(3, 9, 22, 14); g.strokeStyle = '#2a2b2c'; g.lineWidth = 2; g.beginPath(); g.moveTo(9, 9); g.lineTo(9, 5); g.lineTo(19, 5); g.lineTo(19, 9); g.stroke();
+  g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(3, 9, 22, 4); };
 
 // ——— navegação: virar só no porão; nas outras cenas, um botão de voltar ———
 function syncNav() {
@@ -3355,10 +3230,8 @@ const RADIO_MARINA = [
 const RADIO_AGAIN = [{ sys: '[chiado; os pontos e traços novos, devagar, repetindo]', d: 0 }];
 function openRadio() {
   if (!S.power) { say('Um rádio de válvulas Philips, de madeira. Sem luz, as válvulas não acendem.'); return; }
-  if (!S.papers.has(4)) {
-    findPaper(4, true); toast('Uma página do caderno 6 foi para a linha do tempo.');
-    say('Atrás do rádio, enfiada entre as válvulas, uma página dobrada do caderno 6. As válvulas esquentam devagar, com cheiro de poeira queimada.');
-  }
+  if (!S.found.caixa) { say('O fio do receptor desce da bancada e passa por baixo da caixa de chumbo, que está em cima dele. Primeiro a caixa.'); return; }
+  if (!S.flags.radioOn) say('Você liga o receptor. As válvulas acendem laranja, uma por uma, como se lembrassem. Cheiro de poeira queimada.');
   S.flags.radioOn = true; S.flags.tuned = false; $('radioLines').textContent = ''; $('morse').textContent = '';
   openOv('ovRadio'); $('tune').value = '17.4'; tuneRadio();
   setTimeout(() => $('tune').focus(), 60);
@@ -3379,13 +3252,13 @@ $('tune').addEventListener('input', tuneRadio);
 // ——— a estante ———
 function openEstante() {
   S.open.estante = true; dirty(1);
-  say('Você puxa o volume 7 até o fim. Um estalo dentro da parede, depois outro, como engrenagem de relógio. A estante inteira gira sem barulho e para de lado. Atrás dela, um corredor curto de concreto e uma fresta de luz amarela.');
+  say('Você puxa o volume 7 até o fim. Um estalo dentro da parede, depois outro, como engrenagem de relógio. A estante inteira gira sem barulho, devagar, como porta de geladeira velha. Atrás, uma porta de madeira baixa, com tinta de 1963, e um ar frio com cheiro de terra seca.');
 }
 
 // ——— corredores ———
-const STEP_MSG = ['Ao longe, um motor a diesel.', 'O motor, mais perto. Cheiro de óleo queimado no ar parado.', 'Agora dá para ouvir o motor em ponto morto, logo ali.', 'Garoa. Você sente garoa no rosto, dentro de um corredor.'];
-const WRONG_MSG = ['O corredor faz uma curva longa e te devolve no começo. As mesmas manchas. A mesma lâmpada piscando.',
-  'Você anda muito. Quando para, está de novo onde começou. O motor sumiu.', 'Uma porta, outra porta, e de novo a fresta da estante atrás de você.'];
+const STEP_MSG = ['A faixa amarela vira à esquerda. Ao longe, um motor a diesel.', 'O motor, mais perto. A caixa pesa mais a cada esquerda.', 'Agora dá para ouvir o motor em ponto morto, logo ali.', 'Garoa. Você sente garoa no rosto, dentro de um corredor.'];
+const WRONG_MSG = ['A direita volta. O corredor faz uma curva longa e te devolve no começo, na porta baixa da estante.',
+  'Você anda muito. Quando para, está de novo onde começou. O motor sumiu.', 'Sem faixa amarela nesta parede. Você volta até achar a tinta de novo: a porta da estante.'];
 function corrMove(dir) {
   if (dir === 'L') {
     const next = S.corr + 1;
@@ -3424,21 +3297,22 @@ $('btnRetry').addEventListener('click', () => {
 spot(1, 'espada', [338, 420, 144, 300], { label: 'Espada-de-são-jorge',
   act: () => {
     if (S.found.bolinha) { say('Morta. A terra revirada pelos seus dedos.'); return; }
+    if (!S.flags.pai) { say('Morta faz tempo. A terra está seca e fofa, como se alguém tivesse cavado e tampado de novo.'); return; }
     S.found.bolinha = true; addItem('bolinha');
     say('A terra está seca e fofa. Você enfia os dedos e encosta em uma coisa fria e redonda: uma bolinha de aço, do tamanho de uma bolinha de gude.');
   } });
-spot(1, 'vol7', [774, 272, 44, 110], { label: 'O buraco do volume 7', when: () => !S.open.estante,
+spot(1, 'vol7', [774, 272, 44, 110], { label: 'O buraco na Barsa', when: () => !S.open.estante,
   act: () => S.flags.marina ? openEstante()
-    : say('No buraco do 7, lá no fundo, tem um livro deitado atrás dos outros. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
+    : say('No buraco, lá no fundo, tem um livro deitado atrás dos outros: o volume 7. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
 spot(1, 'passagem', [520, 120, 600, 600], { label: 'Passagem', when: () => S.open.estante,
-  act: () => goView(5, () => { S.corr = 0; dirty(5); say('Concreto, depois papel de parede amarelo. Lâmpadas fluorescentes zumbindo. Cheiro de carpete molhado. Não tem ninguém.'); }) });
+  act: () => goView(5, () => { S.corr = 0; dirty(5); say('Tijolo sem reboco, chão de terra batida, seco. Na parede, na altura do ombro, uma faixa amarela pintada à mão. Lá na frente, longe, um motor parado, ligado.'); }) });
 spot(2, 'labirinto', [294, 234, 132, 272], { label: 'Labirinto de vidro',
   act: () => say(S.flags.mazeDone ? 'Vazio. A bolinha desceu pelo cano.' : 'Um labirinto de vidro embutido no tijolo. Tem um furo em cima, do tamanho de uma bolinha de gude. Embaixo, ele encaixa num cano fino que corre pelo rodapé até a cômoda.'),
   use: (it) => it === 'bolinha' && !S.flags.mazeDone ? (openMaze(), true) : false });
 spot(2, 'vao', [955, 302, 295, 418], { label: 'Oficina', when: () => S.open.oficina, act: () => goView(4) });
 
 // oficina
-spot(4, 'oficinaParede', [0, 0, W, H], { label: 'Oficina', act: () => say('Um cômodo de dois por três, de concreto. Cheiro de estanho e de poeira queimada. A luz da bancada é branca e dura.') });
+spot(4, 'oficinaParede', [0, 0, W, H], { label: 'Oficina', act: () => say('Um cômodo de dois por três, de concreto. Cheiro de estanho e de poeira queimada. A luz da bancada é branca e dura. As ferramentas penduradas na ordem, como a Marina escreveu.') });
 spot(4, 'painel', [0, WALL_TOP, 168, 625], { label: 'Painel aberto', act: () => goView(2) });
 spot(4, 'lucia', [28, 290, 96, 86], { label: 'Bilhete', when: () => !S.found.lucia,
   act: () => { S.found.lucia = true; dirty(4); findPaper(6, true); openPaper(6); } });
@@ -3448,23 +3322,26 @@ spot(4, 'planta', [960, 130, 280, 180], { label: 'Planta da casa', when: () => !
   act: () => { S.found.planta = true; dirty(4); findPaper(1, true); openPaper(1); } });
 spot(4, 'valvulas', [1290, 160, 270, 190], { label: 'Prateleira',
   act: () => say('Válvulas de rádio enfileiradas e rolos de fio esmaltado, tudo etiquetado com a mesma letra de técnico.') });
-spot(4, 'cadernos', [294, 430, 162, 90], { label: 'Cadernos quadriculados', when: () => !S.found.cadernos,
-  act: () => { S.found.cadernos = true; dirty(4); findPaper(2, true); toast('O caderno 4 foi para a linha do tempo.');
-    say('Nove cadernos quadriculados, numerados de 1 a 9. Faltam páginas em quase todos. O caderno 4 tem uma fita marcando uma página.'); } });
+spot(4, 'cadernos', [294, 430, 162, 90], { label: 'Os nove cadernos',
+  act: () => { if (findPaper(2, true)) { toast('A última página do caderno 9 foi para a linha do tempo.'); openPaper(2); }
+    say('Nove cadernos de capa preta, numerados de 1 a 9, numa pilha. Os três primeiros são de rádio: esquema, bobina, lista de peças. O 9 está aberto na última página escrita.'); } });
+spot(4, 'biblia', [472, 448, 86, 66], { label: 'Bíblia embaixo da caneca',
+  act: () => { const nova = findPaper(17, true); findPaper(7, true);
+    if (nova) { toast('A carta e o recorte foram para a linha do tempo.'); openPaper(17); }
+    say('Uma caneca com café virado pedra, em cima de uma bíblia. Na primeira página, a lápis: “Lúcia Toledo, 1961”. Dobrados no Salmo 23, uma carta que nunca foi mandada e um recorte da Folha de 1976.'); } });
 spot(4, 'gavetaBancada', [300, 552, 240, 62], { label: 'Gaveta da bancada',
-  act: () => { if (findPaper(3, true)) { toast('Uma página do caderno 5 foi para a linha do tempo.'); say('Chaves de relojoeiro, molas e, dobrada no fundo, uma página arrancada do caderno 5.'); }
-    else say('Chaves de relojoeiro, molas, um cronômetro parado.'); } });
+  act: () => say('Chaves de relojoeiro, molas, um cronômetro parado.') });
 spot(4, 'radioV', [560, 300, 290, 216], { label: 'Rádio de válvulas', act: () => openRadio() });
 spot(4, 'tabelaMorse', [192, 132, 238, 160], { label: 'Tabela de código morse',
   act: () => { if (findPaper(16, true)) toast('A tabela de morse foi para a linha do tempo.'); openPaper(16); } });
 spot(4, 'caixa', [930, 440, 180, 80], { label: 'Caixa de chumbo', when: () => !S.found.caixa,
-  act: () => { S.found.caixa = true; dirty(4); addItem('caixa'); findPaper(5, true); toast('Uma página do caderno 8 foi para a linha do tempo.');
-    say('Você levanta a caixa de chumbo. Pesa como um tijolo. Embaixo dela, uma página do caderno 8.'); } });
+  act: () => { S.found.caixa = true; dirty(4); addItem('caixa');
+    say('Você tenta levantar com uma mão e não consegue. Com as duas, consegue, e se arrepende: fria como se tivesse saído da geladeira. Cinza, fosca, com alça. Onze quilos. Você não abre.'); } });
 spot(4, 'lupa', [1160, 350, 130, 170], { label: 'Lupa de relojoeiro',
   act: () => say('Pela lente, as letras dos cadernos ficam enormes e tremidas.') });
 
 // corredores
-spot(5, 'corredor', [0, 0, W, H], { label: 'Corredor', act: () => say('Papel de parede amarelo, inchado de umidade. As lâmpadas zumbem. O carpete afunda um pouco a cada passo.') });
+spot(5, 'corredor', [0, 0, W, H], { label: 'Corredor', act: () => say('Tijolo sem reboco, terra batida, seca, o que não faz sentido com a chuva lá fora. A faixa amarela segue na altura do ombro. Longe, o motor.') });
 const J = () => CORR[Math.min(S.corr, CORR.length - 1)];
 spot(5, 'cL', [240, 250, 170, 510], { label: 'Virar à esquerda', when: () => J().open.includes('L'), act: () => corrMove('L') });
 spot(5, 'cR', [1190, 250, 170, 510], { label: 'Virar à direita', when: () => J().open.includes('R'), act: () => corrMove('R') });
@@ -3472,8 +3349,8 @@ spot(5, 'cF', [690, 320, 220, 190], { label: 'Seguir em frente', when: () => J()
 spot(5, 'obj', () => { const o = J().obj; return o ? [o.x - 34, o.y - 28, 68, 56] : [0, 0, 0, 0]; },
   { label: () => J().obj ? J().obj.label : '', when: () => J().obj && !S.found[J().obj.id],
     act: () => { const o = J().obj; S.found[o.id] = true; dirty(5); say(o.text); } });
-spot(5, 'p12', [770, 755, 100, 70], { label: 'Folha de caderno', when: () => J().paper === 12 && !S.papers.has(12),
-  act: () => { findPaper(12, true); dirty(5); openPaper(12); } });
+spot(5, 'p12', [770, 755, 100, 70], { label: 'Página amassada no chão', when: () => J().paper === 12 && !S.papers.has(12),
+  act: () => { findPaper(12, true); dirty(5); openPaper(12); say('Uma página do caderno da Cecília, amassada, no chão da primeira bifurcação. Você reconhece a letra antes de ler.'); } });
 spot(5, 'p13', [1176, 170, 104, 110], { label: 'Papel preso no cano', when: () => J().paper === 13 && !S.papers.has(13),
   act: () => { findPaper(13, true); dirty(5); openPaper(13); } });
 
@@ -3657,7 +3534,7 @@ function audioTick() {
     if (!AUD.last.creak) AUD.last.creak = now + 30000;
     if (now > AUD.last.creak) { SFX.creak(); AUD.last.creak = now + 40000 + Math.random() * 45000; }
     // uma vez por partida: tudo some por 6 segundos
-    if (!AUD.silenceDone && S.t0 && now - S.t0 > REAL_MIN * .6 * 60000 && Math.random() < .002) { AUD.silenceDone = true; AUD.silenceUntil = now + 6000; }
+    if (!AUD.silenceDone && S.t0 && now - S.t0 > 36 * 60000 && Math.random() < .002) { AUD.silenceDone = true; AUD.silenceUntil = now + 6000; }
   }
   // o evento das 03:40
   if (S.flags.ev340 && !AUD.ev340) {
@@ -3751,20 +3628,18 @@ const wrap = (name, before, after) => {
 };
 placeFuse = wrap('placeFuse', () => { SFX.squeak(); setTimeout(SFX.clunk, 700); });
 unlock = wrap('unlock', () => { SFX.clunk(); });
-breakPig = wrap('breakPig', () => SFX.shatter());
 openGav3 = wrap('openGav3', () => { SFX.tick(); SFX.pull(); });
 deskDrawer = wrap('deskDrawer', () => SFX.pull());
 openEstante = wrap('openEstante', () => SFX.rumble(3.2));
 mazeDone = wrap('mazeDone', () => { SFX.roll(1.6); setTimeout(() => SFX.roll(2.4), 900); setTimeout(() => { SFX.clunk(); SFX.rumble(2); }, 2600); });
 tilt = wrap('tilt', () => { if (!mazeBusy) SFX.roll(.35); });
 corrMove = wrap('corrMove', () => { for (let i = 0; i < 4; i++) SFX.step(i * .32); });
-cpCeci = wrap('cpCeci', () => { setTimeout(() => { tone(15000, .6, 'sine', .03, 300); SFX.thud(.3); }, 5200); });
 dial = wrap('dial', null, (r, ch, i) => { if (dialing) { const n = i + 1, back = (220 + n * 85); for (let k = 0; k < n; k++) SFX.tick(back / 1000 + k * .065); } });
 playFilm = wrap('playFilm', (film) => { AUD.film = film; AUD.filmT0 = performance.now() + 16; AUD.filmPlayed = new Set(); });
 hideAllOv = wrap('hideAllOv', () => stopVoice());
 
 // falas ditas fora de diálogo (mensagens) que têm voz gravada
-const SAY_VOICES = [['Você veio. Trouxe a certa?', 'ceci-ponto'], ['um plantão que vai e volta', 'plantao', 'tv']];
+const SAY_VOICES = [['Você veio. Trouxe a certa?', 'ceci-ponto']];
 say = wrap('say', (text) => { for (const [k, id, fx] of SAY_VOICES) if (text.includes(k)) voice(id, fx); });
 
 // narração dos papéis

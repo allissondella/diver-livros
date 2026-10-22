@@ -19,9 +19,9 @@ O roteiro completo, com o elenco (prompts do Voice Design), o texto de cada fala
 | Secretária (livro caps. 1, 3, 6 e porão) | ceci-saudacao, sec-01, ceci-recado-1 (termina no grito), ceci-grito (opcional: sem ele, o chiado engole), sec-02, ceci-recado-2, sec-03, sec-04, sec-05, odete-recado |
 | Telefone do porão | odete-tel-1, fabio-tel, odete-tel-2, odete-tel-3, odete-tel-4, odete-tel-5, odete-tel-de-novo, pm-1, fabio-pm, pm-2 |
 | Rádio da oficina | marina-radio-1 a marina-radio-5 |
-| TV e ponto final | plantao, ceci-ponto |
+| Ponto final | ceci-ponto (`plantao` foi gravada, mas a TV não mostra mais o plantão: ninguém sabia do sumiço) |
 | Fim do jogo fora do livro | fabio-fim-1, ceci-fim-1, fabio-fim-2 |
 | Fim ruim (VOCÊ FALHOU) | grito-falhou (efeito; sem ele, o site usa `sons/jumpscare.mp3`) |
 | Sons de cena | bip, chiado-microfita, telefone-chamando, telefone-tocando |
 | Fita do Fábio no fim do jogo (opcional) | aurelio-agora-vai ("Agora vai.", voz de homem, pelo rádio) |
-| Narração dos papéis (opcional) | papel-02 a papel-15 |
+| Narração dos papéis (opcional) | papel-01, 02, 06, 07, 09, 10, 11, 12, 13, 14, 15, 16, 17 (os ids da linha do tempo em `jogo/src/js/data.js`) |

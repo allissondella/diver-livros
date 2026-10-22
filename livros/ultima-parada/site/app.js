@@ -37,6 +37,8 @@
   };
   const CHAVE = 'ultima-parada:livro:2';
   const novo = () => ({ fase: 'cap1', liberados: 1, marcos: {}, lidos: {}, abertos: {}, paginas: 0, fita: false, final: false, claro: false });
+  // leitura obrigatória: o primeiro capítulo solto pelo porão (3 a 8) que ainda não foi aberto; o porão só volta depois dele
+  const pendente = () => { for (let k = PRIMEIRO_DO_PORAO; k <= Math.min(P.liberados, 8); k++) if (!P.abertos[k]) return k; return 0; };
   let P = novo();
   try { const s = JSON.parse(localStorage.getItem(CHAVE)); if (s && s.fase) P = Object.assign(novo(), s); } catch (e) { /* sem armazenamento */ }
   const salvar = () => { try { localStorage.setItem(CHAVE, JSON.stringify(P)); } catch (e) { /* segue sem salvar */ } };
@@ -49,13 +51,6 @@
   const naoLido = () => { for (let n = 1; n <= P.liberados; n++) if (!P.abertos[n]) return n; return 0; };
   const atualizaSelo = () => { $('#selo').hidden = !naoLido(); };
   const titulo = (n) => { const c = CAPS.find(x => x.n === n); return c ? c.titulo : ''; };
-  // os capítulos que o porão solta (3 a 8) têm que ser abertos: o porão só volta depois que eles foram abertos (sem tempo de leitura)
-  const ULTIMO_OBRIGATORIO = 8;
-  const pendente = (ignorar) => {
-    if (P.final) return 0;
-    for (let n = PRIMEIRO_DO_PORAO; n <= Math.min(P.liberados, ULTIMO_OBRIGATORIO); n++) if (!P.abertos[n] && n !== ignorar) return n;
-    return 0;
-  };
 
   // ——— som ———
   let ctx = null, ruidoBuf = null, bufFita = null;
@@ -188,7 +183,7 @@
   let jogo = null;
   const falaJogo = (acao) => { if (jogo && jogo.contentWindow) jogo.contentWindow.postMessage({ ultimaParada: true, acao }, '*'); };
   function mostrarPorao() {
-    const falta = pendente(); if (falta) { abrirCapitulo(falta); return; }
+    if (pendente()) { abrirCapitulo(pendente()); return; }   // tem capítulo solto e não aberto: ele vem primeiro
     if (P.fase === 'cap1' || P.fase === 'fita' || P.fase === 'cap2') { P.fase = 'porao'; salvar(); }
     if (!jogo) {
       jogo = el('iframe', { src: 'porao/index.html?livro=1', title: 'O porão', allow: 'autoplay; fullscreen' });
@@ -207,9 +202,8 @@
     if (vista === 'porao') falaJogo('pausa');
     document.body.classList.remove('no-porao');
     $('#porao').hidden = true;
-    mostraIrPorao();
+    $('#ir-porao').hidden = P.fase !== 'porao' || !!P.marcos.fim || !!pendente();
   }
-  function mostraIrPorao() { $('#ir-porao').hidden = P.fase !== 'porao' || !!P.marcos.fim || !!pendente(); }
   function medirBarra() { document.documentElement.style.setProperty('--barra', $('.barra').offsetHeight + 'px'); }
   window.addEventListener('resize', medirBarra);
   window.addEventListener('message', (e) => {
@@ -244,6 +238,7 @@
   }
   function paginaSolta(de, ate) {
     falaJogo('pausa'); papel();
+    de = Math.min(de, pendente() || de);       // uma folha que caiu antes e ainda não foi aberta entra junto ("Capítulos 4 a 5")
     if (ate === 9) { P.fase = 'fim'; salvar(); setTimeout(() => abrirCapitulo(de <= 8 ? de : 9), 1400); return; }
     $('#solta-cena').textContent = CENAS[ate];
     $('#solta-titulo').textContent = de === ate ? `Capítulo ${de} — ${titulo(de)}` : `Capítulos ${de} a ${ate}`;
@@ -252,7 +247,7 @@
   }
 
   // ——— vistas ———
-  let vista = 'cap1', observador = null;
+  let vista = 'cap1', timerLeitura = 0, observador = null;
   const pagina = $('#pagina');
   const VERMELHAS = ['cap1', 'fita', 'cap2', 'porao'];
   function aplicarTema(v) {
@@ -263,7 +258,7 @@
     const t = $('#tema'); t.textContent = P.claro ? 'Fundo escuro' : 'Fundo claro'; t.setAttribute('aria-pressed', String(P.claro));
   }
   $('#tema').addEventListener('click', () => { P.claro = !P.claro; salvar(); aplicarTema(vista); });
-  function pararLeitura() { if (observador) observador.disconnect(); }
+  function pararLeitura() { clearTimeout(timerLeitura); if (observador) observador.disconnect(); }
   function abrirPagina(v) {
     sairDoPorao(); pararLeitura(); pararFita();
     pagina.querySelectorAll('video').forEach(x => { try { x.pause(); } catch (e) { /* já parou */ } });   // a fita para quando a página sai
@@ -334,7 +329,7 @@
     if (n > P.liberados) return;
     abrirPagina(n <= 2 ? 'cap' + n : 'cap');
     if (!P.abertos[n]) { P.abertos[n] = true; salvar(); atualizaSelo(); }
-    mostraIrPorao();
+    $('#ir-porao').hidden = P.fase !== 'porao' || !!P.marcos.fim || !!pendente();
     const c = CAPS.find(x => x.n === n); if (!c) return;
     const a = el('article');
     a.append(el('header', { class: 'cap-cabeca' }, el('span', { class: 'cap-numero' }, 'Capítulo ' + n), el('h1', { class: 'cap-titulo' }, c.titulo)));
@@ -353,16 +348,15 @@
     else if (n === 10) acoes.append(botao('Fechar o envelope', fim, true));
     else if (P.marcos.fim) acoes.append(botao(prox && prox !== n ? `Ler o capítulo ${prox}` : 'Voltar ao capítulo 9', () => abrirCapitulo(prox && prox !== n ? prox : 9), true));
     else {
-      // com outro capítulo obrigatório esperando, o único caminho é ele; senão, o porão
-      const outro = pendente(n);
-      if (outro) acoes.append(botao(`Ler o capítulo ${outro}`, () => abrirCapitulo(outro), true));
+      const pend = pendente();
+      if (pend) acoes.append(botao(`Ler o capítulo ${pend}`, () => abrirCapitulo(pend), true));   // ainda tem folha solta por abrir: o porão espera
       else {
         if (prox && prox !== n) acoes.append(botao(`Ler o capítulo ${prox}`, () => abrirCapitulo(prox)));
         acoes.append(botao('Voltar ao porão', mostrarPorao, true));
       }
     }
     pagina.append(acoes);
-    // Páginas por leitura: contam quando a pessoa chega ao fim do capítulo (sem tempo mínimo)
+    // Páginas por leitura: contam quando a pessoa chega ao fim do capítulo
     if (!P.lidos[n]) {
       observador = new IntersectionObserver((es) => {
         if (!es.some(e => e.isIntersecting)) return;

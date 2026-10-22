@@ -76,21 +76,26 @@ ART[4] = function (ctx, st) {
   ctx.fillStyle = '#a28150'; ctx.fillRect(404, 578, 32, 8);
   floorShadow(ctx, 250, 1100, 50);
 
-  // cadernos quadriculados
-  if (!st.found.cadernos) for (let i = 0; i < 9; i++) {
-    ctx.fillStyle = ['#2c4a6b', '#6b2c2c', '#2c6b44', '#6b5a2c', '#3a3a3a'][i % 5];
+  // os nove cadernos de capa preta, numa pilha
+  for (let i = 0; i < 9; i++) {
+    ctx.fillStyle = ['#1a1a1c', '#222124', '#1c1b1e'][i % 3];
     ctx.fillRect(300 + (i % 2) * 4, 506 - i * 8, 150, 8); ctx.fillStyle = 'rgba(230,225,210,.7)'; ctx.fillRect(302 + (i % 2) * 4, 508 - i * 8, 146, 2);
   }
   radioValvulas(ctx, 560, 316);
+  // a bíblia de Lúcia, com a caneca de café virado pedra em cima
+  ctx.fillStyle = '#1e1a16'; ctx.fillRect(474, 488, 84, 28); bevel(ctx, 474, 488, 84, 28, 2);
+  ctx.fillStyle = '#c9b48a'; ctx.fillRect(478, 492, 76, 3); ctx.fillStyle = 'rgba(200,170,90,.6)'; ctx.fillRect(540, 496, 3, 16);
+  ctx.fillStyle = '#d9d2c0'; ctx.fillRect(492, 456, 40, 34); ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(492, 456, 40, 5);
+  ctx.strokeStyle = '#d9d2c0'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(536, 472, 9, -1.2, 1.2); ctx.stroke();
+  ctx.fillStyle = '#2b1a0c'; ctx.beginPath(); ctx.ellipse(512, 459, 16, 3, 0, 0, 7); ctx.fill();
   // caixa de chumbo
   if (!st.found.caixa) {
     castShadow(ctx, 940, 450, 160, 66, 16);
     ctx.fillStyle = '#4c4f50'; ctx.fillRect(936, 446, 168, 70); bevel(ctx, 936, 446, 168, 70, 3);
     ctx.fillStyle = '#3c3f40'; ctx.fillRect(936, 446, 168, 14);
-    const cx = 1020, cy = 488; ctx.fillStyle = '#d8b52a'; ctx.beginPath(); ctx.arc(cx, cy, 20, 0, 7); ctx.fill();
-    ctx.fillStyle = '#151515';
-    for (let k = 0; k < 3; k++) { const a = -Math.PI / 2 + k * 2 * Math.PI / 3; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, 17, a - .5, a + .5); ctx.closePath(); ctx.fill(); }
-    ctx.fillStyle = '#d8b52a'; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, 7); ctx.fill(); ctx.fillStyle = '#151515'; ctx.beginPath(); ctx.arc(cx, cy, 3, 0, 7); ctx.fill();
+    // a alça de ferro
+    ctx.strokeStyle = '#2a2b2c'; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(990, 450); ctx.lineTo(990, 434); ctx.lineTo(1050, 434); ctx.lineTo(1050, 450); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.06)'; ctx.fillRect(940, 450, 60, 60);
   }
   // lupa de pé e a luminária articulada
   ctx.strokeStyle = '#1d1d1b'; ctx.lineWidth = 5;

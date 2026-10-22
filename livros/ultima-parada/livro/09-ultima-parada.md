@@ -14,9 +14,9 @@ Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas d
 >>
 >> A porta da frente estava aberta. Os pais dela dormiam lá em cima, como se fosse uma noite qualquer. Era, para eles.
 >>
->> O porão estava escuro e a gota caía na lata. Achei o fusível. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.
+>> O porão estava escuro e a gota caía na lata. No quadro, uma rosca vazia; na estante, numa lata de bombons cheia de válvulas, um fusível novo. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.
 >>
->> Às três e pouco liguei para a Dona Odete, porque o número dela estava na agenda da cozinha. Escrevo de memória:
+>> Às três e pouco liguei para a Dona Odete, porque o número dela estava num papel colado ao lado do telefone do porão, na letra da mãe da Ceci. Escrevo de memória:
 >>
 >> "Alô?… Quem é, a essa hora?"
 >>
@@ -30,7 +30,9 @@ Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas d
 >>
 >> Ela contou três. Foi a primeira vez que ela contou três.
 >>
->> Às três e quarenta o relógio da parede deu um tique. Um só. A lâmpada morreu e voltou. O receptor chiou de novo, e a voz de moça disse o resto, e eu escrevo o que ela disse, na ordem, porque é o que importa:
+>> Às três e quarenta o relógio da parede deu um tique. Um só. A lâmpada morreu e voltou, e a gota parou de cair por uns dois minutos, como a Ceci tinha escrito. Depois a casa voltou a ser casa.
+>>
+>> Agora o resto do que a voz de moça disse no rádio, depois do meu nome. Guardei para aqui porque é agora que importa, na ordem:
 >>
 >> "Escuta: a caixa de chumbo, na bancada. Não abre. Leva pra ela."
 >>
@@ -40,7 +42,7 @@ Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas d
 >>
 >> "Escuta o rádio depois de mim. Ele fala do jeito dele. E segue a pintura."
 >>
->> Depois dela, o rádio voltou a bater pontos e traços, mais devagar. Com a tabela da parede, letra por letra, deu: PUXE O LIVRO 7. Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: "O letreiro apagou." Mais adiante, enfiado num cano, um bilhete de outra letra: "Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez." Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.
+>> Quando ela parou, o rádio voltou a bater pontos e traços, mais devagar. Com a tabela da parede, letra por letra, deu: PUXE O LIVRO 7. Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: "O letreiro apagou." Mais adiante, enfiado num cano, um bilhete de outra letra: "Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez." Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.
 >>
 >> O corredor acaba numa rua que não existe: um poste, um banco, garoa parada no ar. Nenhum ônibus. Só o motor, longe.
 >>

@@ -2,20 +2,10 @@
 const LOCKS = {
   gav1: { type: 'wheels', chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', answer: 'ROTA', title: 'Gaveta de cima · cadeado de letras',
     open() {
-      S.open.gav1 = true; dirty(2); findPaper(15, true);
-      say('O cadeado abre. Dentro, folhas de caderno dobradas: os mapas da Marina, o caminho do ônibus desenhado à mão.');
-      toast('Os mapas da Marina foram para a linha do tempo.');
-    } },
-  gav2: { type: 'wheels', chars: '0123456789', answer: '2310', title: 'Gaveta do meio · cadeado de números',
-    open() {
-      S.open.gav2 = true; dirty(2); findPaper(8, true);
-      say('Abre. Uma folha de fichário com a letra da Marina, embaixo de uma foto de Natal: o homem de jaleco com uma menina no colo.');
-      toast('Uma folha da Marina foi para a linha do tempo.');
-    } },
-  tool: { type: 'dir', answer: 'ULURD', title: 'Caixa de ferramentas · cadeado direcional',
-    open() {
-      S.open.tool = true; dirty(3); addItem('martelo');
-      say('A bolinha estala e a alça solta. Dentro, ferramentas enferrujadas e um martelo de unha. Você pega o martelo.');
+      S.open.gav1 = true; dirty(2); dirty(3); findPaper(15, true);
+      say('O cadeado abre com um estalo que você sente nos dentes. Dentro, um diário de capa dura verde, com elástico, e um mapa dobrado dentro dele. Atrás de você, na escrivaninha, alguma coisa zumbe e acende.');
+      toast('O mapa da Marina foi para a linha do tempo.');
+      setTimeout(() => { if (!overlayOpen()) openDiary(); }, 2600);
     } },
 };
 const ARROW = { U: '↑', D: '↓', L: '←', R: '→' };
@@ -25,7 +15,7 @@ function openLock(id) {
   box.className = ''; box.textContent = '';
   $('lockMsg').textContent = ''; $('lockTitle').textContent = L.title;
   const sh = document.createElement('div'); sh.className = 'shackle'; box.append(sh);
-  if (L.type === 'wheels') buildWheels(id, L, box); else buildDir(id, L, box);
+  buildWheels(id, L, box);
   openOv('ovLock');
 }
 function unlock(id) {
@@ -53,42 +43,10 @@ function buildWheels(id, L, box) {
   });
   box.append(body);
 }
-function buildDir(id, L, box) {
-  const body = document.createElement('div'); body.className = 'dirBody';
-  const knob = document.createElement('div'); knob.className = 'knob'; body.append(knob);
-  const seq = document.createElement('div'); seq.className = 'dirSeq'; seq.setAttribute('aria-label', 'Movimentos feitos');
-  const vals = S.lockVals[id] = [];
-  const show = () => { seq.innerHTML = vals.map(v => `<span>${ARROW[v]}</span>`).join('') || '<span> </span>'; };
-  for (const [d, cls, lab] of [['U', 'u', 'Para cima'], ['L', 'l', 'Para a esquerda'], ['R', 'r', 'Para a direita'], ['D', 'd', 'Para baixo']]) {
-    const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = ARROW[d]; b.setAttribute('aria-label', lab);
-    b.addEventListener('click', () => {
-      if (vals.length >= 8) vals.shift();
-      vals.push(d); show();
-      const off = { U: [0, -.6], D: [0, .6], L: [-.6, 0], R: [.6, 0] }[d];
-      knob.style.transform = `translate(${off[0]}em,${off[1]}em)`; setTimeout(() => { knob.style.transform = ''; }, 140);
-    });
-    body.append(b);
-  }
-  const pull = document.createElement('button'); pull.type = 'button'; pull.className = 'dirPull'; pull.textContent = 'Puxar a alça';
-  pull.addEventListener('click', () => {
-    if (vals.join('') === L.answer) { unlock(id); return; }
-    box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
-    $('lockMsg').textContent = vals.length ? 'Não abriu. A bolinha volta pro meio.' : 'Nada. Precisa mexer a bolinha antes.';
-    vals.length = 0; show();
-  });
-  show();
-  box.append(body, seq, pull);
-}
-
 // ——— itens usados nesta onda ———
-function breakPig() {
-  S.pigBroken = true; dirty(1); removeItem('martelo'); addItem('chave');
-  say('Uma batida só. O porquinho racha em quatro pedaços. Moedas de cruzado, um botão de camisa e uma chave pequena, de gaveta.');
-  return true;
-}
 function openGav3() {
-  S.open.gav3 = true; dirty(2); removeItem('chave'); addItem('fita'); addItem('cracha');
-  say('A chave gira. Dentro: uma fita VHS com etiqueta “JUN 86” e um crachá do IPEN. No fundo da gaveta, a marca de poeira de uma caixa de sapato que não está mais aqui.');
+  S.open.gav3 = true; dirty(2); addItem('fita');
+  say('Abre fácil. Jornal de 1976 forrando o fundo e a marca de poeira da caixa de sapato que a Cecília levou. Atrás, de pé, enfiada entre o fundo e a lateral, onde ela não viu: uma fita VHS com etiqueta “JUN 86”.');
   return true;
 }
 function deskDrawer() {
@@ -102,17 +60,15 @@ function deskDrawer() {
 // ——— mural de perto ———
 const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M62 58 V44 H22 V14 H76 V32" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="76" cy="32" r="3" fill="#7a1910"/><text x="81" y="28" font-size="12" fill="#2b1c0e">?</text></svg>`;
 const MURAL = [
-  { cls: 'news', x: 4, y: 6, w: 22, h: 34, r: -3, html: '<small>Folha de S.Paulo · 8/6/1976</small>Técnico do IPEN desaparece em Perdizes', paper: 7 },
-  { cls: 'news', x: 74, y: 5, w: 22, h: 36, r: 2.5, html: '<small>Notícias Populares · 9/6/1986</small>Filha de desaparecido some na mesma casa, dez anos depois', paper: 10 },
-  { cls: 'photo', x: 30, y: 5, w: 15, h: 26, r: 2, html: '<span></span>', cap: 'Um homem de jaleco na frente de um prédio de tijolo, crachá no peito. Atrás, a lápis: “IPEN, 1973”.' },
-  { cls: 'photo', x: 56, y: 52, w: 15, h: 26, r: -3, html: '<span></span>', cap: 'Uma menina sentada nesta mesma escada, com um vira-lata no colo. Atrás: “eu e o Tito, abril de 86”.' },
-  { cls: 'map', x: 22, y: 46, w: 30, h: 44, r: 1, html: 'ROTA 875A' + MURAL_MAP, cap: 'Papel de pão, letra da Cecília: “ROTA 875A”. A linha do ônibus desenhada da Paulista até a esquina da Monte Alegre. Na esquina, um ponto de interrogação.' },
-  { cls: 'post', x: 47, y: 8, w: 12, h: 16, r: -6, html: '23h10 — ver' },
-  { cls: 'post', x: 60, y: 28, w: 12, h: 16, r: 5, html: '6/6. seis horas.' },
-  { cls: 'post', x: 5, y: 50, w: 13, h: 17, r: 4, html: 'não é fuga' },
-  { cls: 'post', x: 78, y: 52, w: 13, h: 17, r: -4, html: 'volume 7???' },
-  { cls: 'post', x: 6, y: 74, w: 13, h: 17, r: -2, html: 'que caixa?' },
-  { cls: 'post', x: 78, y: 76, w: 14, h: 16, r: 3, html: 'Odete viu os dois' },
+  { cls: 'map', x: 4, y: 6, w: 30, h: 44, r: -2, html: '875A' + MURAL_MAP, cap: 'Papel de pão, letra da Cecília: “875A — Paulista 900 → Dr. Arnaldo → Cardoso de Almeida. Não entra na nossa rua.” Na esquina da Monte Alegre, um ponto de interrogação.' },
+  { cls: 'note', x: 38, y: 5, w: 30, h: 40, r: 2, html: '<small>folha da Marina (cópia)</small>Li os nove cadernos. Ele não fugiu… Preciso saber a <u>ROTA</u>.', paper: 11 },
+  { cls: 'post', x: 72, y: 8, w: 13, h: 17, r: -5, html: 'ROTA: senha ou pergunta?' },
+  { cls: 'post', x: 72, y: 30, w: 13, h: 17, r: 4, html: '23h10. sempre 23h10' },
+  { cls: 'post', x: 6, y: 56, w: 13, h: 17, r: 3, html: '76 · 86 · 96?' },
+  { cls: 'post', x: 24, y: 60, w: 13, h: 17, r: -3, html: 'Odete conta dois' },
+  { cls: 'post', x: 44, y: 56, w: 14, h: 17, r: 5, html: 'que caixa?' },
+  { cls: 'post', x: 62, y: 62, w: 13, h: 17, r: -2, html: 'a gota: 11 s' },
+  { cls: 'post', x: 80, y: 58, w: 14, h: 17, r: 3, html: 'tentei PERD MONT ABRI' },
 ];
 function openMural() {
   const cork = $('cork');
@@ -151,12 +107,7 @@ const UVMARKS = {
     uvInk(ctx); ctx.lineWidth = 2.5; ctx.setLineDash([7, 5]);
     path(ctx, mazeTrace(MAZE.gx, MAZE.gy, MAZE.cw, MAZE.ch), 0, 0); ctx.stroke();
     ctx.setLineDash([]);
-    if (!st.open.oficina) { ctx.font = '26px "Architects Daughter", cursive'; ctx.fillText('23.10', 1128, 372); }
-  },
-  3(ctx) {
-    uvInk(ctx);
-    ctx.font = '21px Kalam, cursive'; ctx.fillText('a senha é quem late no diário', 782, 528);
-    ctx.font = '600 28px Caveat, cursive'; ctx.fillText('Odete: 3862-0147', 1298, 424); ctx.fillText('ela viu os dois', 1316, 456);
+    if (!st.open.oficina) { ctx.font = '26px "Architects Daughter", cursive'; ctx.fillText('23.10', 1236, 340); }
   },
 };
 const uvOn = () => S.sel === 'uv';
@@ -168,9 +119,5 @@ spot(1, 'dobra', [1200, 546, 86, 68], { label: 'Canto da pintura', when: () => u
   } });
 spot(2, 'uvLab', [296, 256, 128, 248], { label: 'Traço no vidro', when: uvOn,
   act: () => say('A luz roxa acende um traço fino no vidro, de lápis de relojoeiro: um caminho do furo de cima até a saída de baixo.') });
-spot(2, 'uvPainel', [1100, 334, 160, 54], { label: 'Escrito na argamassa', when: () => uvOn() && !S.open.oficina,
-  act: () => say('Pequeno, na argamassa acima da cômoda, letra de técnico: “23.10”.') });
-spot(3, 'uvMesa', [770, 496, 272, 52], { label: 'Embaixo do tampo', when: uvOn,
-  act: () => say('Embaixo do tampo da escrivaninha, letra de menina: “a senha é quem late no diário”.') });
-spot(3, 'uvFone', [1288, 392, 196, 76], { label: 'Escrito na parede', when: uvOn,
-  act: () => say('Na parede, de marca-texto, letra da Cecília: “Odete: 3862-0147 — ela viu os dois”.') });
+spot(2, 'uvPainel', [1206, 310, 120, 48], { label: 'Escrito na argamassa', when: () => uvOn() && !S.open.oficina,
+  act: () => say('Pequeno, na argamassa acima da cômoda, letra de técnico: “23.10”. Ele marcava em tudo.') });

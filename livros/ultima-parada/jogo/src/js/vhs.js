@@ -139,27 +139,37 @@ function tetoDoPorao(g, t) {
   g.fillStyle = s; g.fillRect(0, 0, VW, VH);
   g.strokeStyle = '#020202'; g.lineWidth = 2; g.beginPath(); g.moveTo(200, 0); g.quadraticCurveTo(204 + Math.sin(t / 700) * 3, 90, 200, 140); g.stroke();
 }
-function corredorAmarelo(g, t) {
+function corredorAmarelo(g, t) { // tijolo sem reboco à luz de lanterna; a faixa amarela na altura do ombro vira à esquerda
   const f = .75 + Math.random() * .25 * (Math.random() < .1 ? -1.5 : 1);
-  g.fillStyle = `rgb(${190 * f | 0},${160 * f | 0},${70 * f | 0})`; g.fillRect(0, 0, VW, VH);
   const cx = 168, cy = 118;
-  g.fillStyle = `rgb(${150 * f | 0},${124 * f | 0},${50 * f | 0})`; poly(g, [[VW, 0], [cx + 18, cy - 14], [cx + 18, cy + 16], [VW, VH]]); g.fill();
-  g.fillStyle = `rgb(${225 * f | 0},${205 * f | 0},${120 * f | 0})`; poly(g, [[0, 0], [VW, 0], [cx + 18, cy - 14], [cx - 18, cy - 14]]); g.fill();
-  g.fillStyle = `rgb(${95 * f | 0},${75 * f | 0},${30 * f | 0})`; poly(g, [[0, VH], [VW, VH], [cx + 18, cy + 16], [cx - 18, cy + 16]]); g.fill();
+  g.fillStyle = `rgb(${70 * f | 0},${48 * f | 0},${36 * f | 0})`; g.fillRect(0, 0, VW, VH);
+  g.fillStyle = `rgb(${52 * f | 0},${36 * f | 0},${28 * f | 0})`; poly(g, [[VW, 0], [cx + 18, cy - 14], [cx + 18, cy + 16], [VW, VH]]); g.fill();
+  g.fillStyle = `rgb(${30 * f | 0},${22 * f | 0},${16 * f | 0})`; poly(g, [[0, 0], [VW, 0], [cx + 18, cy - 14], [cx - 18, cy - 14]]); g.fill();
+  g.fillStyle = `rgb(${96 * f | 0},${78 * f | 0},${48 * f | 0})`; poly(g, [[0, VH], [VW, VH], [cx + 18, cy + 16], [cx - 18, cy + 16]]); g.fill();
+  g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 1;
+  for (let k = 1; k < 7; k++) { const q = k / 7; g.beginPath(); g.moveTo(0, VH * q); g.lineTo(cx - 18, (cy - 14) + 30 * q); g.stroke(); g.beginPath(); g.moveTo(VW, VH * q); g.lineTo(cx + 18, (cy - 14) + 30 * q); g.stroke(); }
+  // a faixa amarela, dos dois lados, e a volta para a esquerda
+  g.fillStyle = `rgb(${214 * f | 0},${176 * f | 0},${52 * f | 0})`;
+  poly(g, [[0, VH * .5], [cx - 18, cy + 1], [cx - 18, cy + 4], [0, VH * .58]]); g.fill();
+  poly(g, [[VW, VH * .5], [cx + 18, cy + 1], [cx + 18, cy + 4], [VW, VH * .58]]); g.fill();
+  const tt = Math.max(0, Math.min(1, (t / 1000 - 46) / 2.5));            // a câmera vira: a faixa some pela esquerda
+  g.fillStyle = `rgb(${214 * f | 0},${176 * f | 0},${52 * f | 0})`; g.fillRect(0, VH * .5 - tt * 6, 40 + tt * 120, 14 + tt * 10);
   g.fillStyle = '#050402'; g.fillRect(cx - 7, cy - 8, 14, 24);
-  g.fillStyle = 'rgba(255,255,230,.8)';
-  for (const k of [.2, .5, .75]) { const y = (cy - 14) * k; g.fillRect(cx - 40 * (1 - k) - 8, y, 80 * (1 - k) + 16, 4 * (1 - k) + 1); }
+  const l = g.createRadialGradient(cx - 60, cy + 20, 10, cx - 60, cy + 20, 190); l.addColorStop(0, 'rgba(255,230,160,.35)'); l.addColorStop(1, 'rgba(0,0,0,.55)');
+  g.fillStyle = l; g.fillRect(0, 0, VW, VH);
 }
 
 // A fita JUN 86 (Marina, 6/6/1986). Tempos em segundos.
 const FILM86 = {
-  dur: 57, motor: [[13, 34, .07]],
-  subs: [[13, 19, '[motor a diesel, chegando devagar]'], [22, 29, '[respiração bem perto do microfone]'], [34, 36, '[a câmera cai]'],
-    [37, 43, '[passos descendo uma escada de madeira]'], [50.5, 53.5, '“Eu pintei igual.”', 'marina-fita']],
+  dur: 54, motor: [[13, 34, .07]],
+  // o relógio da filmadora: 23:08:20 no começo da imagem, 23:09:00 no tique, 23:10 o ônibus, 23:11 a respiração,
+  // 23:13 a câmera cai, 23:14 a faixa amarela, 23:15 "Eu pintei igual" (é o que o capítulo 7 reconstitui)
+  subs: [[9.5, 11.5, '[um tique de relógio, dentro da casa]'], [13, 19, '[motor a diesel, chegando devagar]'], [22, 29, '[respiração bem perto do microfone]'], [34, 36, '[a câmera cai]'],
+    [37, 43, '[passos descendo uma escada de madeira]'], [45.5, 48.5, '[a faixa amarela vira à esquerda. A câmera vira à esquerda]'], [48.6, 51.5, '“Eu pintei igual.”', 'marina-fita']],
   draw(g, t) {
     if (t < 2.2) { vcrBlue(g, 'PLAY ►'); return { snow: 0, track: 0 }; }
     if (t < 6) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .9 - (t - 2.2) * .18, track: 1 }; }
-    const clock = (s) => { const tot = 23 * 3600 + 4 * 60 + Math.max(0, s - 6) * 22.5; const h = Math.floor(tot / 3600) % 24, m = Math.floor(tot / 60) % 60, sc = Math.floor(tot) % 60;
+    const clock = (s) => { const tot = 23 * 3600 + 9 * 60 + (s - 10) * 10; const h = Math.floor(tot / 3600) % 24, m = Math.floor(tot / 60) % 60, sc = Math.floor(tot) % 60;
       return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sc).padStart(2, '0')}`; };
     const stamp = ['JUN. 6 1986', clock(t)];
     if (t < 34) {
@@ -176,9 +186,9 @@ const FILM86 = {
       return { stamp, track: .9 };
     }
     if (t < 44) { tetoDoPorao(g, t * 1000); return { stamp, track: .25 }; }
-    if (t < 50) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .85, track: 1 }; }
-    if (t < 53.5) { corredorAmarelo(g, t * 1000); return { track: .35 }; }
-    if (t < 54.5) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .9, track: 1 }; }
+    if (t < 45.5) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .85, track: 1 }; }
+    if (t < 51.5) { corredorAmarelo(g, t * 1000); return { stamp, track: .35 }; }
+    if (t < 52.5) { g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH); return { snow: .9, track: 1 }; }
     vcrBlue(g, 'STOP ■'); return { snow: 0, track: 0 };
   },
 };

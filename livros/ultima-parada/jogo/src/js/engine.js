@@ -5,8 +5,8 @@ function resetState() {
     view: 0, started: false, ended: false,
     fuse: false, fuseTaken: false, power: false, powerAt: 0,
     inv: [], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
-    open: { gav1: false, gav2: false, gav3: false, tool: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, pigBroken: false, caixaAt: 0,
-    lockVals: { gav1: ['M', 'Z', 'K', 'Q'], gav2: ['0', '0', '0', '0'], tool: [] },
+    open: { gav1: false, gav2: false, gav3: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, caixaAt: 0, dropPauseUntil: 0,
+    lockVals: { gav1: ['M', 'Z', 'K', 'Q'] },
     t0: 0, nextFlick: 0, flickUntil: 0, battUntil: 0, nextBatt: 0,
   });
 }
@@ -141,8 +141,8 @@ function drawUV(g) {
 
 // coisas que se mexem antes da luz ser aplicada (a goteira na lata)
 function drawDyn(g, t) {
-  if (S.view !== 0) return;
-  const cyc = t % 6200;
+  if (S.view !== 0 || t < S.dropPauseUntil) return;
+  const cyc = t % 11000;
   if (cyc < 650) { const y = 104 + (cyc / 650) ** 2 * 546; g.fillStyle = 'rgba(190,200,190,.6)'; g.beginPath(); g.ellipse(723, y, 2, 4, 0, 0, 7); g.fill(); }
   else if (cyc < 900) { const r = (cyc - 650) / 250 * 22; g.strokeStyle = `rgba(190,200,190,${.5 - r / 50})`; g.lineWidth = 1; g.beginPath(); g.ellipse(723, 652, r, r / 4, 0, 0, 7); g.stroke(); }
 }
@@ -192,7 +192,12 @@ cv.addEventListener('pointerdown', (e) => {
 
 // ——— virar entre as paredes ———
 let fade = 0, fadeDir = 0, pendingView = 0;
-function turn(d) { if (fadeDir || !S.started || overlayOpen() || S.view > 3) return; goView((S.view + d + 4) % 4); }
+function turn(d) {
+  if (fadeDir || !S.started || overlayOpen() || S.view > 3) return;
+  const v = (S.view + d + 4) % 4;
+  if (!S.power && v >= 2) { say(v === 2 ? 'Para esse lado, a lanterna não alcança nada: só o escuro e o barulho dos canos. Primeiro, a luz.' : 'Escuro fechado. A lanterna fraca não chega lá. Primeiro, a luz.'); return; }
+  goView(v);
+}
 // troca de cena com escurecida (também entra na oficina, no corredor, no ponto)
 function goView(v, after) { if (fadeDir) return; pendingView = v; fadeDir = 1; hideMsg(); goView.after = after || null; }
 $('turnL').addEventListener('click', () => turn(-1));
@@ -228,6 +233,6 @@ function frame(t) {
 const TICKS = []; // verificações periódicas das ondas (ex.: evento das 03:40)
 function tickClock() {
   TICKS.forEach(f => f());
-  if (S.power) { const c = $('clock'); const txt = clockText(); if (c.textContent !== txt) c.textContent = txt; }
+  { const c = $('clock'); const txt = clockText(); if (c.textContent !== txt) c.textContent = txt; }
   if (!S.ended && fictionMin() >= END_MIN) endBad();
 }

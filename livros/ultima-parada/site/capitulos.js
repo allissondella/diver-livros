@@ -248,7 +248,7 @@ window.CAPITULOS = [
  {
   "n": 2,
   "titulo": "A moça do porão",
-  "palavras": 1103,
+  "palavras": 1138,
   "blocos": [
    {
     "tipo": "p",
@@ -282,7 +282,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Escrevo do porão. Pedi o porão e ganhei o porão. Minha mãe achou que eu ia desistir depois de uma noite; é a terceira. Tem uma escada de madeira que range em todos os degraus menos no quinto, um chão de cimento pintado de vermelho, uma cômoda que já estava aqui, um sofá que era de alguém, uma estante com uma Barsa e um rádio de pilha sem pilha, uma escrivaninha com um computador velho e uma televisão, e uma parede inteira de canos. Minha mãe instalou a secretária eletrônica aqui embaixo, porque a extensão do telefone chega. Os canos conversam. De manhã eles estalam quando alguém abre o chuveiro lá em cima, e de noite tem uma gota que cai em algum lugar que eu ainda não achei. Contei: uma a cada onze segundos. (Nota: achar a gota.)",
+    "html": "Escrevo do porão. Pedi o porão e ganhei o porão. Minha mãe achou que eu ia desistir depois de uma noite; é a terceira. Tem uma escada de madeira que range em todos os degraus menos no quinto, um chão de cimento pintado de vermelho, uma cômoda que já estava aqui, um sofá que era de alguém, uma estante com uma Barsa e um rádio de pilha sem pilha, uma escrivaninha com um computador velho e uma televisão, e uma parede inteira de canos. Ao lado da estante, alguém pintou direto no reboco, com tinta de parede e pincel grosso, um corredor de tijolo com uma faixa amarela que vira à esquerda, e assinou embaixo: M.T. 86. Ninguém cobriu. Minha mãe instalou a secretária eletrônica aqui embaixo, porque a extensão do telefone chega. Os canos conversam. De manhã eles estalam quando alguém abre o chuveiro lá em cima, e de noite tem uma gota que cai em algum lugar que eu ainda não achei. Contei: uma a cada onze segundos. (Nota: achar a gota.)",
     "classe": "",
     "dentro": true
    },
@@ -1149,7 +1149,7 @@ window.CAPITULOS = [
  {
   "n": 7,
   "titulo": "Eu pintei igual",
-  "palavras": 1053,
+  "palavras": 1084,
   "blocos": [
    {
     "tipo": "p",
@@ -1309,7 +1309,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Numa gaveta da cômoda tinha uma fita VHS com a etiqueta \"JUN 86\", na letra dela. Pus no videocassete do porão.",
+    "html": "Na gaveta de baixo da cômoda, de pé, enfiada entre o fundo e a lateral, atrás de onde estava a caixa de sapato, tinha uma fita VHS com a etiqueta \"JUN 86\", na letra dela. A Ceci não viu. Eu só vi porque estava procurando qualquer coisa. Pus no videocassete do porão.",
     "classe": "",
     "dentro": false
    },
@@ -1327,7 +1327,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "23:04 — Uma janela, de dentro. A rua vazia, molhada, o poste. A câmera treme.",
+    "html": "23:08 — Uma janela, de dentro. A rua vazia, molhada, o poste. A câmera treme.",
     "classe": "",
     "dentro": true
    },
@@ -1655,7 +1655,7 @@ window.CAPITULOS = [
  {
   "n": 9,
   "titulo": "Última parada",
-  "palavras": 1062,
+  "palavras": 1109,
   "blocos": [
    {
     "tipo": "p",
@@ -1695,13 +1695,13 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "O porão estava escuro e a gota caía na lata. Achei o fusível. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.",
+    "html": "O porão estava escuro e a gota caía na lata. No quadro, uma rosca vazia; na estante, numa lata de bombons cheia de válvulas, um fusível novo. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.",
     "classe": "",
     "dentro": true
    },
    {
     "tipo": "p",
-    "html": "Às três e pouco liguei para a Dona Odete, porque o número dela estava na agenda da cozinha. Escrevo de memória:",
+    "html": "Às três e pouco liguei para a Dona Odete, porque o número dela estava num papel colado ao lado do telefone do porão, na letra da mãe da Ceci. Escrevo de memória:",
     "classe": "",
     "dentro": true
    },
@@ -1743,7 +1743,13 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Às três e quarenta o relógio da parede deu um tique. Um só. A lâmpada morreu e voltou. O receptor chiou de novo, e a voz de moça disse o resto, e eu escrevo o que ela disse, na ordem, porque é o que importa:",
+    "html": "Às três e quarenta o relógio da parede deu um tique. Um só. A lâmpada morreu e voltou, e a gota parou de cair por uns dois minutos, como a Ceci tinha escrito. Depois a casa voltou a ser casa.",
+    "classe": "",
+    "dentro": true
+   },
+   {
+    "tipo": "p",
+    "html": "Agora o resto do que a voz de moça disse no rádio, depois do meu nome. Guardei para aqui porque é agora que importa, na ordem:",
     "classe": "",
     "dentro": true
    },
@@ -1773,7 +1779,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Depois dela, o rádio voltou a bater pontos e traços, mais devagar. Com a tabela da parede, letra por letra, deu: PUXE O LIVRO 7. Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: \"O letreiro apagou.\" Mais adiante, enfiado num cano, um bilhete de outra letra: \"Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez.\" Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.",
+    "html": "Quando ela parou, o rádio voltou a bater pontos e traços, mais devagar. Com a tabela da parede, letra por letra, deu: PUXE O LIVRO 7. Puxei o volume sete da Barsa. A estante do porão girou e abriu a parede. A faixa amarela, sempre à esquerda. Na primeira bifurcação, no chão, a página dela, amassada: \"O letreiro apagou.\" Mais adiante, enfiado num cano, um bilhete de outra letra: \"Ceci está comigo e com meu pai. Trouxe a caixa errada. Quem vier: a de chumbo, na bancada. Antes das cinco e dez.\" Andei não sei quanto. A caixa pesava mais a cada esquerda. Ouvi o motor.",
     "classe": "",
     "dentro": true
    },

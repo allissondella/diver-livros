@@ -103,24 +103,21 @@
 
 /* ——— Caderno ——— */
 .spiral {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #ddd3b6; color: #1d2f6b;
+  display: grid; grid-template-columns: 1fr; gap: 0; width: min(64ch, 92vw); background: #ddd3b6; color: #1d2f6b;
   box-shadow: 0 18px 50px rgba(0, 0, 0, .8), inset 0 0 80px rgba(70, 50, 20, .4); position: relative;
 }
 .spiral::before {
-  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 18px; transform: translateX(-50%);
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 18px; transform: translateX(-50%);
   background: repeating-linear-gradient(180deg, transparent 0 10px, #222 10px 16px, transparent 16px 26px);
 }
 .pg { padding: 1.4em 2em 1.6em; min-width: 0;
   background-image: repeating-linear-gradient(180deg, transparent 0 1.9em, rgba(70, 100, 160, .3) 1.9em calc(1.9em + 1px)); }
 .pg h3 { margin: 0 0 .6em; font: 400 .78em var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: #6b5f48; }
-#cecNotes { margin: 0; padding: 0; list-style: none; font: 500 clamp(17px, 1.9vw, 22px)/1.72 var(--f-cec); }
-#cecNotes li { margin-bottom: .35em; }
-#cecNotes li small { font-size: .78em; color: #6b5f48; }
 #notes {
   width: 100%; min-height: 22em; height: 100%; resize: none; border: 0; background: transparent;
   font: 500 clamp(17px, 1.9vw, 22px)/1.9em var(--f-cec); color: #33302a; outline: none;
 }
-@media (max-width: 760px) { .spiral { grid-template-columns: 1fr; } .spiral::before { display: none; } }
+@media (max-width: 760px) { .spiral::before { display: none; } }
 
 /* ——— Diário de Marina ——— */
 .book {
@@ -139,3 +136,6 @@
 
 #endText { max-width: 48ch; color: var(--ink); line-height: 2; text-align: center; font-size: clamp(14px, 1.6vw, 18px); }
 #endText .when { font-family: var(--f-led); color: var(--led); font-size: 2.4em; display: block; }
+
+/* a folha copiada pela Cecília: a palavra sublinhada duas vezes */
+.paper .dupla { text-decoration: underline double; text-underline-offset: 3px; font-weight: 700; }

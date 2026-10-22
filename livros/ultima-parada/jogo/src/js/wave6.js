@@ -6,20 +6,18 @@ const wrap = (name, before, after) => {
 };
 placeFuse = wrap('placeFuse', () => { SFX.squeak(); setTimeout(SFX.clunk, 700); });
 unlock = wrap('unlock', () => { SFX.clunk(); });
-breakPig = wrap('breakPig', () => SFX.shatter());
 openGav3 = wrap('openGav3', () => { SFX.tick(); SFX.pull(); });
 deskDrawer = wrap('deskDrawer', () => SFX.pull());
 openEstante = wrap('openEstante', () => SFX.rumble(3.2));
 mazeDone = wrap('mazeDone', () => { SFX.roll(1.6); setTimeout(() => SFX.roll(2.4), 900); setTimeout(() => { SFX.clunk(); SFX.rumble(2); }, 2600); });
 tilt = wrap('tilt', () => { if (!mazeBusy) SFX.roll(.35); });
 corrMove = wrap('corrMove', () => { for (let i = 0; i < 4; i++) SFX.step(i * .32); });
-cpCeci = wrap('cpCeci', () => { setTimeout(() => { tone(15000, .6, 'sine', .03, 300); SFX.thud(.3); }, 5200); });
 dial = wrap('dial', null, (r, ch, i) => { if (dialing) { const n = i + 1, back = (220 + n * 85); for (let k = 0; k < n; k++) SFX.tick(back / 1000 + k * .065); } });
 playFilm = wrap('playFilm', (film) => { AUD.film = film; AUD.filmT0 = performance.now() + 16; AUD.filmPlayed = new Set(); });
 hideAllOv = wrap('hideAllOv', () => stopVoice());
 
 // falas ditas fora de diálogo (mensagens) que têm voz gravada
-const SAY_VOICES = [['Você veio. Trouxe a certa?', 'ceci-ponto'], ['um plantão que vai e volta', 'plantao', 'tv']];
+const SAY_VOICES = [['Você veio. Trouxe a certa?', 'ceci-ponto']];
 say = wrap('say', (text) => { for (const [k, id, fx] of SAY_VOICES) if (text.includes(k)) voice(id, fx); });
 
 // narração dos papéis

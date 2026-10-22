@@ -1,8 +1,8 @@
 // ===== wave4.js — labirinto, oficina, rádio de válvulas, estante, corredores, ponto final =====
 ICONS.bolinha = (g) => { const r = g.createRadialGradient(11, 11, 1, 14, 14, 9); r.addColorStop(0, '#fff'); r.addColorStop(.4, '#a9aba8'); r.addColorStop(1, '#3a3b39');
   g.fillStyle = r; g.beginPath(); g.arc(14, 14, 8, 0, 7); g.fill(); };
-ICONS.caixa = (g) => { g.fillStyle = '#4c4f50'; g.fillRect(3, 8, 22, 14); g.fillStyle = '#d8b52a'; g.beginPath(); g.arc(14, 15, 4.5, 0, 7); g.fill();
-  g.fillStyle = '#151515'; g.beginPath(); g.arc(14, 15, 1.5, 0, 7); g.fill(); };
+ICONS.caixa = (g) => { g.fillStyle = '#4c4f50'; g.fillRect(3, 9, 22, 14); g.strokeStyle = '#2a2b2c'; g.lineWidth = 2; g.beginPath(); g.moveTo(9, 9); g.lineTo(9, 5); g.lineTo(19, 5); g.lineTo(19, 9); g.stroke();
+  g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(3, 9, 22, 4); };
 
 // ——— navegação: virar só no porão; nas outras cenas, um botão de voltar ———
 function syncNav() {
@@ -108,10 +108,8 @@ const RADIO_MARINA = [
 const RADIO_AGAIN = [{ sys: '[chiado; os pontos e traços novos, devagar, repetindo]', d: 0 }];
 function openRadio() {
   if (!S.power) { say('Um rádio de válvulas Philips, de madeira. Sem luz, as válvulas não acendem.'); return; }
-  if (!S.papers.has(4)) {
-    findPaper(4, true); toast('Uma página do caderno 6 foi para a linha do tempo.');
-    say('Atrás do rádio, enfiada entre as válvulas, uma página dobrada do caderno 6. As válvulas esquentam devagar, com cheiro de poeira queimada.');
-  }
+  if (!S.found.caixa) { say('O fio do receptor desce da bancada e passa por baixo da caixa de chumbo, que está em cima dele. Primeiro a caixa.'); return; }
+  if (!S.flags.radioOn) say('Você liga o receptor. As válvulas acendem laranja, uma por uma, como se lembrassem. Cheiro de poeira queimada.');
   S.flags.radioOn = true; S.flags.tuned = false; $('radioLines').textContent = ''; $('morse').textContent = '';
   openOv('ovRadio'); $('tune').value = '17.4'; tuneRadio();
   setTimeout(() => $('tune').focus(), 60);
@@ -132,13 +130,13 @@ $('tune').addEventListener('input', tuneRadio);
 // ——— a estante ———
 function openEstante() {
   S.open.estante = true; dirty(1);
-  say('Você puxa o volume 7 até o fim. Um estalo dentro da parede, depois outro, como engrenagem de relógio. A estante inteira gira sem barulho e para de lado. Atrás dela, um corredor curto de concreto e uma fresta de luz amarela.');
+  say('Você puxa o volume 7 até o fim. Um estalo dentro da parede, depois outro, como engrenagem de relógio. A estante inteira gira sem barulho, devagar, como porta de geladeira velha. Atrás, uma porta de madeira baixa, com tinta de 1963, e um ar frio com cheiro de terra seca.');
 }
 
 // ——— corredores ———
-const STEP_MSG = ['Ao longe, um motor a diesel.', 'O motor, mais perto. Cheiro de óleo queimado no ar parado.', 'Agora dá para ouvir o motor em ponto morto, logo ali.', 'Garoa. Você sente garoa no rosto, dentro de um corredor.'];
-const WRONG_MSG = ['O corredor faz uma curva longa e te devolve no começo. As mesmas manchas. A mesma lâmpada piscando.',
-  'Você anda muito. Quando para, está de novo onde começou. O motor sumiu.', 'Uma porta, outra porta, e de novo a fresta da estante atrás de você.'];
+const STEP_MSG = ['A faixa amarela vira à esquerda. Ao longe, um motor a diesel.', 'O motor, mais perto. A caixa pesa mais a cada esquerda.', 'Agora dá para ouvir o motor em ponto morto, logo ali.', 'Garoa. Você sente garoa no rosto, dentro de um corredor.'];
+const WRONG_MSG = ['A direita volta. O corredor faz uma curva longa e te devolve no começo, na porta baixa da estante.',
+  'Você anda muito. Quando para, está de novo onde começou. O motor sumiu.', 'Sem faixa amarela nesta parede. Você volta até achar a tinta de novo: a porta da estante.'];
 function corrMove(dir) {
   if (dir === 'L') {
     const next = S.corr + 1;
@@ -177,21 +175,22 @@ $('btnRetry').addEventListener('click', () => {
 spot(1, 'espada', [338, 420, 144, 300], { label: 'Espada-de-são-jorge',
   act: () => {
     if (S.found.bolinha) { say('Morta. A terra revirada pelos seus dedos.'); return; }
+    if (!S.flags.pai) { say('Morta faz tempo. A terra está seca e fofa, como se alguém tivesse cavado e tampado de novo.'); return; }
     S.found.bolinha = true; addItem('bolinha');
     say('A terra está seca e fofa. Você enfia os dedos e encosta em uma coisa fria e redonda: uma bolinha de aço, do tamanho de uma bolinha de gude.');
   } });
-spot(1, 'vol7', [774, 272, 44, 110], { label: 'O buraco do volume 7', when: () => !S.open.estante,
+spot(1, 'vol7', [774, 272, 44, 110], { label: 'O buraco na Barsa', when: () => !S.open.estante,
   act: () => S.flags.marina ? openEstante()
-    : say('No buraco do 7, lá no fundo, tem um livro deitado atrás dos outros. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
+    : say('No buraco, lá no fundo, tem um livro deitado atrás dos outros: o volume 7. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
 spot(1, 'passagem', [520, 120, 600, 600], { label: 'Passagem', when: () => S.open.estante,
-  act: () => goView(5, () => { S.corr = 0; dirty(5); say('Concreto, depois papel de parede amarelo. Lâmpadas fluorescentes zumbindo. Cheiro de carpete molhado. Não tem ninguém.'); }) });
+  act: () => goView(5, () => { S.corr = 0; dirty(5); say('Tijolo sem reboco, chão de terra batida, seco. Na parede, na altura do ombro, uma faixa amarela pintada à mão. Lá na frente, longe, um motor parado, ligado.'); }) });
 spot(2, 'labirinto', [294, 234, 132, 272], { label: 'Labirinto de vidro',
   act: () => say(S.flags.mazeDone ? 'Vazio. A bolinha desceu pelo cano.' : 'Um labirinto de vidro embutido no tijolo. Tem um furo em cima, do tamanho de uma bolinha de gude. Embaixo, ele encaixa num cano fino que corre pelo rodapé até a cômoda.'),
   use: (it) => it === 'bolinha' && !S.flags.mazeDone ? (openMaze(), true) : false });
 spot(2, 'vao', [955, 302, 295, 418], { label: 'Oficina', when: () => S.open.oficina, act: () => goView(4) });
 
 // oficina
-spot(4, 'oficinaParede', [0, 0, W, H], { label: 'Oficina', act: () => say('Um cômodo de dois por três, de concreto. Cheiro de estanho e de poeira queimada. A luz da bancada é branca e dura.') });
+spot(4, 'oficinaParede', [0, 0, W, H], { label: 'Oficina', act: () => say('Um cômodo de dois por três, de concreto. Cheiro de estanho e de poeira queimada. A luz da bancada é branca e dura. As ferramentas penduradas na ordem, como a Marina escreveu.') });
 spot(4, 'painel', [0, WALL_TOP, 168, 625], { label: 'Painel aberto', act: () => goView(2) });
 spot(4, 'lucia', [28, 290, 96, 86], { label: 'Bilhete', when: () => !S.found.lucia,
   act: () => { S.found.lucia = true; dirty(4); findPaper(6, true); openPaper(6); } });
@@ -201,23 +200,26 @@ spot(4, 'planta', [960, 130, 280, 180], { label: 'Planta da casa', when: () => !
   act: () => { S.found.planta = true; dirty(4); findPaper(1, true); openPaper(1); } });
 spot(4, 'valvulas', [1290, 160, 270, 190], { label: 'Prateleira',
   act: () => say('Válvulas de rádio enfileiradas e rolos de fio esmaltado, tudo etiquetado com a mesma letra de técnico.') });
-spot(4, 'cadernos', [294, 430, 162, 90], { label: 'Cadernos quadriculados', when: () => !S.found.cadernos,
-  act: () => { S.found.cadernos = true; dirty(4); findPaper(2, true); toast('O caderno 4 foi para a linha do tempo.');
-    say('Nove cadernos quadriculados, numerados de 1 a 9. Faltam páginas em quase todos. O caderno 4 tem uma fita marcando uma página.'); } });
+spot(4, 'cadernos', [294, 430, 162, 90], { label: 'Os nove cadernos',
+  act: () => { if (findPaper(2, true)) { toast('A última página do caderno 9 foi para a linha do tempo.'); openPaper(2); }
+    say('Nove cadernos de capa preta, numerados de 1 a 9, numa pilha. Os três primeiros são de rádio: esquema, bobina, lista de peças. O 9 está aberto na última página escrita.'); } });
+spot(4, 'biblia', [472, 448, 86, 66], { label: 'Bíblia embaixo da caneca',
+  act: () => { const nova = findPaper(17, true); findPaper(7, true);
+    if (nova) { toast('A carta e o recorte foram para a linha do tempo.'); openPaper(17); }
+    say('Uma caneca com café virado pedra, em cima de uma bíblia. Na primeira página, a lápis: “Lúcia Toledo, 1961”. Dobrados no Salmo 23, uma carta que nunca foi mandada e um recorte da Folha de 1976.'); } });
 spot(4, 'gavetaBancada', [300, 552, 240, 62], { label: 'Gaveta da bancada',
-  act: () => { if (findPaper(3, true)) { toast('Uma página do caderno 5 foi para a linha do tempo.'); say('Chaves de relojoeiro, molas e, dobrada no fundo, uma página arrancada do caderno 5.'); }
-    else say('Chaves de relojoeiro, molas, um cronômetro parado.'); } });
+  act: () => say('Chaves de relojoeiro, molas, um cronômetro parado.') });
 spot(4, 'radioV', [560, 300, 290, 216], { label: 'Rádio de válvulas', act: () => openRadio() });
 spot(4, 'tabelaMorse', [192, 132, 238, 160], { label: 'Tabela de código morse',
   act: () => { if (findPaper(16, true)) toast('A tabela de morse foi para a linha do tempo.'); openPaper(16); } });
 spot(4, 'caixa', [930, 440, 180, 80], { label: 'Caixa de chumbo', when: () => !S.found.caixa,
-  act: () => { S.found.caixa = true; dirty(4); addItem('caixa'); findPaper(5, true); toast('Uma página do caderno 8 foi para a linha do tempo.');
-    say('Você levanta a caixa de chumbo. Pesa como um tijolo. Embaixo dela, uma página do caderno 8.'); } });
+  act: () => { S.found.caixa = true; dirty(4); addItem('caixa');
+    say('Você tenta levantar com uma mão e não consegue. Com as duas, consegue, e se arrepende: fria como se tivesse saído da geladeira. Cinza, fosca, com alça. Onze quilos. Você não abre.'); } });
 spot(4, 'lupa', [1160, 350, 130, 170], { label: 'Lupa de relojoeiro',
   act: () => say('Pela lente, as letras dos cadernos ficam enormes e tremidas.') });
 
 // corredores
-spot(5, 'corredor', [0, 0, W, H], { label: 'Corredor', act: () => say('Papel de parede amarelo, inchado de umidade. As lâmpadas zumbem. O carpete afunda um pouco a cada passo.') });
+spot(5, 'corredor', [0, 0, W, H], { label: 'Corredor', act: () => say('Tijolo sem reboco, terra batida, seca, o que não faz sentido com a chuva lá fora. A faixa amarela segue na altura do ombro. Longe, o motor.') });
 const J = () => CORR[Math.min(S.corr, CORR.length - 1)];
 spot(5, 'cL', [240, 250, 170, 510], { label: 'Virar à esquerda', when: () => J().open.includes('L'), act: () => corrMove('L') });
 spot(5, 'cR', [1190, 250, 170, 510], { label: 'Virar à direita', when: () => J().open.includes('R'), act: () => corrMove('R') });
@@ -225,8 +227,8 @@ spot(5, 'cF', [690, 320, 220, 190], { label: 'Seguir em frente', when: () => J()
 spot(5, 'obj', () => { const o = J().obj; return o ? [o.x - 34, o.y - 28, 68, 56] : [0, 0, 0, 0]; },
   { label: () => J().obj ? J().obj.label : '', when: () => J().obj && !S.found[J().obj.id],
     act: () => { const o = J().obj; S.found[o.id] = true; dirty(5); say(o.text); } });
-spot(5, 'p12', [770, 755, 100, 70], { label: 'Folha de caderno', when: () => J().paper === 12 && !S.papers.has(12),
-  act: () => { findPaper(12, true); dirty(5); openPaper(12); } });
+spot(5, 'p12', [770, 755, 100, 70], { label: 'Página amassada no chão', when: () => J().paper === 12 && !S.papers.has(12),
+  act: () => { findPaper(12, true); dirty(5); openPaper(12); say('Uma página do caderno da Cecília, amassada, no chão da primeira bifurcação. Você reconhece a letra antes de ler.'); } });
 spot(5, 'p13', [1176, 170, 104, 110], { label: 'Papel preso no cano', when: () => J().paper === 13 && !S.papers.has(13),
   act: () => { findPaper(13, true); dirty(5); openPaper(13); } });
 

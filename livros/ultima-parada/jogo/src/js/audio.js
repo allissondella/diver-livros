@@ -119,7 +119,7 @@ function audioTick() {
     if (!AUD.last.creak) AUD.last.creak = now + 30000;
     if (now > AUD.last.creak) { SFX.creak(); AUD.last.creak = now + 40000 + Math.random() * 45000; }
     // uma vez por partida: tudo some por 6 segundos
-    if (!AUD.silenceDone && S.t0 && now - S.t0 > REAL_MIN * .6 * 60000 && Math.random() < .002) { AUD.silenceDone = true; AUD.silenceUntil = now + 6000; }
+    if (!AUD.silenceDone && S.t0 && now - S.t0 > 36 * 60000 && Math.random() < .002) { AUD.silenceDone = true; AUD.silenceUntil = now + 6000; }
   }
   // o evento das 03:40
   if (S.flags.ev340 && !AUD.ev340) {

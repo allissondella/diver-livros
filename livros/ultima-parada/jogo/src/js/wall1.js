@@ -1,4 +1,4 @@
-// ===== wall1.js — parede da estante (Barsa, porquinho, pintura de Marina, fusível) =====
+// ===== wall1.js — parede da estante (Barsa, porquinho, pintura de Marina, espada-de-são-jorge) =====
 function shelfFrame(ctx, x, y, w, h, shelves) {
   castShadow(ctx, x, y, w, h, 40);
   wood(ctx, x, y, w, h, '#160e07', 41, 'v');
@@ -52,8 +52,8 @@ ART[1] = function (ctx, st) {
     floorShadow(ctx, X, EW, 50);
 
     // prateleira 1: porquinho, santinho, Guia Quatro Rodas, lata de Sonho de Valsa
-    if (!st.pigBroken) porquinho(ctx, 612, 222);
-    else {
+    porquinho(ctx, 612, 222);
+    if (false) {
       ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(615, 249, 60, 5, 0, 0, 7); ctx.fill();
       const shards = [[[566, 249], [590, 222], [606, 238], [598, 249]], [[604, 249], [612, 226], [640, 230], [636, 249]],
         [[640, 249], [650, 236], [676, 241], [668, 249]], [[586, 249], [578, 240], [560, 246]]];
@@ -70,7 +70,7 @@ ART[1] = function (ctx, st) {
     ctx.fillStyle = '#8e2b35'; ctx.fillRect(960, 204, 118, 46); ctx.fillStyle = '#b78a3a'; ctx.fillRect(958, 198, 122, 9);
     ctx.fillStyle = 'rgba(240,220,200,.3)'; ctx.font = 'italic 13px Georgia'; ctx.fillText('Sonho de Valsa', 972, 232);
 
-    // prateleira 2: Enciclopédia Barsa, falta o volume 7
+    // prateleira 2: Enciclopédia Barsa; o 7 tombou para o fundo (o buraco)
     let bx = 550;
     for (let v = 1; v <= 14; v++) {
       if (v === 7) { ctx.fillStyle = '#020101'; ctx.fillRect(bx, 276, 36, 104); bx += 38; continue; }
@@ -111,32 +111,30 @@ ART[1] = function (ctx, st) {
       ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.fillRect(560 + i * 170, 690, 150, 2); }
   }
 
-  // pintura do corredor amarelo (Marina, 1986)
-  const P = { x: 1200, y: 170, w: 300, h: 440 }, vx = 1352, vy = 362, fx0 = 1322, fx1 = 1382, fy0 = 332, fy1 = 398;
+  // pintura de Marina (1986): o corredor de tijolo, pintado direto no reboco, com a faixa amarela virando à esquerda
+  const P = { x: 1200, y: 170, w: 300, h: 440 }, fx0 = 1322, fx1 = 1382, fy0 = 332, fy1 = 398;
   castShadow(ctx, P.x, P.y, P.w, P.h, 14);
-  ctx.fillStyle = '#d2b44a'; poly(ctx, [[P.x, P.y], [fx0, fy0], [fx0, fy1], [P.x, P.y + P.h]]); ctx.fill();
-  ctx.fillStyle = '#8f7526'; poly(ctx, [[P.x + P.w, P.y], [fx1, fy0], [fx1, fy1], [P.x + P.w, P.y + P.h]]); ctx.fill();
-  ctx.fillStyle = '#efe0a0'; poly(ctx, [[P.x, P.y], [P.x + P.w, P.y], [fx1, fy0], [fx0, fy0]]); ctx.fill();
-  ctx.fillStyle = '#4b3a14'; poly(ctx, [[P.x, P.y + P.h], [P.x + P.w, P.y + P.h], [fx1, fy1], [fx0, fy1]]); ctx.fill();
-  ctx.fillStyle = '#b39535'; ctx.fillRect(fx0, fy0, fx1 - fx0, fy1 - fy0);
-  ctx.fillStyle = '#0a0703'; ctx.fillRect(vx - 14, vy - 16, 28, 50);
-  // portas ao longo do corredor, uma de cada lado
-  const side = (x0, xe, t, h0) => { // x da parede a uma fração t do caminho até o fundo
-    const x = x0 + (xe - x0) * t, yTop = P.y + (fy0 - P.y) * t + 30 * (1 - t), yBot = P.y + P.h + (fy1 - P.y - P.h) * t;
-    return [x, yTop + (yBot - yTop) * h0, yBot];
-  };
-  for (const [x0, xe, col] of [[P.x, fx0, '#3a2c0c'], [P.x + P.w, fx1, '#2a1f08']]) {
-    const a = side(x0, xe, .3, .28), b = side(x0, xe, .48, .28);
-    ctx.fillStyle = col; poly(ctx, [[a[0], a[1]], [b[0], b[1]], [b[0], b[2]], [a[0], a[2]]]); ctx.fill();
+  ctx.fillStyle = '#6a4a3a'; poly(ctx, [[P.x, P.y], [fx0, fy0], [fx0, fy1], [P.x, P.y + P.h]]); ctx.fill();
+  ctx.fillStyle = '#4f352a'; poly(ctx, [[P.x + P.w, P.y], [fx1, fy0], [fx1, fy1], [P.x + P.w, P.y + P.h]]); ctx.fill();
+  ctx.fillStyle = '#2b2119'; poly(ctx, [[P.x, P.y], [P.x + P.w, P.y], [fx1, fy0], [fx0, fy0]]); ctx.fill();
+  ctx.fillStyle = '#7a6240'; poly(ctx, [[P.x, P.y + P.h], [P.x + P.w, P.y + P.h], [fx1, fy1], [fx0, fy1]]); ctx.fill();
+  ctx.fillStyle = '#5a3f32'; ctx.fillRect(fx0, fy0, fx1 - fx0, fy1 - fy0);
+  ctx.fillStyle = '#0a0703'; ctx.fillRect(fx0 + 8, fy0 + 14, 22, 52);
+  // fiadas de tijolo, a pincel
+  ctx.strokeStyle = 'rgba(30,18,10,.5)'; ctx.lineWidth = 2;
+  for (const [x0, xe, yt, yb] of [[P.x, fx0, P.y, P.y + P.h], [P.x + P.w, fx1, P.y, P.y + P.h]]) {
+    for (let k = 1; k < 10; k++) { const f = k / 10; ctx.beginPath(); ctx.moveTo(x0, yt + (yb - yt) * f); ctx.lineTo(xe, fy0 + (fy1 - fy0) * f); ctx.stroke(); }
+    for (let i = 1; i < 8; i++) { const t = i / 8, x = x0 + (xe - x0) * t; for (let k = i % 2; k < 10; k += 2) { const ya = (yt + (yb - yt) * k / 10) * (1 - t) + (fy0 + (fy1 - fy0) * k / 10) * t, yb2 = (yt + (yb - yt) * (k + 1) / 10) * (1 - t) + (fy0 + (fy1 - fy0) * (k + 1) / 10) * t; ctx.beginPath(); ctx.moveTo(x, ya); ctx.lineTo(x, yb2); ctx.stroke(); } }
   }
-  for (let k = 0; k < 3; k++) {
-    const t = [.15, .42, .68][k], lx = (a, b) => a + (b - a) * t;
-    ctx.fillStyle = 'rgba(250,245,215,.85)';
-    poly(ctx, [[lx(1290, 1338), lx(P.y + 8, fy0)], [lx(1410, 1366), lx(P.y + 8, fy0)], [lx(1400, 1362), lx(P.y + 26, fy0 + 3)], [lx(1300, 1342), lx(P.y + 26, fy0 + 3)]]); ctx.fill();
-  }
+  // a faixa amarela, na altura do ombro, dos dois lados; na esquerda ela vira e some numa abertura
+  const faixa = (x0, xe, yt, yb) => { const f0 = .5, f1 = .58; ctx.fillStyle = 'rgba(214,176,52,.9)';
+    poly(ctx, [[x0, yt + (yb - yt) * f0], [xe, fy0 + (fy1 - fy0) * f0], [xe, fy0 + (fy1 - fy0) * f1], [x0, yt + (yb - yt) * f1]]); ctx.fill(); };
+  faixa(P.x, fx0, P.y, P.y + P.h); faixa(P.x + P.w, fx1, P.y, P.y + P.h);
+  ctx.fillStyle = '#120c06'; poly(ctx, [[1262, 268], [1292, 282], [1292, 472], [1262, 500]]); ctx.fill();
+  ctx.fillStyle = 'rgba(214,176,52,.9)'; poly(ctx, [[1240, 368], [1266, 372], [1266, 392], [1240, 390]]); ctx.fill();
   const r = rng(5);
   ctx.lineWidth = 3;
-  for (let i = 0; i < 260; i++) { ctx.strokeStyle = rgba(150 + r() * 80, 120 + r() * 60, 30 + r() * 30, .08);
+  for (let i = 0; i < 260; i++) { ctx.strokeStyle = rgba(120 + r() * 60, 80 + r() * 40, 50 + r() * 30, .08);
     const sx = P.x + r() * P.w, sy = P.y + r() * P.h; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + r() * 30 - 15, sy + r() * 8 - 4); ctx.stroke(); }
   ctx.strokeStyle = 'rgba(40,28,10,.6)'; ctx.lineWidth = 2;
   for (const [a, b] of [[[P.x, P.y], [fx0, fy0]], [[P.x + P.w, P.y], [fx1, fy0]], [[P.x, P.y + P.h], [fx0, fy1]], [[P.x + P.w, P.y + P.h], [fx1, fy1]]]) {
@@ -145,7 +143,7 @@ ART[1] = function (ctx, st) {
   ctx.strokeStyle = 'rgba(30,20,8,.5)'; ctx.lineWidth = 1;
   for (let i = 0; i < 6; i++) { let cx = P.x + r() * P.w, cy = P.y + r() * P.h; ctx.beginPath(); ctx.moveTo(cx, cy);
     for (let j = 0; j < 5; j++) { cx += r() * 30 - 15; cy += r() * 24; ctx.lineTo(cx, cy); } ctx.stroke(); }
-  ctx.fillStyle = 'rgba(60,40,10,.8)'; ctx.font = '16px "Kalam", cursive'; ctx.fillText('M.T. 86', P.x + P.w - 70, P.y + P.h - 12);
+  ctx.fillStyle = 'rgba(240,220,160,.85)'; ctx.font = '16px "Kalam", cursive'; ctx.fillText('M.T. 86', P.x + P.w - 70, P.y + P.h - 12);
 
   // espada-de-são-jorge morta
   floorShadow(ctx, 360, 100, 30);
@@ -160,16 +158,6 @@ ART[1] = function (ctx, st) {
     ctx.restore();
   });
 
-  // fusível caído no chão
-  if (!st.fuseTaken) {
-    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.beginPath(); ctx.ellipse(1176, 772, 26, 6, 0, 0, 7); ctx.fill();
-    ctx.save(); ctx.translate(1170, 760); ctx.rotate(.35);
-    ctx.fillStyle = '#3a2316'; ctx.fillRect(-16, -11, 26, 22);
-    ctx.fillStyle = '#9c8656'; ctx.fillRect(10, -8, 12, 16);
-    ctx.strokeStyle = '#5c4b2c'; ctx.lineWidth = 1.5; for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(12 + i * 3, -8); ctx.lineTo(12 + i * 3, 8); ctx.stroke(); }
-    ctx.fillStyle = 'rgba(255,240,200,.35)'; ctx.fillRect(-14, -9, 20, 3);
-    ctx.restore();
-  }
   lamp(ctx, LAMP_X[1]);
 };
 EMIT[1] = function () {};

@@ -67,7 +67,7 @@ Máximo de 160. Cupom provisório: 125 Páginas → ULTIMAPARADA10 (10%); 145 �
 
 ## As gravações
 
-Toda secretária eletrônica do livro tem play, e o mesmo áudio toca na secretária do porão. O roteiro de todas as vozes (elenco, prompts do Voice Design, texto com marcações do Eleven v3 e jeito de dizer) está no documento "Última Parada — vozes para o ElevenLabs"; a lista de ids, em `site/audio/LEIA.md`. Grava-se a voz limpa no ElevenLabs e passa-se por `midia/ferramentas/processar-vozes.sh`, que põe o efeito de microfita nas falas da secretária; o livro e o jogo põem ao vivo o telefone, o rádio e a TV.
+Toda secretária eletrônica do livro tem play, e o mesmo áudio toca na secretária do porão. O porão só tem o que o livro diz que estava lá (a lista está no `CLAUDE.md` do livro); os três enigmas com senha são ROTA, 0606 e o volume 7, e o porão abre por fases, na ordem dos capítulos. O roteiro de todas as vozes (elenco, prompts do Voice Design, texto com marcações do Eleven v3 e jeito de dizer) está no documento "Última Parada — vozes para o ElevenLabs"; a lista de ids, em `site/audio/LEIA.md`. Grava-se a voz limpa no ElevenLabs e passa-se por `midia/ferramentas/processar-vozes.sh`, que põe o efeito de microfita nas falas da secretária; o livro e o jogo põem ao vivo o telefone, o rádio e a TV.
 
 A fita do Fábio está dividida em duas: a ida, depois do capítulo 1 (`video/fita-ida.mp4`), e o último trecho, dentro do capítulo 9 (`video/fita-volta.mp4`, `{{fita:volta}}` no Markdown). Nenhuma das duas mostra a caixa antes da hora. A fita de Marina (1986) não tem play: não estava no envelope, e o capítulo 7 a apresenta como reconstituição, a partir da nota que o Fábio escreveu na margem do caderno. No porão ela passa no videocassete.
 

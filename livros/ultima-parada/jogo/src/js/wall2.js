@@ -114,8 +114,19 @@ ART[2] = function (ctx, st) {
   drawer(ctx, X + 8, 538, CW - 16, 80, 222, st.open.gav2);
   drawer(ctx, X + 8, 450, CW - 16, 80, 221, st.open.gav1);
   if (!st.open.gav1) padlock(ctx, X + CW - 33, 452, 'letters');
-  if (!st.open.gav2) padlock(ctx, X + CW - 33, 540, 'numbers');
-  if (!st.open.gav3) padlock(ctx, X + CW - 33, 624, 'key');
+  // o relógio de cozinha da Lúcia, parado às 23:10, na parede em cima da cômoda (corre com o painel)
+  { const cx = X + 160, cy = 356;
+    castShadow(ctx, cx - 44, cy - 44, 88, 88, 20);
+    ctx.fillStyle = '#c9bb92'; ctx.beginPath(); ctx.arc(cx, cy, 50, 0, 7); ctx.fill();
+    ctx.fillStyle = '#e6dcc0'; ctx.beginPath(); ctx.arc(cx, cy, 42, 0, 7); ctx.fill();
+    stain(ctx, cx + 12, cy + 15, 24, 16, 'rgba(120,90,40,A)', .35);
+    ctx.fillStyle = '#2a2418';
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; ctx.fillRect(cx + Math.sin(a) * 35 - 2, cy - Math.cos(a) * 35 - 2, 4, i % 3 ? 4 : 7); }
+    const hand = (ang, len, wd, col) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(ang) * len, cy - Math.cos(ang) * len); ctx.stroke(); };
+    hand((11 + 10 / 60) / 12 * Math.PI * 2, 22, 4.5, '#1b1712');
+    hand(10 / 60 * Math.PI * 2, 32, 3, '#1b1712');
+    hand((st.flags.ev340 ? 42 : 41) / 60 * Math.PI * 2, 34, 1.5, '#8a1d14');
+    ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.beginPath(); ctx.ellipse(cx - 15, cy - 18, 18, 8, -.6, 0, 7); ctx.fill(); }
   // paninho de crochê e porta-retrato virado para baixo
   ctx.fillStyle = 'rgba(225,220,200,.85)'; ctx.beginPath(); ctx.ellipse(X + 100, 428, 70, 7, 0, 0, 7); ctx.fill();
   ctx.strokeStyle = 'rgba(120,110,90,.6)'; ctx.lineWidth = 1;

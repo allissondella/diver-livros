@@ -1,4 +1,4 @@
-// ===== wall0.js — parede da escada (LED, janelinha, relógio, quadro de luz) =====
+// ===== wall0.js — parede da escada (janelinha, quadro de luz, lata da goteira) =====
 const ART = [], EMIT = [];
 const LAMP_X = [1190, 300, 820, 1330];
 
@@ -90,29 +90,6 @@ ART[0] = function (ctx, st) {
   pipe(ctx, [[1010, 112], [1600, 112]], 12, '#3e3c36', 'rgba(220,210,190,.25)');
   pipe(ctx, [[1545, WALL_TOP], [1545, 600], [1510, 640], [1510, FLOOR]], 16, '#b9b2a0', 'rgba(255,255,255,.4)');
 
-  // visor de LED acima da escada
-  castShadow(ctx, 650, 215, 300, 82, 22);
-  ctx.fillStyle = '#0d0c0b'; ctx.fillRect(650, 215, 300, 82);
-  ctx.fillStyle = '#1d0806'; ctx.fillRect(662, 226, 276, 60);
-  seg7(ctx, '88:88', 690, 234, 44, 'rgba(90,20,12,.35)', null);
-  bevel(ctx, 650, 215, 300, 82, 4);
-  ctx.strokeStyle = '#0a0908'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(940, 260); ctx.lineTo(1010, 112); ctx.stroke();
-
-  // relógio de cozinha parado às 23:10
-  const cx = 1040, cy = 300;
-  castShadow(ctx, cx - 52, cy - 52, 104, 104, 24);
-  ctx.fillStyle = '#c9bb92'; ctx.beginPath(); ctx.arc(cx, cy, 60, 0, 7); ctx.fill();
-  ctx.fillStyle = '#e6dcc0'; ctx.beginPath(); ctx.arc(cx, cy, 50, 0, 7); ctx.fill();
-  stain(ctx, cx + 14, cy + 18, 30, 20, 'rgba(120,90,40,A)', .35);
-  ctx.fillStyle = '#2a2418';
-  for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; ctx.fillRect(cx + Math.sin(a) * 42 - 2, cy - Math.cos(a) * 42 - 2, 4, i % 3 ? 4 : 8); }
-  const hand = (ang, len, wd, col) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(ang) * len, cy - Math.cos(ang) * len); ctx.stroke(); };
-  hand((11 + 10 / 60) / 12 * Math.PI * 2, 26, 5, '#1b1712');
-  hand(10 / 60 * Math.PI * 2, 38, 3.5, '#1b1712');
-  hand((st.flags.ev340 ? 42 : 41) / 60 * Math.PI * 2, 40, 1.5, '#8a1d14');
-  ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.beginPath(); ctx.ellipse(cx - 18, cy - 22, 22, 10, -.6, 0, 7); ctx.fill();
-  note(ctx, cx - 30, cy + 66, 62, 38, .06, '#d6c99c');
-
   // quadro de luz
   castShadow(ctx, 1290, 300, 170, 230, 30);
   ctx.fillStyle = '#2b2f29'; ctx.fillRect(1290, 300, 170, 230);
@@ -141,7 +118,7 @@ ART[0] = function (ctx, st) {
   lamp(ctx, LAMP_X[0]);
 };
 
-// o que brilha mesmo no escuro: a fresta da porta lá em cima, a rua, o LED ligado
+// o que brilha mesmo no escuro: a fresta da porta lá em cima, a rua
 EMIT[0] = function (ctx, st, t) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   const fl = .8 + Math.sin(t / 900) * .05;
@@ -153,11 +130,5 @@ EMIT[0] = function (ctx, st, t) {
   s.addColorStop(0, 'rgba(255,140,50,.16)'); s.addColorStop(1, 'rgba(255,140,50,0)');
   ctx.fillStyle = s; ctx.fillRect(760, 104, 250, 76);
   ctx.fillStyle = 'rgba(255,150,70,.07)'; ctx.fillRect(770, 154, 230, 3);
-  if (st.power) {
-    seg7(ctx, clockText(), 690, 234, 44, '#ff3a1e', null);
-    const lg = ctx.createRadialGradient(800, 256, 10, 800, 256, 220);
-    lg.addColorStop(0, 'rgba(255,40,10,.22)'); lg.addColorStop(1, 'rgba(255,40,10,0)');
-    ctx.fillStyle = lg; ctx.fillRect(580, 120, 440, 280);
-  }
   ctx.restore();
 };
