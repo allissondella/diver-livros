@@ -102,14 +102,24 @@ article > p:first-of-type { margin-top: 0; }
 .documento.em-play p.tocando, .documento.em-play p.doc { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .ouvir.tocando .microfita i { animation: none; } }
 
-/* ——— CP-500 (capítulo 3 e senha) ——— */
-.cp500 {
-  position: relative; background: #021407; color: var(--verde); border-radius: 14px; padding: 22px 20px;
-  font: clamp(.98rem, 2.4vw, 1.14rem)/1.3 var(--terminal); white-space: pre-wrap; word-break: break-word;
-  box-shadow: inset 0 0 60px rgba(0,0,0,.85), 0 0 0 10px #1b1a17, 0 0 0 11px #2f2c27; text-shadow: 0 0 6px rgba(93,255,134,.55);
-  overflow: hidden; margin: 12px 0 28px;
+/* ——— CP-500 (capítulo 5): um monitor de altura fixa; o texto rola dentro da tela, como num terminal ——— */
+.monitor {
+  position: relative; margin: 12px 0 28px; border-radius: 22px; padding: 14px; background: #1b1a17;
+  box-shadow: 0 0 0 1px #2f2c27, 0 18px 40px rgba(0,0,0,.45);
 }
-.cp500::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px); }
+.monitor::after { content: 'PROLÓGICA  CP-500'; position: absolute; left: 26px; bottom: 2px; font: .6rem var(--maquina); letter-spacing: .3em; color: #57524a; }
+.cp500 {
+  position: relative; background: #021407; color: var(--verde); border-radius: 12px; padding: 22px 20px;
+  font: clamp(.98rem, 2.4vw, 1.14rem)/1.3 var(--terminal); white-space: pre-wrap; word-break: break-word;
+  box-shadow: inset 0 0 60px rgba(0,0,0,.85); text-shadow: 0 0 6px rgba(93,255,134,.55);
+  height: min(70vh, 620px); overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: rgba(93,255,134,.45) #021407;
+}
+.cp500::-webkit-scrollbar { width: 8px; }
+.cp500::-webkit-scrollbar-thumb { background: rgba(93,255,134,.4); border-radius: 4px; }
+.cp500::-webkit-scrollbar-track { background: #021407; }
+.monitor::before { content: ''; position: absolute; inset: 14px; border-radius: 12px; pointer-events: none; z-index: 1; background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px); }
+.cp500 .rolar { position: sticky; bottom: 0; display: block; text-align: right; font-size: .72em; opacity: .55; padding-top: 6px; animation: pisca 1.4s steps(2) infinite; }
 .cp500 .linha-cursor::after { content: '█'; animation: pisca 1s steps(2) infinite; }
 @keyframes pisca { 50% { opacity: 0; } }
 .cp500 input { background: transparent; border: 0; color: var(--verde); font: inherit; text-shadow: inherit; width: 8ch; outline: none; caret-color: var(--verde); }

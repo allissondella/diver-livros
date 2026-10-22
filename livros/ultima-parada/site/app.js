@@ -366,13 +366,26 @@
       observador.observe(marca);
     }
   }
+  // o monitor do CP-500: a tela tem altura fixa e o texto rola dentro dela, de cima para baixo, no ritmo da pessoa.
+  // O texto escreve sozinho a partir do alto; a dica "role a tela" some quando chega ao fim.
   function telaCP500(texto) {
-    const t = el('div', { class: 'cp500', role: 'document', 'aria-label': 'Tela do computador CP-500' });
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { t.textContent = texto; return t; }
+    const t = el('div', { class: 'cp500', role: 'document', 'aria-label': 'Tela do computador CP-500', tabindex: '0' });
+    const m = el('div', { class: 'monitor' }, t);
+    const dica = el('span', { class: 'rolar', 'aria-hidden': 'true' }, '▼ role a tela');
+    const fim = () => {
+      if (t.scrollHeight <= t.clientHeight + 8) return;
+      t.append(dica);
+      t.addEventListener('scroll', () => { dica.style.visibility = t.scrollHeight - t.scrollTop - t.clientHeight < 24 ? 'hidden' : ''; }, { passive: true });
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { t.textContent = texto; setTimeout(fim, 0); return m; }
     const linhas = texto.split('\n'); let i = 0;
-    const passo = () => { if (i >= linhas.length) return; t.textContent += (i ? '\n' : '') + linhas[i++]; setTimeout(passo, 28); };
+    const passo = () => {
+      if (i >= linhas.length) { fim(); return; }
+      t.textContent += (i ? '\n' : '') + linhas[i++];
+      setTimeout(passo, 28);
+    };
     setTimeout(passo, 400);
-    return t;
+    return m;
   }
 
   // ——— fim ———

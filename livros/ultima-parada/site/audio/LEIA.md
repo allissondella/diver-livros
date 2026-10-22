@@ -22,6 +22,6 @@ O roteiro completo, com o elenco (prompts do Voice Design), o texto de cada fala
 | Ponto final | ceci-ponto (`plantao` foi gravada, mas a TV não mostra mais o plantão: ninguém sabia do sumiço) |
 | Fim do jogo fora do livro | fabio-fim-1, ceci-fim-1, fabio-fim-2 |
 | Fim ruim (VOCÊ FALHOU) | grito-falhou (efeito; sem ele, o site usa `sons/jumpscare.mp3`) |
-| Sons de cena | bip, chiado-microfita, telefone-chamando, telefone-tocando |
+| Sons de cena | bip, chiado-microfita, telefone-chamando, telefone-tocando, gota (a goteira na lata, a cada onze segundos) |
 | Fita do Fábio no fim do jogo (opcional) | aurelio-agora-vai ("Agora vai.", voz de homem, pelo rádio) |
 | Narração dos papéis (opcional) | papel-01, 02, 06, 07, 09, 10, 11, 12, 13, 14, 15, 16, 17 (os ids da linha do tempo em `jogo/src/js/data.js`) |

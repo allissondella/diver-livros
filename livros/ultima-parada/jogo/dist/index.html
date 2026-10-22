@@ -3478,7 +3478,8 @@ function burst(dur, type, f, q, vol, delay, attack) {
   s.connect(b).connect(g).connect(AUD.master); s.start(t); s.stop(t + dur + .05);
 }
 const SFX = {
-  drip(v) { tone(1900, .09, 'sine', .07 * v, 650); burst(.03, 'bandpass', 3000, 3, .03 * v); },
+  // a gota na lata: o som gravado (audio/gota.mp3), baixinho; sem ele, o sintetizado
+  drip(v) { if (!sample('gota', .3 * v)) { tone(1900, .09, 'sine', .07 * v, 650); burst(.03, 'bandpass', 3000, 3, .03 * v); } },
   thud(v, d) { tone(95, .3, 'sine', .5 * (v || 1), 38, d); burst(.1, 'lowpass', 320, 1, .25 * (v || 1), d); },
   knock() { SFX.thud(.6); burst(.6, 'bandpass', 880, 9, .12, .02); burst(.5, 'bandpass', 1320, 12, .06, .05); },
   creak(d) { tone(210, .7, 'sawtooth', .02, 150, d); burst(.6, 'bandpass', 700, 14, .05, d, .2); },
@@ -3537,8 +3538,8 @@ function audioTick() {
   setG('chiado', chiado, .08); setG('morse', morse, .08);
   // goteira na lata (mesmo ritmo do desenho)
   if (porao && !silent) {
-    const cyc = now % 6200, crossed = AUD.last.drip !== undefined && AUD.last.drip < 650 && cyc >= 650;
-    if (crossed && !overlayOpen()) SFX.drip(S.view === 0 ? 1 : .35);
+    const cyc = now % 11000, crossed = AUD.last.drip !== undefined && AUD.last.drip < 650 && cyc >= 650;   // uma a cada onze segundos, junto com o desenho
+    if (crossed && !overlayOpen() && now >= S.dropPauseUntil) SFX.drip(S.view === 0 ? 1 : .35);
     AUD.last.drip = cyc;
     if (!AUD.last.knock) AUD.last.knock = now + 60000 + Math.random() * 60000;
     if (now > AUD.last.knock) { SFX.knock(); AUD.last.knock = now + 90000 + Math.random() * 90000; }
