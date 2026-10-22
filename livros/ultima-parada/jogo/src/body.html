@@ -163,13 +163,20 @@
     <div class="ovIn">
       <div class="radioFace">
         <div id="magicEye" class="eye" aria-hidden="true"></div>
-        <div class="scale"><div id="needle" class="needle"></div><span class="scratch" aria-hidden="true"></span></div>
+        <div class="scale"><div id="needle" class="needle"></div></div>
         <p id="freq" class="freq">17.40</p>
       </div>
       <label class="tuneLab" for="tune">Sintonia</label>
       <input type="range" id="tune" min="15" max="30" step="0.01" value="17.4">
       <p id="morse" class="morse" aria-live="polite"></p>
       <ol id="radioLines" class="tapeLines" aria-live="polite"></ol>
+      <div id="decifra" class="decifra" hidden>
+        <p class="decifraTit">O rádio bate devagar, sempre a mesma coisa. Copie letra por letra, com o lápis da bancada.</p>
+        <div id="decifraLetras" class="decifraLetras"></div>
+        <p id="decifraMsg" class="decifraMsg" aria-live="polite"></p>
+        <button type="button" id="btnTabela" class="decifraBtn">Ver a tabela de morse da parede</button>
+        <div id="tabelaRadio" class="paper tabelaRadio" hidden></div>
+      </div>
       <div class="ovBar"><button type="button" class="close">Desligar o rádio</button></div>
     </div>
   </div>

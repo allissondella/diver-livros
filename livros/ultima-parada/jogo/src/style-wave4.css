@@ -25,7 +25,6 @@
   background-size: 100% 60%, 100% 30%; background-repeat: no-repeat; background-position: 0 0, 0 0;
   box-shadow: inset 0 0 .6em rgba(80, 50, 10, .5);
 }
-.scratch { position: absolute; left: 54%; top: 0; bottom: 0; width: 2px; background: #8a1f1f; transform: rotate(4deg); }
 .needle { position: absolute; top: -10%; bottom: -10%; width: 3px; background: #c4230f; box-shadow: 0 0 .3em rgba(255, 60, 20, .6); left: 16%; }
 .freq { margin: 0; font: 1.6em var(--f-led); color: #f1d9a0; letter-spacing: .12em; }
 .tuneLab { color: var(--dim); font-size: .8em; letter-spacing: .14em; text-transform: uppercase; }
@@ -42,3 +41,26 @@
 .paper.morse .morse-tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: .15em 1.2em; font: 1.02em/1.55 'Courier New', monospace; color: #1f2a3a; }
 .paper.morse .morse-tab b { display: inline-block; width: 1.3em; font-weight: 700; }
 @media (max-width: 560px) { .paper.morse .morse-tab { grid-template-columns: repeat(3, 1fr); font-size: .92em; } }
+
+/* decifrar o morse no próprio rádio: cada letra é um grupo de pontos e traços com uma casinha para escrever */
+.decifra { width: min(44em, 94vw); display: flex; flex-direction: column; align-items: center; gap: .7em; }
+.decifraTit { margin: 0; color: var(--dim); font-size: .85em; text-align: center; }
+.decifraLetras { display: flex; flex-wrap: wrap; justify-content: center; gap: .5em .35em; }
+.decifraLetras .pal { display: flex; gap: .35em; padding: 0 .5em; border-right: 1px dashed rgba(156, 255, 176, .25); }
+.decifraLetras .pal:last-child { border-right: 0; }
+.decifraLetras label { display: flex; flex-direction: column; align-items: center; gap: .3em; }
+.decifraLetras .cod { font: 1.05em var(--f-led); letter-spacing: .12em; color: #9cffb0; text-shadow: 0 0 .35em rgba(120, 255, 150, .55); min-height: 1.2em; white-space: nowrap; }
+.decifraLetras input { width: 1.9em; height: 2.1em; text-align: center; font: 1.25em var(--f-led); text-transform: uppercase; color: #f1d9a0; background: #15130f; border: 1px solid #4a4436; border-radius: .2em; caret-color: #f1d9a0; }
+.decifraLetras input:focus { outline: 2px solid #c98a2e; outline-offset: 1px; }
+.decifraLetras input.erro { border-color: #b3261e; background: #2a1010; }
+.decifraLetras input.certo { border-color: #2ea84a; color: #9cffb0; }
+.decifraMsg { margin: 0; min-height: 1.3em; color: var(--ink); text-align: center; }
+.decifraBtn { font: inherit; font-size: .85em; color: var(--dim); background: transparent; border: 1px solid var(--dim); border-radius: .25em; padding: .35em .8em; cursor: pointer; }
+.decifraBtn:hover { color: var(--ink); border-color: var(--ink); }
+.tabelaRadio { width: min(46em, 94vw) !important; max-width: none; padding: 1em 1.2em; font-size: .9em; }
+.decifra.feito .decifraLetras input { pointer-events: none; }
+.tabelaRadio .morse-tab { display: grid; grid-template-columns: repeat(6, 1fr); gap: .1em .9em; font: .95em/1.55 'Courier New', monospace; color: #1f2a3a; }
+.tabelaRadio .morse-tab b { display: inline-block; width: 1.3em; font-weight: 700; }
+.tabelaRadio .morse-tab span { white-space: nowrap; }
+.tabelaRadio .stamp { margin-bottom: .6em; }
+@media (max-width: 640px) { .tabelaRadio .morse-tab { grid-template-columns: repeat(4, 1fr); } }

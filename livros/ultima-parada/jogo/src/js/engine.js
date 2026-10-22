@@ -5,7 +5,7 @@ function resetState() {
     view: 0, started: false, ended: false,
     fuse: false, fuseTaken: false, power: false, powerAt: 0,
     inv: [], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
-    open: { gav1: false, gav2: false, gav3: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, caixaAt: 0, dropPauseUntil: 0,
+    open: { gav1: false, gav2: false, gav3: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, caixaAt: 0, dropPauseUntil: 0, decifra: {},
     lockVals: { gav1: ['M', 'Z', 'K', 'Q'] },
     t0: 0, nextFlick: 0, flickUntil: 0, battUntil: 0, nextBatt: 0,
   });

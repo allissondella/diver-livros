@@ -438,7 +438,6 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
   background-size: 100% 60%, 100% 30%; background-repeat: no-repeat; background-position: 0 0, 0 0;
   box-shadow: inset 0 0 .6em rgba(80, 50, 10, .5);
 }
-.scratch { position: absolute; left: 54%; top: 0; bottom: 0; width: 2px; background: #8a1f1f; transform: rotate(4deg); }
 .needle { position: absolute; top: -10%; bottom: -10%; width: 3px; background: #c4230f; box-shadow: 0 0 .3em rgba(255, 60, 20, .6); left: 16%; }
 .freq { margin: 0; font: 1.6em var(--f-led); color: #f1d9a0; letter-spacing: .12em; }
 .tuneLab { color: var(--dim); font-size: .8em; letter-spacing: .14em; text-transform: uppercase; }
@@ -455,6 +454,29 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
 .paper.morse .morse-tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: .15em 1.2em; font: 1.02em/1.55 'Courier New', monospace; color: #1f2a3a; }
 .paper.morse .morse-tab b { display: inline-block; width: 1.3em; font-weight: 700; }
 @media (max-width: 560px) { .paper.morse .morse-tab { grid-template-columns: repeat(3, 1fr); font-size: .92em; } }
+
+/* decifrar o morse no próprio rádio: cada letra é um grupo de pontos e traços com uma casinha para escrever */
+.decifra { width: min(44em, 94vw); display: flex; flex-direction: column; align-items: center; gap: .7em; }
+.decifraTit { margin: 0; color: var(--dim); font-size: .85em; text-align: center; }
+.decifraLetras { display: flex; flex-wrap: wrap; justify-content: center; gap: .5em .35em; }
+.decifraLetras .pal { display: flex; gap: .35em; padding: 0 .5em; border-right: 1px dashed rgba(156, 255, 176, .25); }
+.decifraLetras .pal:last-child { border-right: 0; }
+.decifraLetras label { display: flex; flex-direction: column; align-items: center; gap: .3em; }
+.decifraLetras .cod { font: 1.05em var(--f-led); letter-spacing: .12em; color: #9cffb0; text-shadow: 0 0 .35em rgba(120, 255, 150, .55); min-height: 1.2em; white-space: nowrap; }
+.decifraLetras input { width: 1.9em; height: 2.1em; text-align: center; font: 1.25em var(--f-led); text-transform: uppercase; color: #f1d9a0; background: #15130f; border: 1px solid #4a4436; border-radius: .2em; caret-color: #f1d9a0; }
+.decifraLetras input:focus { outline: 2px solid #c98a2e; outline-offset: 1px; }
+.decifraLetras input.erro { border-color: #b3261e; background: #2a1010; }
+.decifraLetras input.certo { border-color: #2ea84a; color: #9cffb0; }
+.decifraMsg { margin: 0; min-height: 1.3em; color: var(--ink); text-align: center; }
+.decifraBtn { font: inherit; font-size: .85em; color: var(--dim); background: transparent; border: 1px solid var(--dim); border-radius: .25em; padding: .35em .8em; cursor: pointer; }
+.decifraBtn:hover { color: var(--ink); border-color: var(--ink); }
+.tabelaRadio { width: min(46em, 94vw) !important; max-width: none; padding: 1em 1.2em; font-size: .9em; }
+.decifra.feito .decifraLetras input { pointer-events: none; }
+.tabelaRadio .morse-tab { display: grid; grid-template-columns: repeat(6, 1fr); gap: .1em .9em; font: .95em/1.55 'Courier New', monospace; color: #1f2a3a; }
+.tabelaRadio .morse-tab b { display: inline-block; width: 1.3em; font-weight: 700; }
+.tabelaRadio .morse-tab span { white-space: nowrap; }
+.tabelaRadio .stamp { margin-bottom: .6em; }
+@media (max-width: 640px) { .tabelaRadio .morse-tab { grid-template-columns: repeat(4, 1fr); } }
 /* ——— Onda 5: a TV de tubo da abertura ——— */
 .tvIntro { display: grid; justify-items: center; gap: 0; }
 .tvBox {
@@ -644,13 +666,20 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
     <div class="ovIn">
       <div class="radioFace">
         <div id="magicEye" class="eye" aria-hidden="true"></div>
-        <div class="scale"><div id="needle" class="needle"></div><span class="scratch" aria-hidden="true"></span></div>
+        <div class="scale"><div id="needle" class="needle"></div></div>
         <p id="freq" class="freq">17.40</p>
       </div>
       <label class="tuneLab" for="tune">Sintonia</label>
       <input type="range" id="tune" min="15" max="30" step="0.01" value="17.4">
       <p id="morse" class="morse" aria-live="polite"></p>
       <ol id="radioLines" class="tapeLines" aria-live="polite"></ol>
+      <div id="decifra" class="decifra" hidden>
+        <p class="decifraTit">O rádio bate devagar, sempre a mesma coisa. Copie letra por letra, com o lápis da bancada.</p>
+        <div id="decifraLetras" class="decifraLetras"></div>
+        <p id="decifraMsg" class="decifraMsg" aria-live="polite"></p>
+        <button type="button" id="btnTabela" class="decifraBtn">Ver a tabela de morse da parede</button>
+        <div id="tabelaRadio" class="paper tabelaRadio" hidden></div>
+      </div>
       <div class="ovBar"><button type="button" class="close">Desligar o rádio</button></div>
     </div>
   </div>
@@ -1850,7 +1879,7 @@ function resetState() {
     view: 0, started: false, ended: false,
     fuse: false, fuseTaken: false, power: false, powerAt: 0,
     inv: [], sel: null, cp: null, tvOn: false, blackoutUntil: 0, papers: new Set(), seen: new Set(), flags: {},
-    open: { gav1: false, gav2: false, gav3: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, caixaAt: 0, dropPauseUntil: 0,
+    open: { gav1: false, gav2: false, gav3: false, esc: false, oficina: false, estante: false }, corr: 0, found: {}, caixaAt: 0, dropPauseUntil: 0, decifra: {},
     lockVals: { gav1: ['M', 'Z', 'K', 'Q'] },
     t0: 0, nextFlick: 0, flickUntil: 0, battUntil: 0, nextBatt: 0,
   });
@@ -3253,6 +3282,7 @@ function openRadio() {
   if (!S.found.caixa) { say('O fio do receptor desce da bancada e passa por baixo da caixa de chumbo, que está em cima dele. Primeiro a caixa.'); return; }
   if (!S.flags.radioOn) say('Você liga o receptor. As válvulas acendem laranja, uma por uma, como se lembrassem. Cheiro de poeira queimada.');
   S.flags.radioOn = true; S.flags.tuned = false; $('radioLines').textContent = ''; $('morse').textContent = '';
+  $('decifra').hidden = true;
   openOv('ovRadio'); $('tune').value = '17.4'; tuneRadio();
   setTimeout(() => $('tune').focus(), 60);
 }
@@ -3261,13 +3291,61 @@ function tuneRadio() {
   $('freq').textContent = v.toFixed(2); $('needle').style.left = ((v - 15) / 15 * 100) + '%';
   const eye = $('magicEye'); eye.className = 'eye' + (d < .035 ? ' on' : d < .6 ? ' near' : '');
   const m = $('morse');
-  if (d < .6) { m.textContent = S.flags.marina ? MORSE_LIVRO : MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
+  // depois da Marina, o morse novo é copiado no caderno de decifrar, não na linha solta
+  if (d < .6 && !(S.flags.marina && S.flags.tuned)) { m.textContent = S.flags.marina ? MORSE_LIVRO : MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
   if (d < .035 && !S.flags.tuned) {
     S.flags.tuned = true; $('tune').value = '23.10'; $('freq').textContent = '23.10';
-    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; $('morse').textContent = MORSE_LIVRO; $('morse').style.opacity = '1'; });
+    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; $('morse').textContent = ''; abrirDecifra(); });
   }
+  if (d >= .035 && S.flags.tuned) { S.flags.tuned = false; $('decifra').hidden = true; }   // saiu da faixa: perde o sinal
 }
 $('tune').addEventListener('input', tuneRadio);
+
+// ——— decifrar o morse no rádio: PUXE O LIVRO 7, letra por letra, com a tabela da parede ———
+const DECIFRA = [['P', 'U', 'X', 'E'], ['O'], ['L', 'I', 'V', 'R', 'O'], ['7']];
+function abrirDecifra() {
+  const box = $('decifraLetras'), dec = $('decifra');
+  if (!box.childElementCount) {
+    let k = 0;
+    for (const pal of DECIFRA) {
+      const g = document.createElement('div'); g.className = 'pal';
+      for (const ch of pal) {
+        const i = k++, lab = document.createElement('label'), cod = document.createElement('span'), inp = document.createElement('input');
+        cod.className = 'cod'; cod.textContent = MORSE_CODE[ch].replace(/\./g, '·').replace(/-/g, '−');
+        inp.maxLength = 1; inp.autocomplete = 'off'; inp.spellcheck = false; inp.dataset.i = i; inp.setAttribute('aria-label', `Letra ${i + 1}: ${cod.textContent}`);
+        inp.addEventListener('input', () => {
+          inp.value = inp.value.toUpperCase().slice(-1); inp.classList.remove('erro', 'certo'); S.decifra[i] = inp.value;
+          if (inp.value) { const nx = box.querySelector(`input[data-i="${i + 1}"]`); if (nx) nx.focus(); }
+          conferirDecifra();
+        });
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && !inp.value) { const pv = box.querySelector(`input[data-i="${i - 1}"]`); if (pv) { pv.focus(); pv.value = ''; S.decifra[i - 1] = ''; } } });
+        lab.append(cod, inp); g.append(lab);
+      }
+      box.append(g);
+    }
+  }
+  box.querySelectorAll('input').forEach(inp => { inp.value = S.decifra[inp.dataset.i] || ''; });
+  dec.classList.toggle('feito', !!S.flags.morseOk);
+  $('decifraMsg').textContent = S.flags.morseOk ? 'PUXE O LIVRO 7. Lá no porão, dentro da parede da estante, alguma coisa estalou quando você terminou de escrever.' : '';
+  dec.hidden = false;
+  if (!S.flags.morseOk) setTimeout(() => { const f = [...box.querySelectorAll('input')].find(x => !x.value); if (f) f.focus(); }, 80);
+}
+function conferirDecifra() {
+  const inps = [...$('decifraLetras').querySelectorAll('input')], alvo = DECIFRA.flat();
+  if (inps.some(x => !x.value)) { $('decifraMsg').textContent = ''; return; }
+  let ok = true;
+  inps.forEach((x, i) => { const c = x.value === alvo[i]; x.classList.toggle('certo', c); x.classList.toggle('erro', !c); if (!c) ok = false; });
+  if (!ok) { $('decifraMsg').textContent = 'Não fecha. Confira na tabela as letras em vermelho.'; return; }
+  S.flags.morseOk = true; $('decifra').classList.add('feito');
+  $('decifraMsg').textContent = 'PUXE O LIVRO 7. Lá no porão, dentro da parede da estante, alguma coisa estalou quando você terminou de escrever.';
+  if (typeof SFX !== 'undefined') { SFX.clunk(); }
+}
+$('btnTabela').addEventListener('click', () => {
+  const t = $('tabelaRadio');
+  if (!t.innerHTML) t.innerHTML = PAPERS.find(p => p.id === 16).html;
+  t.hidden = !t.hidden; $('btnTabela').textContent = t.hidden ? 'Ver a tabela de morse da parede' : 'Esconder a tabela';
+  if (findPaper(16, true)) toast('A tabela de morse foi para a linha do tempo.');
+});
 
 // ——— a estante ———
 function openEstante() {
@@ -3322,8 +3400,9 @@ spot(1, 'espada', [338, 420, 144, 300], { label: 'Espada-de-são-jorge',
     say('A terra está seca e fofa. Você enfia os dedos e encosta em uma coisa fria e redonda: uma bolinha de aço, do tamanho de uma bolinha de gude.');
   } });
 spot(1, 'vol7', [774, 272, 44, 110], { label: 'O buraco na Barsa', when: () => !S.open.estante,
-  act: () => S.flags.marina ? openEstante()
-    : say('No buraco, lá no fundo, tem um livro deitado atrás dos outros: o volume 7. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
+  act: () => S.flags.morseOk ? openEstante()
+    : say(S.flags.marina ? 'No buraco, lá no fundo, tem um livro deitado atrás dos outros. Você puxa: ele vem até a metade e trava. O rádio da oficina continua batendo pontos e traços, devagar. Ainda não é a hora de puxar à toa.'
+      : 'No buraco, lá no fundo, tem um livro deitado atrás dos outros. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
 spot(1, 'passagem', [520, 120, 600, 600], { label: 'Passagem', when: () => S.open.estante,
   act: () => goView(5, () => { S.corr = 0; dirty(5); say('Tijolo sem reboco, chão de terra batida, seco. Na parede, na altura do ombro, uma faixa amarela pintada à mão. Lá na frente, longe, um motor parado, ligado.'); }) });
 spot(2, 'labirinto', [294, 234, 132, 272], { label: 'Labirinto de vidro',

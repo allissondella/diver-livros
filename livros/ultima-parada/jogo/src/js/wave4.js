@@ -111,6 +111,7 @@ function openRadio() {
   if (!S.found.caixa) { say('O fio do receptor desce da bancada e passa por baixo da caixa de chumbo, que está em cima dele. Primeiro a caixa.'); return; }
   if (!S.flags.radioOn) say('Você liga o receptor. As válvulas acendem laranja, uma por uma, como se lembrassem. Cheiro de poeira queimada.');
   S.flags.radioOn = true; S.flags.tuned = false; $('radioLines').textContent = ''; $('morse').textContent = '';
+  $('decifra').hidden = true;
   openOv('ovRadio'); $('tune').value = '17.4'; tuneRadio();
   setTimeout(() => $('tune').focus(), 60);
 }
@@ -119,13 +120,61 @@ function tuneRadio() {
   $('freq').textContent = v.toFixed(2); $('needle').style.left = ((v - 15) / 15 * 100) + '%';
   const eye = $('magicEye'); eye.className = 'eye' + (d < .035 ? ' on' : d < .6 ? ' near' : '');
   const m = $('morse');
-  if (d < .6) { m.textContent = S.flags.marina ? MORSE_LIVRO : MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
+  // depois da Marina, o morse novo é copiado no caderno de decifrar, não na linha solta
+  if (d < .6 && !(S.flags.marina && S.flags.tuned)) { m.textContent = S.flags.marina ? MORSE_LIVRO : MORSE; m.style.opacity = String(Math.max(.15, 1 - d * 1.5)); } else m.textContent = '';
   if (d < .035 && !S.flags.tuned) {
     S.flags.tuned = true; $('tune').value = '23.10'; $('freq').textContent = '23.10';
-    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; $('morse').textContent = MORSE_LIVRO; $('morse').style.opacity = '1'; });
+    playLines($('radioLines'), 'ovRadio', S.flags.marina ? RADIO_AGAIN : RADIO_MARINA, () => { S.flags.marina = true; $('morse').textContent = ''; abrirDecifra(); });
   }
+  if (d >= .035 && S.flags.tuned) { S.flags.tuned = false; $('decifra').hidden = true; }   // saiu da faixa: perde o sinal
 }
 $('tune').addEventListener('input', tuneRadio);
+
+// ——— decifrar o morse no rádio: PUXE O LIVRO 7, letra por letra, com a tabela da parede ———
+const DECIFRA = [['P', 'U', 'X', 'E'], ['O'], ['L', 'I', 'V', 'R', 'O'], ['7']];
+function abrirDecifra() {
+  const box = $('decifraLetras'), dec = $('decifra');
+  if (!box.childElementCount) {
+    let k = 0;
+    for (const pal of DECIFRA) {
+      const g = document.createElement('div'); g.className = 'pal';
+      for (const ch of pal) {
+        const i = k++, lab = document.createElement('label'), cod = document.createElement('span'), inp = document.createElement('input');
+        cod.className = 'cod'; cod.textContent = MORSE_CODE[ch].replace(/\./g, '·').replace(/-/g, '−');
+        inp.maxLength = 1; inp.autocomplete = 'off'; inp.spellcheck = false; inp.dataset.i = i; inp.setAttribute('aria-label', `Letra ${i + 1}: ${cod.textContent}`);
+        inp.addEventListener('input', () => {
+          inp.value = inp.value.toUpperCase().slice(-1); inp.classList.remove('erro', 'certo'); S.decifra[i] = inp.value;
+          if (inp.value) { const nx = box.querySelector(`input[data-i="${i + 1}"]`); if (nx) nx.focus(); }
+          conferirDecifra();
+        });
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && !inp.value) { const pv = box.querySelector(`input[data-i="${i - 1}"]`); if (pv) { pv.focus(); pv.value = ''; S.decifra[i - 1] = ''; } } });
+        lab.append(cod, inp); g.append(lab);
+      }
+      box.append(g);
+    }
+  }
+  box.querySelectorAll('input').forEach(inp => { inp.value = S.decifra[inp.dataset.i] || ''; });
+  dec.classList.toggle('feito', !!S.flags.morseOk);
+  $('decifraMsg').textContent = S.flags.morseOk ? 'PUXE O LIVRO 7. Lá no porão, dentro da parede da estante, alguma coisa estalou quando você terminou de escrever.' : '';
+  dec.hidden = false;
+  if (!S.flags.morseOk) setTimeout(() => { const f = [...box.querySelectorAll('input')].find(x => !x.value); if (f) f.focus(); }, 80);
+}
+function conferirDecifra() {
+  const inps = [...$('decifraLetras').querySelectorAll('input')], alvo = DECIFRA.flat();
+  if (inps.some(x => !x.value)) { $('decifraMsg').textContent = ''; return; }
+  let ok = true;
+  inps.forEach((x, i) => { const c = x.value === alvo[i]; x.classList.toggle('certo', c); x.classList.toggle('erro', !c); if (!c) ok = false; });
+  if (!ok) { $('decifraMsg').textContent = 'Não fecha. Confira na tabela as letras em vermelho.'; return; }
+  S.flags.morseOk = true; $('decifra').classList.add('feito');
+  $('decifraMsg').textContent = 'PUXE O LIVRO 7. Lá no porão, dentro da parede da estante, alguma coisa estalou quando você terminou de escrever.';
+  if (typeof SFX !== 'undefined') { SFX.clunk(); }
+}
+$('btnTabela').addEventListener('click', () => {
+  const t = $('tabelaRadio');
+  if (!t.innerHTML) t.innerHTML = PAPERS.find(p => p.id === 16).html;
+  t.hidden = !t.hidden; $('btnTabela').textContent = t.hidden ? 'Ver a tabela de morse da parede' : 'Esconder a tabela';
+  if (findPaper(16, true)) toast('A tabela de morse foi para a linha do tempo.');
+});
 
 // ——— a estante ———
 function openEstante() {
@@ -180,8 +229,9 @@ spot(1, 'espada', [338, 420, 144, 300], { label: 'Espada-de-são-jorge',
     say('A terra está seca e fofa. Você enfia os dedos e encosta em uma coisa fria e redonda: uma bolinha de aço, do tamanho de uma bolinha de gude.');
   } });
 spot(1, 'vol7', [774, 272, 44, 110], { label: 'O buraco na Barsa', when: () => !S.open.estante,
-  act: () => S.flags.marina ? openEstante()
-    : say('No buraco, lá no fundo, tem um livro deitado atrás dos outros: o volume 7. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
+  act: () => S.flags.morseOk ? openEstante()
+    : say(S.flags.marina ? 'No buraco, lá no fundo, tem um livro deitado atrás dos outros. Você puxa: ele vem até a metade e trava. O rádio da oficina continua batendo pontos e traços, devagar. Ainda não é a hora de puxar à toa.'
+      : 'No buraco, lá no fundo, tem um livro deitado atrás dos outros. Você puxa: ele vem até a metade e trava, como se alguma coisa ainda não estivesse ligada.') });
 spot(1, 'passagem', [520, 120, 600, 600], { label: 'Passagem', when: () => S.open.estante,
   act: () => goView(5, () => { S.corr = 0; dirty(5); say('Tijolo sem reboco, chão de terra batida, seco. Na parede, na altura do ombro, uma faixa amarela pintada à mão. Lá na frente, longe, um motor parado, ligado.'); }) });
 spot(2, 'labirinto', [294, 234, 132, 272], { label: 'Labirinto de vidro',
