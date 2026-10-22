@@ -30,9 +30,10 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 ## O livro e o porão juntos (`site/` + `jogo/`)
 - O site do livro é a casca; o escape room (o porão) roda dentro dele, num iframe: `porao/index.html?livro=1`. No GitHub Pages: livro em `/ultima-parada/`, porão em `/ultima-parada/porao/` (o workflow gera o jogo com `jogo/build.sh` e copia `site/audio/` para `porao/audio/`).
 - Ordem: aviso (vermelho) → capítulo 1 (vermelho) → a fita na TV → capítulo 2 (vermelho) → "Descer ao porão" → o porão no escuro.
-- Cada marco do porão solta um capítulo (a folha cai na tela, com a cena e "Ler agora" / "Continuar no porão"):
+- Cada marco do porão solta um capítulo (a folha cai na tela, com a cena e só "Ler agora"):
   luz acesa (fusível) → cap. 3 · cadeado ROTA → cap. 4 · senha 0606 no CP-500 → cap. 5 · caixa de chumbo na oficina (que abre com a bolinha no labirinto de vidro) → cap. 6 · receptor da oficina em 23.10 → cap. 7 · estante do porão gira (volume 7 da Barsa) → cap. 8 · 05h10, a caixa no ônibus → cap. 9, que abre sozinho → "Virar a página" → cap. 10 → "Fechar o envelope" → fim.
 - Os capítulos saem sempre em ordem: um marco feito antes da hora fica guardado e solta junto com o anterior ("Capítulos 4 a 5").
+- Os capítulos que o porão solta (3 a 8) são leitura obrigatória: não há "Continuar no porão". Enquanto um deles não conta como lido (chegar ao fim e ficar o tempo mínimo, o mesmo critério das Páginas), os botões do capítulo ficam travados, o "Voltar ao porão" da barra some e qualquer caminho de volta ao porão (Envelope → capítulo 2 → "Descer ao porão") abre o capítulo pendente. Com dois capítulos soltos juntos, o primeiro leva ao segundo, e só o último volta ao porão.
 - O porão dura 15 minutos reais: o relógio da ficção vai das 02h05 às 05h10 (`REAL_MIN` em `jogo/src/js/engine.js`); o susto das 03h40 cai perto dos 7 min e meio. Se o tempo acaba depois de abrir a oficina, dá para tentar de novo a partir das 03h40.
 - Fim ruim: se der 05h10 no porão, o livro mostra uma tela preta com "VOCÊ FALHOU" enorme, em vermelho, com um grito (`audio/grito-falhou.mp3`; sem ele, `sons/jumpscare.mp3`), e depois de 3 segundos volta ao aviso com o progresso zerado. Sem explicação.
 - Enquanto a pessoa lê (ou está com o menu Envelope aberto), o relógio da ficção e o som do porão param.
