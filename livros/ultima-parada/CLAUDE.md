@@ -6,7 +6,7 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 - `livro/` — `00-aviso.md`, os capítulos em Markdown (`01-em-que-a-ceci-some.md` a `10-das-coisas-que-eu-nao-trouxe.md`) e `biblia.md` (método, voz, capítulos, Páginas, fórmula). A bíblia é a fonte da verdade.
 - Formato dos capítulos: `>` é a voz de quem conversa com o leitor; `>>` é documento (quadro à parte); `>> {{ouvir}}` põe o play da microfita; `>> {v:id} texto` liga a fala ao áudio `site/audio/<id>.mp3`. O que está fora de citação (a linha de descrição) não vai para o site.
 - `jogo/` — o porão no navegador. `sh jogo/build.sh` gera `jogo/dist/index.html` (um arquivo só). JS por "ondas" em `jogo/src/js/`.
-- `midia/ferramentas/` — `processar-vozes.sh` e `secretaria.sh` (vozes do ElevenLabs → `site/audio/`, com o efeito de microfita); montagem das fitas VHS: `fita_ida5.py` (versão aprovada), `vhs-real.sh`, e `../../compartilhado/ferramentas/vhsfx/` (Rust, usa ntsc-rs: github.com/valadaptive/ntsc-rs, crate `crates/ntscrs`).
+- `midia/ferramentas/` — `processar-vozes.sh` e `secretaria.sh` (vozes do ElevenLabs → `site/audio/`, com o efeito de microfita); montagem das fitas VHS: `fita_ida7.py` (a ida) e `fita_volta1.py` (o último trecho), versões atuais; `vhs-real.sh`, e `../../compartilhado/ferramentas/vhsfx/` (Rust, usa ntsc-rs: github.com/valadaptive/ntsc-rs, crate `crates/ntscrs`).
 - `midia/sons/` — statics, jumpscare, fita entrando no videocassete, voz da mulher.
 - Vídeos brutos do Google Flow (Veo) e fitas montadas NÃO vão para o git (pesados); ficam com o autor.
 
@@ -43,12 +43,14 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 - No porão, o mesmo: bipe e toques gravados (`SFX.bip`, `SFX.ring`, `SFX.bell` em `jogo/src/js/audio.js`, com reserva sintetizada); depois da caixa, o telefone do porão toca e a secretária atende sozinha.
 - `site/build.py` gera `site/capitulos.js` a partir de `livro/NN-*.md` e `site/audio/manifest.json`. Rode depois de mudar um capítulo ou pôr um áudio (o workflow também roda).
 - Páginas: ler capítulo 10 (ao chegar ao fim do capítulo, sem tempo mínimo), cada marco do porão 5, fita até o fim 5, fechar o envelope 20. Máximo 160. Cupom provisório: ≥125 → ULTIMAPARADA10, ≥145 → ULTIMAPARADA15.
-- Vídeo: `site/video/fita-ida.mp4` (H.264) e `.webm` (reserva). Som da fita entrando: `site/sons/fita-entrando.mp3`.
+- Vídeo: `site/video/fita-ida.mp4` (a ida, depois do capítulo 1) e `site/video/fita-volta.mp4` (o último trecho, dentro do capítulo 9, com `>> {{fita:volta}}`), cada um com `.webm` de reserva. A TV com "Colocar a fita" é a mesma (`televisao()` em `site/app.js`). Som da fita entrando: `site/sons/fita-entrando.mp3`.
+- A fita de Marina (1986) não tem play no livro: não estava no envelope; o capítulo 7 a traz como reconstituição, da nota do Fábio na margem do caderno. No porão, ela passa no videocassete (desenhada, `vhs.js`).
 - Teste local: `sh jogo/build.sh && mkdir -p site/porao && cp jogo/dist/index.html site/porao/ && cp -r site/audio site/porao/` e sirva a pasta `site/` (`python3 -m http.server`).
 
-## A fita (`site/video/fita-ida.mp4`, 49 s)
-Montada por `midia/ferramentas/fita_ida6.py` (precisa dos vídeos brutos do Flow, que ficam fora do git, e do vhsfx compilado):
-Paulista → glitch → ônibus chegando → letreiro apagando até "7 A PERDI" → chiado → corredor até a mulher (frase escondida no chiado) → a lâmpada estoura (glitch) → ela mais perto → chiado → janela → chiado → a casa → chiado → o ônibus indo embora (05:40) → chiado → a caixa de chumbo sozinha no banco, escurecendo → glitch + jumpscare → preto.
+## As fitas do Fábio
+Montadas por scripts em `midia/ferramentas/` (precisam dos vídeos brutos do Flow, que ficam fora do git, e do vhsfx compilado).
+- A ida (`site/video/fita-ida.mp4`, 38 s, `fita_ida7.py`): Paulista → glitch → ônibus chegando → letreiro apagando até "7 A PERDI" → chiado → corredor até a mulher (frase escondida no chiado) → a lâmpada estoura (glitch) → ela mais perto → chiado → janela → chiado → a casa → glitch + jumpscare → preto. Não mostra nada depois das 01h52: a caixa e o ônibus indo embora são do fim.
+- O último trecho (`site/video/fita-volta.mp4`, 15 s, `fita_volta1.py`, no capítulo 9): chiado → a caixa de chumbo sozinha no banco (05:33) → chiado → o ônibus indo embora (05:40), a imagem apagando → chiado → preto. Sem susto. Faltam cenas do Flow para completar (ponto final às 05:10, ônibus sem farol abrindo a porta, a mulher fechando os olhos, plataforma da Barra Funda, as costas da Cecília às 05:49); o resto o capítulo transcreve.
 
 ## Pendências
 - Vozes gravadas (out. 2026) e processadas com `midia/ferramentas/processar-vozes.sh` (veja `site/audio/LEIA.md`). Faltam só as opcionais: `aurelio-agora-vai` e a narração dos papéis. Roteiro: documento "Última Parada — vozes para o ElevenLabs".

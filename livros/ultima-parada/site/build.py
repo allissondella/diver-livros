@@ -5,6 +5,7 @@ Formato dos capítulos (só o que está em citação entra no livro):
     > texto          a voz de quem conversa com o leitor (o Fábio; no 10, a Cecília)
     >> texto         documento (diário, fita, recorte, carta), num quadro à parte
     >> {{ouvir}}     o play da microfita: toca as falas seguintes do mesmo documento
+    >> {{fita:id}}   a TV com "Colocar a fita": toca video/fita-<id>.mp4 (a do cap. 9 é {{fita:volta}})
     >> {v:id} texto  a fala que toca o áudio audio/<id>.mp3 (os mesmos ids do jogo)
     ```              bloco de tela (o PAI.TXT, na tela verde do CP-500)
 A linha de descrição logo abaixo do título e qualquer coisa fora de citação são ignoradas.
@@ -40,6 +41,9 @@ def capitulo(caminho):
         bruto = ' '.join(par).strip()
         if bruto == '{{ouvir}}':
             blocos.append({'tipo': 'ouvir', 'dentro': True}); par.clear(); return
+        mf = re.fullmatch(r'\{\{fita:([a-z0-9-]+)\}\}', bruto)
+        if mf:
+            blocos.append({'tipo': 'fita', 'id': mf.group(1), 'dentro': True}); par.clear(); return
         v = None
         mv = re.match(r'\{v:([a-z0-9-]+)\}\s*', par[0])
         if mv:

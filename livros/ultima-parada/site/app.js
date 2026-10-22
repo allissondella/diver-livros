@@ -195,6 +195,7 @@
       $('#porao').append(jogo);
     }
     vista = 'porao'; pararLeitura(); pararFita();
+    pagina.querySelectorAll('video').forEach(x => { try { x.pause(); } catch (e) { /* já parou */ } });
     aplicarTema('porao');
     document.body.classList.add('no-porao');
     $('#porao').hidden = false; $('#ir-porao').hidden = true;
@@ -265,10 +266,33 @@
   function pararLeitura() { if (observador) observador.disconnect(); }
   function abrirPagina(v) {
     sairDoPorao(); pararLeitura(); pararFita();
+    pagina.querySelectorAll('video').forEach(x => { try { x.pause(); } catch (e) { /* já parou */ } });   // a fita para quando a página sai
     vista = v; aplicarTema(v); pagina.innerHTML = '';
     window.scrollTo(0, 0); pagina.focus({ preventScroll: true });
   }
   const botao = (rotulo, fn, cheio) => el('button', { class: 'botao continuar' + (cheio ? ' cheio' : ''), type: 'button', onclick: fn }, rotulo);
+
+  // ——— a TV: "Colocar a fita" toca video/fita-<id>.mp4 (a da abertura é 'ida'; a do cap. 9, 'volta') ———
+  function televisao(id, aoTerminar) {
+    const tela = el('div', { class: 'tv-tela' }, el('div', { class: 'chuvisco' }, 'SEM SINAL'));
+    const tv = el('div', { class: 'tv' }, tela, el('span', { class: 'tv-marca' }, 'COLOR 20'), el('span', { class: 'tv-led' }));
+    const colocar = el('button', { class: 'fita', type: 'button' }, el('span', { class: 'fita-icone', 'aria-hidden': 'true' }), 'Colocar a fita');
+    colocar.addEventListener('click', () => {
+      colocar.disabled = true; colocar.classList.add('entrando'); somFita();
+      setTimeout(() => {
+        tv.classList.add('ligada');
+        const v = el('video', { playsinline: '', preload: 'auto' },
+          el('source', { src: 'video/fita-' + id + '.mp4', type: 'video/mp4' }),
+          el('source', { src: 'video/fita-' + id + '.webm', type: 'video/webm' }));
+        tela.innerHTML = ''; tela.append(v);
+        v.addEventListener('ended', () => { tv.classList.remove('ligada'); if (aoTerminar) aoTerminar(); });
+        v.addEventListener('click', () => { if (v.requestFullscreen) v.requestFullscreen().catch(() => {}); });
+        const p = v.play(); if (p && p.catch) p.catch(() => { v.controls = true; });
+        colocar.remove();
+      }, 1300);
+    });
+    return [tv, colocar];
+  }
 
   // ——— a fita ———
   function fita() {
@@ -277,32 +301,14 @@
     const a = el('article');
     a.append(el('header', { class: 'cap-cabeca' }, el('span', { class: 'cap-numero' }, 'A fita'), el('h1', { class: 'cap-titulo' }, 'JUN. 7 1996')));
     a.append(el('p', { class: 'nota' }, '[A fita estava no envelope, sem etiqueta. É uma fita de filmadora. O relógio dela começa à 01h31 de 7 de junho de 1996. O que segue é tudo o que ainda se pode ver. — Estúdio]'));
-    const tela = el('div', { class: 'tv-tela' }, el('div', { class: 'chuvisco' }, 'SEM SINAL'));
-    const tv = el('div', { class: 'tv' }, tela, el('span', { class: 'tv-marca' }, 'COLOR 20'), el('span', { class: 'tv-led' }));
-    const colocar = el('button', { class: 'fita', type: 'button' }, el('span', { class: 'fita-icone', 'aria-hidden': 'true' }), 'Colocar a fita');
     const depois = el('div');
     const seguir = () => botao('Continuar a leitura', () => { liberar(2); if (P.fase === 'fita') { P.fase = 'cap2'; salvar(); } abrirCapitulo(2); }, true);
-    colocar.addEventListener('click', () => {
-      colocar.disabled = true; colocar.classList.add('entrando'); somFita();
-      setTimeout(() => {
-        tv.classList.add('ligada');
-        const v = el('video', { playsinline: '', preload: 'auto' },
-          el('source', { src: 'video/fita-ida.mp4', type: 'video/mp4' }),
-          el('source', { src: 'video/fita-ida.webm', type: 'video/webm' }));
-        tela.innerHTML = ''; tela.append(v);
-        v.addEventListener('ended', terminou);
-        v.addEventListener('click', () => { if (v.requestFullscreen) v.requestFullscreen().catch(() => {}); });
-        const p = v.play(); if (p && p.catch) p.catch(() => { v.controls = true; });
-        colocar.remove();
-      }, 1300);
-    });
-    function terminou() {
-      tv.classList.remove('ligada');
+    const [tv, colocar] = televisao('ida', () => {
       if (!P.fita) { P.fita = true; ganhar(PONTOS.fita); }
       liberar(2);
       depois.innerHTML = '';
       depois.append(el('p', { class: 'nota' }, '[Fim do que se pode ver. O resto da fita é chiado. Uma das cenas, a da casa, é a casa onde hoje fica o sebo. — Estúdio]'), seguir());
-    }
+    });
     a.append(tv, colocar, depois);
     if (P.fita) depois.append(seguir());
     pagina.append(a);
@@ -316,6 +322,7 @@
       if (b.dentro) { if (!doc) { doc = el('div', { class: 'documento' }); a.append(doc); } alvo = doc; } else doc = null;
       if (b.tipo === 'tela') alvo.append(telaCP500(b.texto));
       else if (b.tipo === 'ouvir') alvo.append(botaoOuvir());
+      else if (b.tipo === 'fita') alvo.append(...televisao(b.id));
       else {
         const p = el('p', { class: b.classe || '', html: b.html });
         if (b.v) p.dataset.v = b.v;

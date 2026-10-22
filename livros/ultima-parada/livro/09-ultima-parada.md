@@ -1,6 +1,6 @@
 ## Capítulo 9 — Última parada
 
-Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas datadas do Fábio, escritas na plataforma da Barra Funda, e o último trecho da fita. O leitor descobre aqui se a Cecília voltou.
+Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas datadas do Fábio, escritas na plataforma da Barra Funda, e o último trecho da fita (na TV, com "Colocar a fita": a caixa no banco e o ônibus indo embora). O leitor descobre aqui se a Cecília voltou.
 
 >> *\[As páginas do meio do caderno, que estavam em branco, foram escritas a lápis, com a letra do Fábio. São as únicas dele com data. — Estúdio\]*
 >>
@@ -58,9 +58,11 @@ Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas d
 >>
 >> A filmadora na mochila nunca parou de gravar. 05h41. Vou acordar ela e pegar o metrô. Depois eu penso no que vou dizer para os pais dela, que ainda devem estar dormindo.
 >>
->> *\[A fita VHS tem trinta e dois minutos gravados, em trechos, com cortes de sinal entre eles. O relógio da filmadora vai de 01h31 a 05h49 de 7 de junho de 1996. Parte dela está no começo deste livro. Transcrevemos o último trecho. — Estúdio\]*
+>> *\[A fita VHS tem trinta e dois minutos gravados, em trechos, com cortes de sinal entre eles. O relógio da filmadora vai de 01h31 a 05h49 de 7 de junho de 1996. A primeira parte abre este livro. Do último trecho, o que ainda se pode ver vai abaixo; o que não se vê, transcrevemos. — Estúdio\]*
 >>
 >> **FITA DO FÁBIO — JUN. 7 1996, último trecho**
+>>
+>> {{fita:volta}}
 >>
 >> 05:10 — Um ponto de ônibus, um poste, garoa que não cai. \[o rádio, muito longe\] "Agora vai."
 >>

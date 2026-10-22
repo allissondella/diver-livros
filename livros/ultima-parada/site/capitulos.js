@@ -1149,7 +1149,7 @@ window.CAPITULOS = [
  {
   "n": 7,
   "titulo": "Eu pintei igual",
-  "palavras": 1028,
+  "palavras": 1053,
   "blocos": [
    {
     "tipo": "p",
@@ -1321,7 +1321,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "<em>[Escrita por Fábio, de memória. A fita de 1986 não estava no envelope. — Estúdio]</em>",
+    "html": "<em>[Reconstituição. A fita de 1986 não estava no envelope; ficou no porão. O que segue é a nota que o Fábio escreveu na margem do caderno da Cecília depois de vê-la, com os horários do relógio da filmadora. — Estúdio]</em>",
     "classe": "nota",
     "dentro": true
    },
@@ -1655,7 +1655,7 @@ window.CAPITULOS = [
  {
   "n": 9,
   "titulo": "Última parada",
-  "palavras": 1050,
+  "palavras": 1062,
   "blocos": [
    {
     "tipo": "p",
@@ -1827,7 +1827,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "<em>[A fita VHS tem trinta e dois minutos gravados, em trechos, com cortes de sinal entre eles. O relógio da filmadora vai de 01h31 a 05h49 de 7 de junho de 1996. Parte dela está no começo deste livro. Transcrevemos o último trecho. — Estúdio]</em>",
+    "html": "<em>[A fita VHS tem trinta e dois minutos gravados, em trechos, com cortes de sinal entre eles. O relógio da filmadora vai de 01h31 a 05h49 de 7 de junho de 1996. A primeira parte abre este livro. Do último trecho, o que ainda se pode ver vai abaixo; o que não se vê, transcrevemos. — Estúdio]</em>",
     "classe": "nota",
     "dentro": true
    },
@@ -1835,6 +1835,11 @@ window.CAPITULOS = [
     "tipo": "p",
     "html": "<strong>FITA DO FÁBIO — JUN. 7 1996, último trecho</strong>",
     "classe": "doc",
+    "dentro": true
+   },
+   {
+    "tipo": "fita",
+    "id": "volta",
     "dentro": true
    },
    {

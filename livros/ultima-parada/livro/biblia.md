@@ -41,15 +41,15 @@ Um envelope pardo, grande, sem nome e sem selo, deixado num sebo da Rua Monte Al
 | # | Título | Sai quando | Voz e documentos | Pista que deixa |
 | --- | --- | --- | --- | --- |
 | 1 | Em que a Ceci some | Ao entrar (depois do aviso) | Fábio; a microfita (play); o 190 | — |
-| — | A fita | Fim do capítulo 1 | O vídeo da filmadora do Fábio | — |
+| — | A fita | Fim do capítulo 1 | O vídeo da filmadora do Fábio, a ida (01h31 a 01h52: Paulista, o ônibus, o letreiro, a mulher, a janela, a casa). Termina na casa; o fim fica para o capítulo 9 | — |
 | 2 | A moça do porão | Fim da fita | Fábio; o caderno da Cecília, 11 de maio a 6 de junho | ROTA |
 | 3 | A vizinha que conta dois | A luz acende (fusível) | Fábio; as folhas soltas da Cecília (Dona Odete); a microfita, lado B (play) | ROTA de novo |
 | 4 | Marina, dezoito anos | Cadeado ROTA da cômoda | Fábio; o diário de Marina, abril de 1986 (a oficina, os cadernos 4 a 6, a senha do PAI.TXT) | 0606; a bolinha no vaso |
 | 5 | PAI.TXT | Senha 0606 no CP-500 | Fábio (2 linhas); o PAI.TXT na tela verde; a Folha de 1976 | a oficina: a bolinha e o labirinto de vidro |
 | 6 | A caixa errada | Caixa de chumbo na oficina | Fábio; o bilhete de Lúcia; a bíblia e a carta de Lúcia; a microfita, mensagem 2 (play) | o receptor, 23.10 |
-| 7 | Eu pintei igual | Receptor da oficina em 23.10 | Fábio; o fim do diário de Marina; o Notícias Populares; a fita de 86 | o morse novo do rádio (PUXE O LIVRO 7), traduzido com a tabela da oficina |
+| 7 | Eu pintei igual | Receptor da oficina em 23.10 | Fábio; o fim do diário de Marina; o Notícias Populares; a fita de 86, reconstituída da nota do Fábio na margem do caderno (a fita ficou no porão) | o morse novo do rádio (PUXE O LIVRO 7), traduzido com a tabela da oficina |
 | 8 | A semana de seis horas | Estante gira (volume sete) | Fábio; as páginas da Cecília do outro lado; a página de pontinhos | sempre à esquerda |
-| 9 | Última parada | 05h10, a caixa no ônibus | As páginas datadas do Fábio; o último trecho da fita | — |
+| 9 | Última parada | 05h10, a caixa no ônibus | As páginas datadas do Fábio; o último trecho da fita, na TV (a caixa no banco, 05h33, e o ônibus indo embora, 05h40) e transcrito | — |
 | 10 | Das coisas que eu não trouxe | Abre depois do 9 | A Cecília; a nota final do estúdio | — |
 
 Os capítulos 1, 2 e a fita ficam em vermelho, como o aviso. Do 3 em diante, branco no preto, com fundo claro opcional.
@@ -67,7 +67,9 @@ Máximo de 160. Cupom provisório: 125 Páginas → ULTIMAPARADA10 (10%); 145 �
 
 ## As gravações
 
-Toda secretária eletrônica do livro tem play, e o mesmo áudio toca na secretária do porão. O roteiro de todas as vozes (elenco, prompts do Voice Design, texto com marcações do Eleven v3 e jeito de dizer) está no documento "Última Parada — vozes para o ElevenLabs"; a lista de ids, em `site/audio/LEIA.md`. Grava-se a voz limpa no ElevenLabs; o livro e o jogo põem a banda de telefone, o chiado e o bipe.
+Toda secretária eletrônica do livro tem play, e o mesmo áudio toca na secretária do porão. O roteiro de todas as vozes (elenco, prompts do Voice Design, texto com marcações do Eleven v3 e jeito de dizer) está no documento "Última Parada — vozes para o ElevenLabs"; a lista de ids, em `site/audio/LEIA.md`. Grava-se a voz limpa no ElevenLabs e passa-se por `midia/ferramentas/processar-vozes.sh`, que põe o efeito de microfita nas falas da secretária; o livro e o jogo põem ao vivo o telefone, o rádio e a TV.
+
+A fita do Fábio está dividida em duas: a ida, depois do capítulo 1 (`video/fita-ida.mp4`), e o último trecho, dentro do capítulo 9 (`video/fita-volta.mp4`, `{{fita:volta}}` no Markdown). Nenhuma das duas mostra a caixa antes da hora. A fita de Marina (1986) não tem play: não estava no envelope, e o capítulo 7 a apresenta como reconstituição, a partir da nota que o Fábio escreveu na margem do caderno. No porão ela passa no videocassete.
 
 ## A fórmula Diver Livro
 
@@ -80,7 +82,7 @@ O que o Última Parada ensina, escrito como receita, para os próximos títulos 
 5. **Uma pista por capítulo**, de três tipos (decifrar, ouvir, encontrar), nunca o mesmo duas vezes seguidas, sempre no capítulo que acabou de ser lido.
 6. **Páginas como moeda.** A mesma tabela de pontos em todos os títulos, somando na conta Diver, com desconto no próximo livro.
 7. **Três tempos ou três vozes.** O que dá profundidade é ver a mesma coisa por mais de um par de olhos: aqui são três décadas; em outro livro podem ser três alunos, ou três cidades.
-8. **Ouvir o que o personagem ouviu.** Toda gravação que aparece no texto (secretária, rádio, fita) tem play.
+8. **Ouvir o que o personagem ouviu.** Toda gravação que está no achado (secretária, rádio, fita) tem play, no ponto da história em que o personagem a ouviu ou viu: nenhuma cena de vídeo adianta o fim. A que não está no achado entra como reconstituição, com a nota do estúdio dizendo de onde veio.
 9. **A nota final sem prova.** Todo livro fecha com o estúdio dizendo que não pede que ninguém acredite. É a assinatura da coleção.
 
 Dois títulos que cabem na fórmula, só para testar se ela aguenta:

@@ -1,6 +1,6 @@
 ## Capítulo 7 — Eu pintei igual
 
-Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Marina (abril a 6 de junho de 1986), o recorte de 1986 e a fita dela. Deixa a pista da estante: um morse novo no rádio, para traduzir com a tabela da oficina (PUXE O LIVRO 7).
+Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Marina (abril a 6 de junho de 1986), o recorte de 1986 e a fita dela (reconstituída da nota do Fábio na margem do caderno; a fita não estava no envelope). Deixa a pista da estante: um morse novo no rádio, para traduzir com a tabela da oficina (PUXE O LIVRO 7).
 
 > Liguei o receptor. As válvulas acenderam laranja, uma por uma, e eu girei o dial até 23.10. Chiado. Por baixo do chiado, os pontos e traços, fracos, como alguém batendo numa parede do outro lado da casa.
 >
@@ -58,7 +58,7 @@ Sai quando o receptor da oficina é sintonizado em 23.10. O fim do diário de Ma
 >
 >> **FITA DE MARINA — JUN. 6 1986**
 >>
->> *\[Escrita por Fábio, de memória. A fita de 1986 não estava no envelope. — Estúdio\]*
+>> *\[Reconstituição. A fita de 1986 não estava no envelope; ficou no porão. O que segue é a nota que o Fábio escreveu na margem do caderno da Cecília depois de vê-la, com os horários do relógio da filmadora. — Estúdio\]*
 >>
 >> 23:04 — Uma janela, de dentro. A rua vazia, molhada, o poste. A câmera treme.
 >>
