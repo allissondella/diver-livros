@@ -331,6 +331,7 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
   background-color: #8a6239; box-shadow: 0 18px 50px rgba(0, 0, 0, .8), inset 0 0 60px rgba(30, 15, 5, .6);
   background-image: radial-gradient(rgba(50, 28, 10, .55) 1px, transparent 1.5px), radial-gradient(rgba(200, 150, 90, .3) 1px, transparent 1.5px);
   background-size: 7px 7px, 11px 11px; background-position: 0 0, 3px 5px;
+  container-type: inline-size;   /* a letra dos papéis acompanha o tamanho do mural, não da janela */
 }
 .pinned {
   position: absolute; border: 0; padding: 0; cursor: pointer; transform: rotate(var(--r, 0deg));
@@ -342,11 +343,11 @@ button:focus-visible, textarea:focus-visible { outline: 1px dashed var(--amber);
 .pinned.news small { display: block; font-weight: 400; font-size: .7em; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .4em; }
 .pinned.photo { background: #ddd6c2; padding: .45em .45em 1.4em; }
 .pinned.photo span { display: block; width: 100%; height: 100%; background: #3a362e; filter: sepia(.5); }
-.pinned.post { background: #e1cf74; color: #1d2f6b; font: 600 clamp(12px, 1.5vw, 19px)/1.1 var(--f-cec); padding: 1em .5em .5em; }
-.pinned.note { background: #e9e2cf; color: #1d2f6b; font: 500 clamp(11px, 1.35vw, 17px)/1.25 var(--f-cec); padding: 1.1em .6em .5em; text-align: left; }
+.pinned.post { background: #e1cf74; color: #1d2f6b; font: 600 clamp(8px, 2.4cqw, 24px)/1.1 var(--f-cec); padding: .9em .3em .3em; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.pinned.note { background: #e9e2cf; color: #1d2f6b; font: 500 clamp(8px, 1.9cqw, 20px)/1.25 var(--f-cec); padding: 1.1em .6em .5em; text-align: left; }
 .pinned.note small { display: block; font-size: .72em; color: #6b5f48; margin-bottom: .35em; }
 .pinned.note u { text-decoration: underline double; }
-.pinned.map { background: #a5875a; color: #2b1c0e; font: 600 clamp(14px, 1.8vw, 22px) var(--f-cec); padding: .9em .7em .5em; text-align: left; }
+.pinned.map { background: #a5875a; color: #2b1c0e; font: 600 clamp(10px, 2.4cqw, 24px) var(--f-cec); padding: .9em .7em .5em; text-align: left; }
 .pinned.map svg { display: block; width: 100%; height: auto; margin-top: .3em; }
 .muralCap { margin: 0; color: var(--ink); text-align: center; min-height: 3.2em; max-width: 64ch; align-self: center; line-height: 1.6; }
 
@@ -2424,15 +2425,17 @@ function deskDrawer() {
 // ——— mural de perto ———
 const MURAL_MAP = `<svg viewBox="0 0 100 64" aria-hidden="true"><path d="M62 58 V44 H22 V14 H76 V32" fill="none" stroke="#2b1c0e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="76" cy="32" r="3" fill="#7a1910"/><text x="81" y="28" font-size="12" fill="#2b1c0e">?</text></svg>`;
 const MURAL = [
+  // linha de cima: o croqui do ônibus, a cópia da folha e dois post-its empilhados (sem encostar um no outro)
   { cls: 'map', x: 4, y: 6, w: 30, h: 44, r: -2, html: '875A' + MURAL_MAP, cap: 'Papel de pão, letra da Cecília: “875A — Paulista 900 → Dr. Arnaldo → Cardoso de Almeida. Não entra na nossa rua.” Na esquina da Monte Alegre, um ponto de interrogação.' },
   { cls: 'note', x: 38, y: 5, w: 30, h: 40, r: 2, html: '<small>folha da Marina (cópia)</small>Li os nove cadernos. Ele não fugiu… Preciso saber a <u>ROTA</u>.', paper: 11 },
-  { cls: 'post', x: 72, y: 8, w: 13, h: 17, r: -5, html: 'ROTA: senha ou pergunta?' },
-  { cls: 'post', x: 72, y: 30, w: 13, h: 17, r: 4, html: '23h10. sempre 23h10' },
-  { cls: 'post', x: 6, y: 56, w: 13, h: 17, r: 3, html: '76 · 86 · 96?' },
-  { cls: 'post', x: 24, y: 60, w: 13, h: 17, r: -3, html: 'Odete conta dois' },
-  { cls: 'post', x: 44, y: 56, w: 14, h: 17, r: 5, html: 'que caixa?' },
-  { cls: 'post', x: 62, y: 62, w: 13, h: 17, r: -2, html: 'a gota: 11 s' },
-  { cls: 'post', x: 80, y: 58, w: 14, h: 17, r: 3, html: 'tentei PERD MONT ABRI' },
+  { cls: 'post', x: 74, y: 5, w: 18, h: 19, r: -4, html: 'ROTA<br>= senha?', cap: 'Post-it da Cecília: “ROTA = senha?”. Embaixo, menor: “sublinhado não é senha, é pergunta. ou é?”' },
+  { cls: 'post', x: 75, y: 28, w: 18, h: 19, r: 3, html: 'sempre<br>23h10', cap: 'Post-it da Cecília: “sempre 23h10”. O relógio parado, a Marina descendo a escada, o pai saindo de casa: sempre onze e dez.' },
+  // linha de baixo: cinco post-its lado a lado
+  { cls: 'post', x: 5, y: 58, w: 16, h: 20, r: 3, html: '76 · 86 ·<br>96?', cap: 'Post-it da Cecília: “76 · 86 · 96?”. A conta que a Dona Odete não fez.' },
+  { cls: 'post', x: 24, y: 61, w: 16, h: 20, r: -3, html: 'Odete<br>conta dois', cap: 'Post-it da Cecília: “Odete conta dois”. O pai e a filha.' },
+  { cls: 'post', x: 43, y: 57, w: 16, h: 20, r: 4, html: 'que<br>caixa?', cap: 'Post-it da Cecília: “que caixa?”. A Dona Odete viu o Aurélio sair com uma caixa debaixo do braço.' },
+  { cls: 'post', x: 62, y: 62, w: 16, h: 20, r: -2, html: 'gota:<br>11 seg.', cap: 'Post-it da Cecília: “gota: 11 seg.”. Ela contou. Uma a cada onze segundos, no cano da esquerda.' },
+  { cls: 'post', x: 81, y: 57, w: 15, h: 26, r: 3, html: 'PERD ✗<br>MONT ✗<br>ABRI ✗', cap: 'Post-it da Cecília: as palavras que ela tentou no cadeado de letras, todas riscadas. PERD, MONT, ABRI. A palavra sublinhada ela não tentou.' },
 ];
 function openMural() {
   const cork = $('cork');
