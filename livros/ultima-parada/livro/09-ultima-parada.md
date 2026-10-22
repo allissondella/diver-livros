@@ -14,7 +14,7 @@ Sai às 05h10, quando a caixa vai para o banco do ônibus. As únicas páginas d
 >>
 >> A porta da frente estava aberta. Os pais dela dormiam lá em cima, como se fosse uma noite qualquer. Era, para eles.
 >>
->> O porão estava escuro e a gota caía na lata. No quadro, uma rosca vazia; na estante, numa lata de bombons cheia de válvulas, um fusível novo. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.
+>> O porão estava escuro e a gota caía na lata. Achei o fusível. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.
 >>
 >> Às três e pouco liguei para a Dona Odete, porque o número dela estava num papel colado ao lado do telefone do porão, na letra da mãe da Ceci. Escrevo de memória:
 >>

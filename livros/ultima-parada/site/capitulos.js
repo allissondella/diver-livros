@@ -248,7 +248,7 @@ window.CAPITULOS = [
  {
   "n": 2,
   "titulo": "A moça do porão",
-  "palavras": 1138,
+  "palavras": 1149,
   "blocos": [
    {
     "tipo": "p",
@@ -282,7 +282,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Escrevo do porão. Pedi o porão e ganhei o porão. Minha mãe achou que eu ia desistir depois de uma noite; é a terceira. Tem uma escada de madeira que range em todos os degraus menos no quinto, um chão de cimento pintado de vermelho, uma cômoda que já estava aqui, um sofá que era de alguém, uma estante com uma Barsa e um rádio de pilha sem pilha, uma escrivaninha com um computador velho e uma televisão, e uma parede inteira de canos. Ao lado da estante, alguém pintou direto no reboco, com tinta de parede e pincel grosso, um corredor de tijolo com uma faixa amarela que vira à esquerda, e assinou embaixo: M.T. 86. Ninguém cobriu. Minha mãe instalou a secretária eletrônica aqui embaixo, porque a extensão do telefone chega. Os canos conversam. De manhã eles estalam quando alguém abre o chuveiro lá em cima, e de noite tem uma gota que cai em algum lugar que eu ainda não achei. Contei: uma a cada onze segundos. (Nota: achar a gota.)",
+    "html": "Escrevo do porão. Pedi o porão e ganhei o porão. Minha mãe achou que eu ia desistir depois de uma noite; é a terceira. Tem uma escada de madeira que range em todos os degraus menos no quinto, um chão de cimento pintado de vermelho, uma cômoda que já estava aqui, um sofá que era de alguém, uma estante com uma Barsa e um rádio de pilha sem pilha, uma escrivaninha com um computador velho e uma televisão de tubo, que também não são nossos (ninguém levou nada daqui), e uma parede inteira de canos. Ao lado da estante, alguém pintou direto no reboco, com tinta de parede e pincel grosso, um corredor de tijolo com uma faixa amarela que vira à esquerda, e assinou embaixo: M.T. 86. Ninguém cobriu. Minha mãe instalou a secretária eletrônica aqui embaixo, porque a extensão do telefone chega. Os canos conversam. De manhã eles estalam quando alguém abre o chuveiro lá em cima, e de noite tem uma gota que cai em algum lugar que eu ainda não achei. Contei: uma a cada onze segundos. (Nota: achar a gota.)",
     "classe": "",
     "dentro": true
    },
@@ -1351,19 +1351,19 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "23:12 — [a câmera cai] Teto. Depois degraus de madeira, de baixo para cima, balançando. [passos descendo uma escada de madeira]",
+    "html": "23:13 — [a câmera cai] Teto. Depois degraus de madeira, de baixo para cima, balançando. [passos descendo uma escada de madeira]",
     "classe": "",
     "dentro": true
    },
    {
     "tipo": "p",
-    "html": "23:13 — Uma parede de tijolo com uma faixa amarela na altura do ombro, iluminada por lanterna. A faixa vira à esquerda. A câmera vira à esquerda.",
+    "html": "23:14 — Uma parede de tijolo com uma faixa amarela na altura do ombro, iluminada por lanterna. A faixa vira à esquerda. A câmera vira à esquerda.",
     "classe": "",
     "dentro": true
    },
    {
     "tipo": "p",
-    "html": "23:14 — [a voz de Marina, baixa, perto] \"Eu pintei igual.\"",
+    "html": "23:15 — [a voz de Marina, baixa, perto] \"Eu pintei igual.\"",
     "classe": "",
     "dentro": true
    },
@@ -1655,7 +1655,7 @@ window.CAPITULOS = [
  {
   "n": 9,
   "titulo": "Última parada",
-  "palavras": 1109,
+  "palavras": 1095,
   "blocos": [
    {
     "tipo": "p",
@@ -1695,7 +1695,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "O porão estava escuro e a gota caía na lata. No quadro, uma rosca vazia; na estante, numa lata de bombons cheia de válvulas, um fusível novo. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.",
+    "html": "O porão estava escuro e a gota caía na lata. Achei o fusível. A luz acendeu e a secretária piscou. A palavra era ROTA. O computador pediu 0606. A bolinha enterrada no vaso abriu a oficina. Embaixo da bancada, a caixa. Onze quilos. Fria. O receptor deu os pontos e traços em 23.10, e depois uma voz de moça.",
     "classe": "",
     "dentro": true
    },

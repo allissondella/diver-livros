@@ -158,6 +158,16 @@ ART[1] = function (ctx, st) {
     ctx.restore();
   });
 
+  // fusível caído no chão, perto da estante
+  if (!st.fuseTaken) {
+    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.beginPath(); ctx.ellipse(1176, 772, 26, 6, 0, 0, 7); ctx.fill();
+    ctx.save(); ctx.translate(1170, 760); ctx.rotate(.35);
+    ctx.fillStyle = '#3a2316'; ctx.fillRect(-16, -11, 26, 22);
+    ctx.fillStyle = '#9c8656'; ctx.fillRect(10, -8, 12, 16);
+    ctx.strokeStyle = '#5c4b2c'; ctx.lineWidth = 1.5; for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(12 + i * 3, -8); ctx.lineTo(12 + i * 3, 8); ctx.stroke(); }
+    ctx.fillStyle = 'rgba(255,240,200,.35)'; ctx.fillRect(-14, -9, 20, 3);
+    ctx.restore();
+  }
   lamp(ctx, LAMP_X[1]);
 };
 EMIT[1] = function () {};

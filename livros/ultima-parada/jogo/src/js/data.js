@@ -100,7 +100,7 @@ const DIARY = [
 
 
 const ITEMS = {
-  fusivel: { name: 'Fusível', desc: 'Um fusível de rosca, da lata de peças do Aurélio. Parece bom.' },
+  fusivel: { name: 'Fusível', desc: 'Um fusível de rosca. Parece bom.' },
   uv: { name: 'Luz negra', desc: 'A lanterninha roxa do Seu Aurélio, de ver marca de relojoeiro. Com ela na mão, aparece o que está escrito invisível.' },
   fita: { name: 'Fita VHS', desc: 'Uma fita VHS. Na etiqueta, letra da Marina: “JUN 86”.' },
 };

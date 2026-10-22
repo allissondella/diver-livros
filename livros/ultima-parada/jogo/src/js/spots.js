@@ -29,7 +29,7 @@ spot(0, 'cano', [1490, WALL_TOP, 80, 625], { label: 'Cano',
 spot(0, 'lampada', [LAMP_X[0] - 45, 150, 90, 70], { label: 'Lâmpada',
   act: () => say(lit() ? 'Quente demais pra encostar. Treme de vez em quando.' : 'Uma lâmpada de 60 velas, fria. O interruptor lá em cima não faz nada.') });
 spot(0, 'quadro', [1288, 298, 174, 234], { label: 'Quadro de luz',
-  act: () => say(S.fuse ? 'Os quatro fusíveis no lugar. Etiqueta: LUZ PORÃO.' : 'Quadro de fusíveis de rosca. Etiqueta: LUZ PORÃO. A rosca de baixo, à direita, está vazia. Não queimou: alguém desrosqueou. O Aurélio guardava peça de tudo; deve ter fusível em alguma lata por aqui.'),
+  act: () => say(S.fuse ? 'Os quatro fusíveis no lugar. Etiqueta: LUZ PORÃO.' : 'Quadro de fusíveis de rosca. Etiqueta: LUZ PORÃO. A rosca de baixo, à direita, está vazia.'),
   use: (it) => it === 'fusivel' ? placeFuse() : false });
 
 // ——— parede 1: estante ———
@@ -42,8 +42,7 @@ spot(1, 'santinho', [698, 174, 66, 78], { label: 'Nossa Senhora Aparecida',
 spot(1, 'guia', [788, 208, 144, 44], { label: 'Guia Quatro Rodas 1986',
   act: () => say('Uma página dobrada no mapa de Perdizes. A Rua Monte Alegre está circulada a lápis, com força, várias vezes.') });
 spot(1, 'sonho', [956, 196, 126, 56], { label: 'Lata de Sonho de Valsa',
-  act: () => { if (S.fuseTaken) { say('Não tem bombom. Parafusos, válvulas de rádio e um carretel de estanho.'); return; }
-    S.fuseTaken = true; addItem('fusivel'); say('Não tem bombom. Tem parafusos, válvulas de rádio, um carretel de estanho e, no meio, um fusível de rosca, novo. Você guarda.'); } });
+  act: () => say('Não tem bombom. Tem parafusos, válvulas de rádio e um carretel de estanho.') });
 spot(1, 'barsa', [548, 272, 546, 110], { label: 'Enciclopédia Barsa',
   act: () => say('Catorze volumes vermelhos, numerados. No meio da fileira, um buraco: um dos volumes tombou lá para o fundo e o vizinho está caindo em cima.') });
 spot(1, 'radio', [576, 400, 186, 112], { label: 'Rádio de pilha',
@@ -67,6 +66,8 @@ spot(1, 'pintura', [1198, 168, 304, 444], { label: 'Pintura na parede',
   act: () => say('Um corredor de tijolo pintado direto no reboco, tinta de parede, pincel grosso: a parede, o chão de terra e uma faixa amarela na altura do ombro, que vira à esquerda. No canto: M.T. 86. Olhando muito tempo, parece mais fundo do que a parede.') });
 spot(1, 'espada', [338, 420, 144, 300], { label: 'Espada-de-são-jorge',
   act: () => say('Morta faz tempo. A terra está seca e fofa, como se alguém tivesse cavado e tampado de novo.') });
+spot(1, 'fusivel', [1136, 732, 76, 54], { label: 'Fusível', when: () => !S.fuseTaken,
+  act: () => { S.fuseTaken = true; dirty(1); addItem('fusivel'); say('Um fusível de rosca, caído perto da estante. Parece ter pulado do quadro. Você guarda.'); } });
 
 // ——— parede 2: tijolos ———
 spot(2, 'tijolos', [0, WALL_TOP, W, FLOOR - WALL_TOP], { label: 'Parede de tijolos',
