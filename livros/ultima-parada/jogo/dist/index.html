@@ -1884,9 +1884,9 @@ function resetState() {
 }
 resetState();
 
-// a ficção vai de 02:05 a 05:10 (185 min) em 15 minutos reais: do lado de lá a hora passa mais rápido
+// a ficção vai de 02:05 a 05:10 (185 min) em 60 minutos reais: do lado de lá a hora passa mais rápido
 // (no livro, o relógio para enquanto a pessoa lê)
-const START_MIN = 125, END_MIN = 310, REAL_MIN = 15;
+const START_MIN = 125, END_MIN = 310, REAL_MIN = 60;
 function fictionMin() {
   if (!S.started) return START_MIN;
   const real = (performance.now() - S.t0) / 60000;
@@ -3657,7 +3657,7 @@ function audioTick() {
     if (!AUD.last.creak) AUD.last.creak = now + 30000;
     if (now > AUD.last.creak) { SFX.creak(); AUD.last.creak = now + 40000 + Math.random() * 45000; }
     // uma vez por partida: tudo some por 6 segundos
-    if (!AUD.silenceDone && S.t0 && now - S.t0 > 9 * 60000 && Math.random() < .002) { AUD.silenceDone = true; AUD.silenceUntil = now + 6000; }
+    if (!AUD.silenceDone && S.t0 && now - S.t0 > REAL_MIN * .6 * 60000 && Math.random() < .002) { AUD.silenceDone = true; AUD.silenceUntil = now + 6000; }
   }
   // o evento das 03:40
   if (S.flags.ev340 && !AUD.ev340) {

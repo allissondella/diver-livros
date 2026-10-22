@@ -12,9 +12,9 @@ function resetState() {
 }
 resetState();
 
-// a ficção vai de 02:05 a 05:10 (185 min) em 15 minutos reais: do lado de lá a hora passa mais rápido
+// a ficção vai de 02:05 a 05:10 (185 min) em 60 minutos reais: do lado de lá a hora passa mais rápido
 // (no livro, o relógio para enquanto a pessoa lê)
-const START_MIN = 125, END_MIN = 310, REAL_MIN = 15;
+const START_MIN = 125, END_MIN = 310, REAL_MIN = 60;
 function fictionMin() {
   if (!S.started) return START_MIN;
   const real = (performance.now() - S.t0) / 60000;
