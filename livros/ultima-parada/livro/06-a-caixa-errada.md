@@ -42,7 +42,7 @@ Sai quando o leitor acha a caixa de chumbo na oficina. Lúcia, a mãe, fala pela
 >>
 >> Mãe
 >
-> Eu estava sentado no chão da oficina com a carta na mão quando a secretária, lá no porão, apitou sozinha. A luzinha vermelha piscava de novo. Tinha uma mensagem que não estava lá antes.
+> Eu estava sentado no chão da oficina com a carta na mão quando o telefone tocou lá no porão. Lá em cima ninguém acordou. A secretária atendeu sozinha e apitou. A luzinha vermelha piscava de novo. Tinha uma mensagem que não estava lá antes.
 >
 >> **SECRETÁRIA ELETRÔNICA — MICROFITA, LADO A (continuação)**
 >>

@@ -3,7 +3,7 @@ window.CAPITULOS = [
  {
   "n": 1,
   "titulo": "Em que a Ceci some",
-  "palavras": 831,
+  "palavras": 848,
   "blocos": [
    {
     "tipo": "p",
@@ -61,13 +61,20 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "<em>[A microfita desta secretária eletrônica estava no envelope. Recuperamos o que foi possível. Aperte o play para ouvir o que o Fábio ouviu à 0h41. A transcrição abaixo é nossa. — Estúdio]</em>",
+    "html": "<em>[A microfita desta secretária eletrônica estava no envelope. Recuperamos o que foi possível. Aperte o play para ouvir o que o Fábio ouviu à 0h41, do outro lado da linha. O toque de chamada foi posto por nós; a transcrição também. — Estúdio]</em>",
     "classe": "nota",
     "dentro": true
    },
    {
     "tipo": "ouvir",
     "dentro": true
+   },
+   {
+    "tipo": "p",
+    "html": "[chamando… tuuu… tuuu… a máquina atende]",
+    "classe": "nota",
+    "dentro": true,
+    "v": "telefone-chamando"
    },
    {
     "tipo": "p",
@@ -954,7 +961,7 @@ window.CAPITULOS = [
  {
   "n": 6,
   "titulo": "A caixa errada",
-  "palavras": 567,
+  "palavras": 577,
   "blocos": [
    {
     "tipo": "p",
@@ -1078,7 +1085,7 @@ window.CAPITULOS = [
    },
    {
     "tipo": "p",
-    "html": "Eu estava sentado no chão da oficina com a carta na mão quando a secretária, lá no porão, apitou sozinha. A luzinha vermelha piscava de novo. Tinha uma mensagem que não estava lá antes.",
+    "html": "Eu estava sentado no chão da oficina com a carta na mão quando o telefone tocou lá no porão. Lá em cima ninguém acordou. A secretária atendeu sozinha e apitou. A luzinha vermelha piscava de novo. Tinha uma mensagem que não estava lá antes.",
     "classe": "",
     "dentro": false
    },

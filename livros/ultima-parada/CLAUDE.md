@@ -6,7 +6,7 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 - `livro/` — `00-aviso.md`, os capítulos em Markdown (`01-em-que-a-ceci-some.md` a `10-das-coisas-que-eu-nao-trouxe.md`) e `biblia.md` (método, voz, capítulos, Páginas, fórmula). A bíblia é a fonte da verdade.
 - Formato dos capítulos: `>` é a voz de quem conversa com o leitor; `>>` é documento (quadro à parte); `>> {{ouvir}}` põe o play da microfita; `>> {v:id} texto` liga a fala ao áudio `site/audio/<id>.mp3`. O que está fora de citação (a linha de descrição) não vai para o site.
 - `jogo/` — o porão no navegador. `sh jogo/build.sh` gera `jogo/dist/index.html` (um arquivo só). JS por "ondas" em `jogo/src/js/`.
-- `midia/ferramentas/` — montagem das fitas VHS: `fita_ida5.py` (versão aprovada), `vhs-real.sh`, e `../../compartilhado/ferramentas/vhsfx/` (Rust, usa ntsc-rs: github.com/valadaptive/ntsc-rs, crate `crates/ntscrs`).
+- `midia/ferramentas/` — `processar-vozes.sh` e `secretaria.sh` (vozes do ElevenLabs → `site/audio/`, com o efeito de microfita); montagem das fitas VHS: `fita_ida5.py` (versão aprovada), `vhs-real.sh`, e `../../compartilhado/ferramentas/vhsfx/` (Rust, usa ntsc-rs: github.com/valadaptive/ntsc-rs, crate `crates/ntscrs`).
 - `midia/sons/` — statics, jumpscare, fita entrando no videocassete, voz da mulher.
 - Vídeos brutos do Google Flow (Veo) e fitas montadas NÃO vão para o git (pesados); ficam com o autor.
 
@@ -38,7 +38,8 @@ Livro gamificado de terror. Um envelope deixado num sebo de São Paulo (abril de
 - Enquanto a pessoa lê (ou está com o menu Envelope aberto), o relógio da ficção e o som do porão param.
 - Ponte do lado do jogo: `jogo/src/js/livro.js` (pula a abertura da TV, avisa os marcos com postMessage, pausa/continua, entrega o final ao livro). Fora do livro, o jogo funciona sozinho como antes.
 - Lado do livro: `site/app.js`. Progresso no `localStorage` (`ultima-parada:livro:2`). O estado do jogo não é salvo: recarregar a página recomeça o porão, mas os capítulos já soltos continuam.
-- O play da microfita: o botão toca as falas seguintes do quadro, uma por vez, destacando a linha; se o MP3 da fala existe em `site/audio/` (listado em `manifest.json`), toca com filtro de telefone e chiado; se não, toca bipe e chiado e segue no tempo de leitura.
+- O play da microfita: o botão toca as falas seguintes do quadro, uma por vez, destacando a linha, com o chiado gravado em loop por baixo e o bipe gravado nas linhas `[BIP]`. As falas da secretária já vêm com o efeito de microfita no arquivo e tocam como estão; outras falas ganham filtro de telefone. Sem o MP3, toca bipe e chiado sintetizados e segue no tempo de leitura. No capítulo 1, a fita começa com o telefone chamando (o que o Fábio ouviu do outro lado da linha).
+- No porão, o mesmo: bipe e toques gravados (`SFX.bip`, `SFX.ring`, `SFX.bell` em `jogo/src/js/audio.js`, com reserva sintetizada); depois da caixa, o telefone do porão toca e a secretária atende sozinha.
 - `site/build.py` gera `site/capitulos.js` a partir de `livro/NN-*.md` e `site/audio/manifest.json`. Rode depois de mudar um capítulo ou pôr um áudio (o workflow também roda).
 - Páginas: ler capítulo 10 (só com tempo suficiente: palavras × 0,1 s), cada marco do porão 5, fita até o fim 5, fechar o envelope 20. Máximo 160. Cupom provisório: ≥125 → ULTIMAPARADA10, ≥145 → ULTIMAPARADA15.
 - Vídeo: `site/video/fita-ida.mp4` (H.264) e `.webm` (reserva). Som da fita entrando: `site/sons/fita-entrando.mp3`.
@@ -49,7 +50,7 @@ Montada por `midia/ferramentas/fita_ida6.py` (precisa dos vídeos brutos do Flow
 Paulista → glitch → ônibus chegando → letreiro apagando até "7 A PERDI" → chiado → corredor até a mulher (frase escondida no chiado) → a lâmpada estoura (glitch) → ela mais perto → chiado → janela → chiado → a casa → chiado → o ônibus indo embora (05:40) → chiado → a caixa de chumbo sozinha no banco, escurecendo → glitch + jumpscare → preto.
 
 ## Pendências
-- Gravar as vozes no ElevenLabs: o roteiro completo está no documento "Última Parada — vozes para o ElevenLabs" e a lista de ids em `site/audio/LEIA.md`.
+- Vozes gravadas (out. 2026) e processadas com `midia/ferramentas/processar-vozes.sh` (veja `site/audio/LEIA.md`). Faltam só as opcionais: `aurelio-agora-vai` e a narração dos papéis. Roteiro: documento "Última Parada — vozes para o ElevenLabs".
 - A narração opcional dos capítulos.
 - Ligar Páginas e cupom à conta Diver.
 - Salvar o estado do porão (hoje recomeça ao recarregar).

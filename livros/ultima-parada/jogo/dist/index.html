@@ -2959,9 +2959,10 @@ ICONS.microfita = (g) => { g.fillStyle = '#d6d0bd'; g.fillRect(5, 8, 18, 12); g.
 let linesTimer = 0;
 function playLines(listEl, ovId, lines, onEnd) {
   clearTimeout(linesTimer); listEl.textContent = '';
+  const gen = playLines.gen = (playLines.gen || 0) + 1;
   let i = 0;
   const next = () => {
-    if ($(ovId).hidden) return; // desligaram no meio
+    if (playLines.gen !== gen || $(ovId).hidden) return; // desligaram no meio
     if (i >= lines.length) { onEnd && onEnd(); return; }
     const l = lines[i++], li = document.createElement('li');
     if (l.sys) { li.className = 'sys'; li.textContent = l.sys; }
@@ -2970,10 +2971,17 @@ function playLines(listEl, ovId, lines, onEnd) {
     listEl.append(li);
     while (listEl.children.length > 5) listEl.firstChild.remove();
     const txt = l.sys || l.me || l.text;
-    if (l.sys && l.sys.startsWith('[BIP]') && typeof SFX !== 'undefined') SFX.bip();
-    if (l.sys && l.sys.startsWith('[chamando') && typeof SFX !== 'undefined') SFX.ring();
-    const wait = l.d != null ? l.d : Math.max(1800, txt.length * 58);
-    if (l.v && typeof hasVoice === 'function' && hasVoice(l.v)) voice(l.v, l.fx).then(() => { if (!$(ovId).hidden) linesTimer = setTimeout(next, 450); });
+    const temBip = !!(l.sys && l.sys.startsWith('[BIP]') && typeof SFX !== 'undefined');
+    if (temBip) SFX.bip();
+    let wait = l.d != null ? l.d : Math.max(1800, txt.length * 58);
+    if (l.sys && l.sys.startsWith('[chamando') && typeof SFX !== 'undefined') {
+      const n = (l.sys.match(/tuuu/g) || []).length >= 2 ? 2 : 1; SFX.ring(n); if (SFX.ringMs) wait = Math.max(wait, SFX.ringMs(n));
+    }
+    if (l.v && typeof hasVoice === 'function' && hasVoice(l.v)) {
+      const falar = () => { if (playLines.gen !== gen || $(ovId).hidden) return;
+        voice(l.v, l.fx).then(() => { if (playLines.gen === gen && !$(ovId).hidden) linesTimer = setTimeout(next, 450); }); };
+      if (temBip && SFX.bipMs) linesTimer = setTimeout(falar, SFX.bipMs()); else falar();
+    }
     else { if (l.noisy && typeof AUD !== 'undefined') AUD.noisyUntil = performance.now() + wait; linesTimer = setTimeout(next, wait); }
   };
   next();
@@ -2982,17 +2990,17 @@ function playLines(listEl, ovId, lines, onEnd) {
 // ——— secretária eletrônica ———
 const TAPE_CECI = [
   { v: 'sec-01', sys: '[BIP] Mensagem um. Sexta-feira, zero hora e quarenta e um minutos.' },
-  { v: 'ceci-recado-1', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio? É a Ceci. Eu tô na última parada. Não dá pra explicar. Eu tenho pouco tempo. Fecha às cinco e dez. Vem. Desce no porão. Lê o diaaaah—' },
+  { v: 'ceci-recado-1', who: 'Cecília', noisy: true, text: 'Fábio? É a Ceci. Eu tô na última parada. Não dá pra explicar. Eu tenho pouco tempo. Fecha às cinco e dez. Vem. Desce no porão. Lê o diaaaah—' },
   { v: 'ceci-grito', fx: 'radio', sys: '[um grito, longe; o chiado corta seco]', d: 1800 },
   { v: 'sec-02', sys: '[BIP] Mensagem dois. Data e hora não registradas.' },
-  { v: 'ceci-recado-2', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
+  { v: 'ceci-recado-2', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 1600 },
   { me: 'À meia-noite e quarenta e um, essa fita só tinha uma mensagem.', d: 0 },
 ];
 const TAPE_ODETE = [
   { v: 'sec-04', sys: '[BIP] Você tem uma mensagem.' },
-  { v: 'sec-05', sys: '[BIP] Segunda-feira, vinte de maio, dezesseis horas e dois minutos.' },
-  { v: 'odete-recado', fx: 'phone', who: 'Dona Odete', text: 'Cecília? É a Odete, da frente. Eu fiquei pensando no que você perguntou. Menina, não desce mais lá. A outra também era teimosa. E o pai dela também.' },
+  { v: 'sec-05', sys: 'Segunda-feira, vinte de maio, dezesseis horas e dois minutos.' },
+  { v: 'odete-recado', who: 'Dona Odete', text: 'Cecília? É a Odete, da frente. Eu fiquei pensando no que você perguntou. Menina, não desce mais lá. A outra também era teimosa. E o pai dela também.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 0 },
 ];
 function playTape(lines, onEnd) {
@@ -3233,8 +3241,8 @@ TICKS.push(() => {
   if (!S.caixaAt || window.LIVRO_PAUSADO) { S.caixaAt = agora; return; }   // no livro, só conta com o porão na tela
   if (agora - S.caixaAt < 4000 || overlayOpen()) return;
   S.flags.secApitou = true;
-  if (typeof SFX !== 'undefined' && SFX.bip) SFX.bip();
-  say('Lá no porão, a secretária eletrônica apita sozinha. A luzinha vermelha volta a piscar.');
+  if (typeof SFX !== 'undefined' && SFX.bell) { SFX.bell(); setTimeout(() => { if (!S.ended) SFX.bip(); }, 3600); }
+  say('Lá no porão, o telefone toca. Ninguém atende. A secretária atende sozinha, apita, e a luzinha vermelha volta a piscar.');
 });
 
 // ===== wave4.js — labirinto, oficina, rádio de válvulas, estante, corredores, ponto final =====
@@ -3588,8 +3596,15 @@ const SFX = {
   creak(d) { tone(210, .7, 'sawtooth', .02, 150, d); burst(.6, 'bandpass', 700, 14, .05, d, .2); },
   tick(d) { burst(.014, 'bandpass', 3600, 2, .3, d); },
   clunk() { SFX.tick(); SFX.thud(.5, .03); burst(.08, 'highpass', 2500, 1, .15, .02); },
-  bip() { tone(1020, .32, 'sine', .14); },
-  ring() { tone(425, 1.0, 'sine', .07); tone(425, 1.0, 'sine', .07, null, 5); },
+  // bipe e telefone: o som gravado (audio/bip.mp3, telefone-*.mp3) se existir; senão, sintetizado
+  bip() { if (!sample('bip', .9)) tone(1020, .32, 'sine', .14); },
+  bipMs() { return hasVoice('bip') ? 1080 : 400; },
+  // telefone chamando (quem liga ouve): n = 1 ou 2 toques; o gravado termina com o clique de quem atende
+  ring(n) { if (n === 1 ? sample('telefone-chamando', .9, 3.2) : sample('telefone-chamando', .9)) return;
+    tone(425, 1.0, 'sine', .07); if (n !== 1) tone(425, 1.0, 'sine', .07, null, 3.2); },
+  ringMs(n) { return hasVoice('telefone-chamando') ? (n === 1 ? 3000 : 6200) : (n === 1 ? 1800 : 4400); },
+  // a campainha do telefone do porão
+  bell() { if (sample('telefone-tocando', .8)) return; for (let k = 0; k < 2; k++) for (let i = 0; i < 18; i++) tone(i % 2 ? 680 : 860, .05, 'square', .025, null, k * 1.6 + i * .05); },
   key() { burst(.018, 'bandpass', 1800 + Math.random() * 600, 1.2, .18); },
   cpBeep() { tone(1180, .09, 'square', .04); },
   shatter() { for (let i = 0; i < 6; i++) burst(.12 + Math.random() * .15, 'highpass', 2000 + Math.random() * 3000, 2, .2, i * .03); SFX.thud(.4); },
@@ -3672,6 +3687,17 @@ function scheduleMorse() {
     t += 4 * u;
   }
   AUD.morseAt = t + (livro ? 2.2 : 1.2);
+}
+
+// ——— sons gravados curtos: decodificados uma vez, tocados pelo master ———
+const SAMPLES = {};
+function sample(id, vol, from) {
+  if (!AUD.ctx || !AUD.on || !hasVoice(id)) return false;
+  const go = (b) => { if (!b || !AUD.on) return; const s = AUD.ctx.createBufferSource(), g = AUD.ctx.createGain();
+    g.gain.value = vol || 1; s.buffer = b; s.connect(g).connect(AUD.master); s.start(AUD.ctx.currentTime, Math.min(from || 0, b.duration)); };
+  if (SAMPLES[id] && !(SAMPLES[id] instanceof Promise)) go(SAMPLES[id]);
+  else (SAMPLES[id] = SAMPLES[id] || fetch(`audio/${id}.mp3`).then(r => r.arrayBuffer()).then(a => AUD.ctx.decodeAudioData(a)).then(b => (SAMPLES[id] = b)).catch(() => null)).then(go);
+  return true;
 }
 
 // ——— vozes gravadas (ElevenLabs): audio/<id>.mp3 listados em audio/manifest.json ———

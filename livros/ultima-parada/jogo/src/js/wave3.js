@@ -7,9 +7,10 @@ ICONS.microfita = (g) => { g.fillStyle = '#d6d0bd'; g.fillRect(5, 8, 18, 12); g.
 let linesTimer = 0;
 function playLines(listEl, ovId, lines, onEnd) {
   clearTimeout(linesTimer); listEl.textContent = '';
+  const gen = playLines.gen = (playLines.gen || 0) + 1;
   let i = 0;
   const next = () => {
-    if ($(ovId).hidden) return; // desligaram no meio
+    if (playLines.gen !== gen || $(ovId).hidden) return; // desligaram no meio
     if (i >= lines.length) { onEnd && onEnd(); return; }
     const l = lines[i++], li = document.createElement('li');
     if (l.sys) { li.className = 'sys'; li.textContent = l.sys; }
@@ -18,10 +19,17 @@ function playLines(listEl, ovId, lines, onEnd) {
     listEl.append(li);
     while (listEl.children.length > 5) listEl.firstChild.remove();
     const txt = l.sys || l.me || l.text;
-    if (l.sys && l.sys.startsWith('[BIP]') && typeof SFX !== 'undefined') SFX.bip();
-    if (l.sys && l.sys.startsWith('[chamando') && typeof SFX !== 'undefined') SFX.ring();
-    const wait = l.d != null ? l.d : Math.max(1800, txt.length * 58);
-    if (l.v && typeof hasVoice === 'function' && hasVoice(l.v)) voice(l.v, l.fx).then(() => { if (!$(ovId).hidden) linesTimer = setTimeout(next, 450); });
+    const temBip = !!(l.sys && l.sys.startsWith('[BIP]') && typeof SFX !== 'undefined');
+    if (temBip) SFX.bip();
+    let wait = l.d != null ? l.d : Math.max(1800, txt.length * 58);
+    if (l.sys && l.sys.startsWith('[chamando') && typeof SFX !== 'undefined') {
+      const n = (l.sys.match(/tuuu/g) || []).length >= 2 ? 2 : 1; SFX.ring(n); if (SFX.ringMs) wait = Math.max(wait, SFX.ringMs(n));
+    }
+    if (l.v && typeof hasVoice === 'function' && hasVoice(l.v)) {
+      const falar = () => { if (playLines.gen !== gen || $(ovId).hidden) return;
+        voice(l.v, l.fx).then(() => { if (playLines.gen === gen && !$(ovId).hidden) linesTimer = setTimeout(next, 450); }); };
+      if (temBip && SFX.bipMs) linesTimer = setTimeout(falar, SFX.bipMs()); else falar();
+    }
     else { if (l.noisy && typeof AUD !== 'undefined') AUD.noisyUntil = performance.now() + wait; linesTimer = setTimeout(next, wait); }
   };
   next();
@@ -30,17 +38,17 @@ function playLines(listEl, ovId, lines, onEnd) {
 // ——— secretária eletrônica ———
 const TAPE_CECI = [
   { v: 'sec-01', sys: '[BIP] Mensagem um. Sexta-feira, zero hora e quarenta e um minutos.' },
-  { v: 'ceci-recado-1', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio? É a Ceci. Eu tô na última parada. Não dá pra explicar. Eu tenho pouco tempo. Fecha às cinco e dez. Vem. Desce no porão. Lê o diaaaah—' },
+  { v: 'ceci-recado-1', who: 'Cecília', noisy: true, text: 'Fábio? É a Ceci. Eu tô na última parada. Não dá pra explicar. Eu tenho pouco tempo. Fecha às cinco e dez. Vem. Desce no porão. Lê o diaaaah—' },
   { v: 'ceci-grito', fx: 'radio', sys: '[um grito, longe; o chiado corta seco]', d: 1800 },
   { v: 'sec-02', sys: '[BIP] Mensagem dois. Data e hora não registradas.' },
-  { v: 'ceci-recado-2', fx: 'radio', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
+  { v: 'ceci-recado-2', who: 'Cecília', noisy: true, text: 'Fábio. Eu trouxe a caixa errada. A certa tá embaixo da bancada. Não abre.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 1600 },
   { me: 'À meia-noite e quarenta e um, essa fita só tinha uma mensagem.', d: 0 },
 ];
 const TAPE_ODETE = [
   { v: 'sec-04', sys: '[BIP] Você tem uma mensagem.' },
-  { v: 'sec-05', sys: '[BIP] Segunda-feira, vinte de maio, dezesseis horas e dois minutos.' },
-  { v: 'odete-recado', fx: 'phone', who: 'Dona Odete', text: 'Cecília? É a Odete, da frente. Eu fiquei pensando no que você perguntou. Menina, não desce mais lá. A outra também era teimosa. E o pai dela também.' },
+  { v: 'sec-05', sys: 'Segunda-feira, vinte de maio, dezesseis horas e dois minutos.' },
+  { v: 'odete-recado', who: 'Dona Odete', text: 'Cecília? É a Odete, da frente. Eu fiquei pensando no que você perguntou. Menina, não desce mais lá. A outra também era teimosa. E o pai dela também.' },
   { v: 'sec-03', sys: '[BIP] Fim das mensagens.', d: 0 },
 ];
 function playTape(lines, onEnd) {
@@ -281,6 +289,6 @@ TICKS.push(() => {
   if (!S.caixaAt || window.LIVRO_PAUSADO) { S.caixaAt = agora; return; }   // no livro, só conta com o porão na tela
   if (agora - S.caixaAt < 4000 || overlayOpen()) return;
   S.flags.secApitou = true;
-  if (typeof SFX !== 'undefined' && SFX.bip) SFX.bip();
-  say('Lá no porão, a secretária eletrônica apita sozinha. A luzinha vermelha volta a piscar.');
+  if (typeof SFX !== 'undefined' && SFX.bell) { SFX.bell(); setTimeout(() => { if (!S.ended) SFX.bip(); }, 3600); }
+  say('Lá no porão, o telefone toca. Ninguém atende. A secretária atende sozinha, apita, e a luzinha vermelha volta a piscar.');
 });

@@ -92,26 +92,34 @@
     if (t.botao.parentElement) t.botao.parentElement.classList.remove('em-play');
     t.botao.classList.remove('tocando'); t.botao.querySelector('.ouvir-rotulo').textContent = 'Ouvir de novo';
   }
-  function bip(c, quando = 0) {
-    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + quando;
+  // sons gravados (bipe, chiado, telefone): decodificados uma vez
+  const SONS = {};
+  function somGravado(id) {
+    const c = audio();
+    if (!c || !VOZES.has(id)) return Promise.resolve(null);
+    return SONS[id] = SONS[id] || fetch('audio/' + id + '.mp3').then(r => r.arrayBuffer()).then(a => c.decodeAudioData(a)).catch(() => null);
+  }
+  function tocarBuf(c, b, vol = 1) { const s = c.createBufferSource(), g = c.createGain(); s.buffer = b; g.gain.value = vol; s.connect(g).connect(c.destination); s.start(); return s; }
+  function bip(c, b) {
+    if (b) return tocarBuf(c, b);
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
     o.frequency.value = 1050; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.01);
     g.gain.setValueAtTime(0.12, t + 0.32); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.36);
     o.connect(g).connect(c.destination); o.start(t); o.stop(t + 0.4);
   }
+  // falas que já vêm com o som da microfita (ou são o próprio telefone): tocam como estão, sem filtro e sem o chiado de fundo
+  const CRU = /^(ceci-saudacao|ceci-recado|odete-recado|sec-|telefone-|bip|chiado)/;
+  const CHIADO_BASE = 0.035;
   function tocarMicrofita(botao) {
     if (tocando) { const era = tocando.botao; pararFita(); if (era === botao) return; }
     const c = audio();
     const falas = []; let n = botao.nextElementSibling;
     while (n) { if (n.tagName === 'P') falas.push(n); n = n.nextElementSibling; }
-    const t = { botao, falas, timer: 0, audio: null, chiado: null };
+    const t = { botao, falas, timer: 0, audio: null, chiado: null, bip: null };
     tocando = t;
     botao.classList.add('tocando'); botao.querySelector('.ouvir-rotulo').textContent = 'Parar';
     if (botao.parentElement) botao.parentElement.classList.add('em-play');
-    if (c) {                                   // o chiado da microfita, por baixo de tudo
-      const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
-      s.buffer = ruidoBuf; s.loop = true; f.type = 'bandpass'; f.frequency.value = 2600; f.Q.value = 0.5; g.gain.value = 0.035;
-      s.connect(f).connect(g).connect(c.destination); s.start(); t.chiado = s; t.ganhoChiado = g;
-    }
+    const chiadoEm = (v, tc = 0.05) => { if (c && t.ganhoChiado) t.ganhoChiado.gain.setTargetAtTime(v, c.currentTime, tc); };
     let i = 0;
     const proxima = () => {
       if (tocando !== t) return;
@@ -119,29 +127,47 @@
       if (i >= falas.length) { pararFita(); return; }
       const f = falas[i++]; f.classList.add('tocando');
       f.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      const texto = f.textContent, v = f.dataset.v;
-      if (c && /\[BIP\]/.test(texto)) bip(c);
+      const texto = f.textContent, v = f.dataset.v, temBip = /\[BIP\]/.test(texto);
+      if (c && temBip) bip(c, t.bip);
       const espera = Math.max(1400, texto.length * 55);
       if (v && VOZES.has(v) && c) {
         const a = new Audio('audio/' + v + '.mp3'); t.audio = a;
+        const cru = CRU.test(v);
         try {
-          const src = c.createMediaElementSource(a), hp = c.createBiquadFilter(), lp = c.createBiquadFilter();
-          hp.type = 'highpass'; hp.frequency.value = 350; lp.type = 'lowpass'; lp.frequency.value = /^ceci-recado|^ceci-grito/.test(v) ? 2600 : 3400;
-          src.connect(hp).connect(lp).connect(c.destination);
+          const src = c.createMediaElementSource(a);
+          if (cru) src.connect(c.destination);
+          else {
+            const hp = c.createBiquadFilter(), lp = c.createBiquadFilter();
+            hp.type = 'highpass'; hp.frequency.value = 350; lp.type = 'lowpass'; lp.frequency.value = 3400;
+            src.connect(hp).connect(lp).connect(c.destination);
+          }
         } catch (e) { /* toca direto */ }
-        a.onended = () => { t.audio = null; t.timer = setTimeout(proxima, 450); };
-        a.onerror = () => { t.audio = null; t.timer = setTimeout(proxima, espera); };
-        const comecar = () => { if (t.audio === a) a.play().catch(() => { t.timer = setTimeout(proxima, espera); }); };
-        if (/\[BIP\]/.test(texto)) setTimeout(comecar, 420); else comecar();
+        a.onended = () => { t.audio = null; chiadoEm(CHIADO_BASE, 0.08); t.timer = setTimeout(proxima, 450); };
+        a.onerror = () => { t.audio = null; chiadoEm(CHIADO_BASE, 0.08); t.timer = setTimeout(proxima, espera); };
+        const comecar = () => { if (t.audio !== a) return; if (cru) chiadoEm(0.0001); a.play().catch(() => { t.timer = setTimeout(proxima, espera); }); };
+        if (temBip) t.timer = setTimeout(comecar, t.bip ? t.bip.duration * 1000 + 80 : 420); else comecar();
       } else {
-        if (c && /grito|corta seco/.test(texto) && t.ganhoChiado) {   // sem a gravação: o chiado engole
-          t.ganhoChiado.gain.setTargetAtTime(0.22, c.currentTime, 0.05);
-          t.ganhoChiado.gain.setTargetAtTime(0.035, c.currentTime + 0.9, 0.3);
+        if (c && /grito|corta seco/.test(texto)) {          // o chiado engole
+          chiadoEm(0.22); t.ganhoChiado && t.ganhoChiado.gain.setTargetAtTime(CHIADO_BASE, c.currentTime + 0.9, 0.3);
+        } else if (/chiado/.test(texto)) {                   // um trecho só de chiado
+          chiadoEm(0.09, 0.2); t.ganhoChiado && t.ganhoChiado.gain.setTargetAtTime(CHIADO_BASE, c.currentTime + espera / 1000 - 0.4, 0.15);
         }
         t.timer = setTimeout(proxima, espera);
       }
     };
-    t.timer = setTimeout(proxima, 600);
+    const comecarFita = (chiadoBuf, bipBuf) => {
+      if (tocando !== t) return;
+      t.bip = bipBuf;
+      if (c) {                                   // o chiado da microfita, por baixo de tudo (o gravado, em loop; senão, sintetizado)
+        const s = c.createBufferSource(), g = c.createGain();
+        s.buffer = chiadoBuf || ruidoBuf; s.loop = true; g.gain.value = CHIADO_BASE;
+        if (chiadoBuf) { const pre = c.createGain(); pre.gain.value = 8.6; s.connect(pre).connect(g); }   // o gravado é mais baixo: −30 dB → −40 dB, como o sintetizado
+        else { const f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2600; f.Q.value = 0.5; s.connect(f).connect(g); }
+        g.connect(c.destination); s.start(); t.chiado = s; t.ganhoChiado = g;
+      }
+      t.timer = setTimeout(proxima, 600);
+    };
+    Promise.all([somGravado('chiado-microfita'), somGravado('bip')]).then(([ch, bp]) => comecarFita(ch, bp), () => comecarFita(null, null));
   }
   function botaoOuvir() {
     const b = el('button', { type: 'button', class: 'ouvir' },

@@ -58,8 +58,15 @@ const SFX = {
   creak(d) { tone(210, .7, 'sawtooth', .02, 150, d); burst(.6, 'bandpass', 700, 14, .05, d, .2); },
   tick(d) { burst(.014, 'bandpass', 3600, 2, .3, d); },
   clunk() { SFX.tick(); SFX.thud(.5, .03); burst(.08, 'highpass', 2500, 1, .15, .02); },
-  bip() { tone(1020, .32, 'sine', .14); },
-  ring() { tone(425, 1.0, 'sine', .07); tone(425, 1.0, 'sine', .07, null, 5); },
+  // bipe e telefone: o som gravado (audio/bip.mp3, telefone-*.mp3) se existir; senão, sintetizado
+  bip() { if (!sample('bip', .9)) tone(1020, .32, 'sine', .14); },
+  bipMs() { return hasVoice('bip') ? 1080 : 400; },
+  // telefone chamando (quem liga ouve): n = 1 ou 2 toques; o gravado termina com o clique de quem atende
+  ring(n) { if (n === 1 ? sample('telefone-chamando', .9, 3.2) : sample('telefone-chamando', .9)) return;
+    tone(425, 1.0, 'sine', .07); if (n !== 1) tone(425, 1.0, 'sine', .07, null, 3.2); },
+  ringMs(n) { return hasVoice('telefone-chamando') ? (n === 1 ? 3000 : 6200) : (n === 1 ? 1800 : 4400); },
+  // a campainha do telefone do porão
+  bell() { if (sample('telefone-tocando', .8)) return; for (let k = 0; k < 2; k++) for (let i = 0; i < 18; i++) tone(i % 2 ? 680 : 860, .05, 'square', .025, null, k * 1.6 + i * .05); },
   key() { burst(.018, 'bandpass', 1800 + Math.random() * 600, 1.2, .18); },
   cpBeep() { tone(1180, .09, 'square', .04); },
   shatter() { for (let i = 0; i < 6; i++) burst(.12 + Math.random() * .15, 'highpass', 2000 + Math.random() * 3000, 2, .2, i * .03); SFX.thud(.4); },
@@ -142,6 +149,17 @@ function scheduleMorse() {
     t += 4 * u;
   }
   AUD.morseAt = t + (livro ? 2.2 : 1.2);
+}
+
+// ——— sons gravados curtos: decodificados uma vez, tocados pelo master ———
+const SAMPLES = {};
+function sample(id, vol, from) {
+  if (!AUD.ctx || !AUD.on || !hasVoice(id)) return false;
+  const go = (b) => { if (!b || !AUD.on) return; const s = AUD.ctx.createBufferSource(), g = AUD.ctx.createGain();
+    g.gain.value = vol || 1; s.buffer = b; s.connect(g).connect(AUD.master); s.start(AUD.ctx.currentTime, Math.min(from || 0, b.duration)); };
+  if (SAMPLES[id] && !(SAMPLES[id] instanceof Promise)) go(SAMPLES[id]);
+  else (SAMPLES[id] = SAMPLES[id] || fetch(`audio/${id}.mp3`).then(r => r.arrayBuffer()).then(a => AUD.ctx.decodeAudioData(a)).then(b => (SAMPLES[id] = b)).catch(() => null)).then(go);
+  return true;
 }
 
 // ——— vozes gravadas (ElevenLabs): audio/<id>.mp3 listados em audio/manifest.json ———

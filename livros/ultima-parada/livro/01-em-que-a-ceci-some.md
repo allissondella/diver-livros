@@ -20,9 +20,11 @@ Antes da fita. O Fábio conta a noite de 6 de junho de 1996 vista de fora: o sum
 >
 >> **SECRETÁRIA ELETRÔNICA — MICROFITA, LADO A**
 >>
->> *\[A microfita desta secretária eletrônica estava no envelope. Recuperamos o que foi possível. Aperte o play para ouvir o que o Fábio ouviu à 0h41. A transcrição abaixo é nossa. — Estúdio\]*
+>> *\[A microfita desta secretária eletrônica estava no envelope. Recuperamos o que foi possível. Aperte o play para ouvir o que o Fábio ouviu à 0h41, do outro lado da linha. O toque de chamada foi posto por nós; a transcrição também. — Estúdio\]*
 >>
 >> {{ouvir}}
+>>
+>> {v:telefone-chamando} \[chamando… tuuu… tuuu… a máquina atende\]
 >>
 >> {v:ceci-saudacao} "Oi, aqui é a Cecília. Ninguém pode atender agora. Deixa seu recado depois do bipe."
 >>
