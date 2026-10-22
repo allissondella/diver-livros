@@ -49,12 +49,11 @@
   const naoLido = () => { for (let n = 1; n <= P.liberados; n++) if (!P.abertos[n]) return n; return 0; };
   const atualizaSelo = () => { $('#selo').hidden = !naoLido(); };
   const titulo = (n) => { const c = CAPS.find(x => x.n === n); return c ? c.titulo : ''; };
-  // os capítulos que o porão solta (3 a 8) são leitura obrigatória: o porão só volta depois que eles contam como lidos
+  // os capítulos que o porão solta (3 a 8) têm que ser abertos: o porão só volta depois que eles foram abertos (sem tempo de leitura)
   const ULTIMO_OBRIGATORIO = 8;
-  const obrigatorio = (n) => n >= PRIMEIRO_DO_PORAO && n <= ULTIMO_OBRIGATORIO;
   const pendente = (ignorar) => {
     if (P.final) return 0;
-    for (let n = PRIMEIRO_DO_PORAO; n <= Math.min(P.liberados, ULTIMO_OBRIGATORIO); n++) if (!P.lidos[n] && n !== ignorar) return n;
+    for (let n = PRIMEIRO_DO_PORAO; n <= Math.min(P.liberados, ULTIMO_OBRIGATORIO); n++) if (!P.abertos[n] && n !== ignorar) return n;
     return 0;
   };
 
@@ -252,7 +251,7 @@
   }
 
   // ——— vistas ———
-  let vista = 'cap1', timerLeitura = 0, observador = null;
+  let vista = 'cap1', observador = null;
   const pagina = $('#pagina');
   const VERMELHAS = ['cap1', 'fita', 'cap2', 'porao'];
   function aplicarTema(v) {
@@ -263,7 +262,7 @@
     const t = $('#tema'); t.textContent = P.claro ? 'Fundo escuro' : 'Fundo claro'; t.setAttribute('aria-pressed', String(P.claro));
   }
   $('#tema').addEventListener('click', () => { P.claro = !P.claro; salvar(); aplicarTema(vista); });
-  function pararLeitura() { clearTimeout(timerLeitura); if (observador) observador.disconnect(); }
+  function pararLeitura() { if (observador) observador.disconnect(); }
   function abrirPagina(v) {
     sairDoPorao(); pararLeitura(); pararFita();
     vista = v; aplicarTema(v); pagina.innerHTML = '';
@@ -328,6 +327,7 @@
     if (n > P.liberados) return;
     abrirPagina(n <= 2 ? 'cap' + n : 'cap');
     if (!P.abertos[n]) { P.abertos[n] = true; salvar(); atualizaSelo(); }
+    mostraIrPorao();
     const c = CAPS.find(x => x.n === n); if (!c) return;
     const a = el('article');
     a.append(el('header', { class: 'cap-cabeca' }, el('span', { class: 'cap-numero' }, 'Capítulo ' + n), el('h1', { class: 'cap-titulo' }, c.titulo)));
@@ -337,7 +337,6 @@
     pagina.append(a);
     const acoes = el('div', { class: 'acoes', style: 'justify-content:center' });
     const prox = naoLido();
-    let montarAcoes = null;
     if (P.fase === 'fim' && P.final) {
       if (n < P.liberados) acoes.append(botao(`Capítulo ${n + 1}`, () => abrirCapitulo(n + 1)));
       acoes.append(botao('Voltar ao fim', fim, true));
@@ -348,34 +347,20 @@
     else if (P.marcos.fim) acoes.append(botao(prox && prox !== n ? `Ler o capítulo ${prox}` : 'Voltar ao capítulo 9', () => abrirCapitulo(prox && prox !== n ? prox : 9), true));
     else {
       // com outro capítulo obrigatório esperando, o único caminho é ele; senão, o porão
-      montarAcoes = () => {
-        acoes.innerHTML = '';
-        const outro = pendente(n);
-        if (outro) acoes.append(botao(`Ler o capítulo ${outro}`, () => abrirCapitulo(outro), true));
-        else {
-          if (prox && prox !== n) acoes.append(botao(`Ler o capítulo ${prox}`, () => abrirCapitulo(prox)));
-          acoes.append(botao('Voltar ao porão', mostrarPorao, true));
-        }
-      };
-      montarAcoes();
+      const outro = pendente(n);
+      if (outro) acoes.append(botao(`Ler o capítulo ${outro}`, () => abrirCapitulo(outro), true));
+      else {
+        if (prox && prox !== n) acoes.append(botao(`Ler o capítulo ${prox}`, () => abrirCapitulo(prox)));
+        acoes.append(botao('Voltar ao porão', mostrarPorao, true));
+      }
     }
     pagina.append(acoes);
-    const trava = obrigatorio(n) && !P.lidos[n] && !P.final;
-    if (trava) acoes.querySelectorAll('button').forEach(b => { b.disabled = true; });
-    // Páginas por leitura: só conta se a pessoa ficou tempo suficiente para ler (uns 600 palavras por minuto, no mínimo)
+    // Páginas por leitura: contam quando a pessoa chega ao fim do capítulo (sem tempo mínimo)
     if (!P.lidos[n]) {
-      const t0 = Date.now(), minimo = c.palavras * 100;
       observador = new IntersectionObserver((es) => {
         if (!es.some(e => e.isIntersecting)) return;
         observador.disconnect();
-        const falta = Math.max(0, minimo - (Date.now() - t0));
-        if (falta > 0) pagina.insertBefore(el('p', { class: 'aviso-pressa' }, trava ? '[Esta página tem que ser lida. O porão espera.]' : '[As Páginas deste capítulo contam para quem leu. Fique mais um pouco.]'), acoes);
-        timerLeitura = setTimeout(() => {
-          if (pagina.querySelector('.cap-numero') && pagina.querySelector('.cap-numero').textContent === 'Capítulo ' + n && !P.lidos[n]) {
-            P.lidos[n] = true; ganhar(PONTOS.ler); const av = $('.aviso-pressa'); if (av) av.remove();
-            if (trava) { if (montarAcoes) montarAcoes(); else acoes.querySelectorAll('button').forEach(b => { b.disabled = false; }); mostraIrPorao(); }
-          }
-        }, falta);
+        if (!P.lidos[n]) { P.lidos[n] = true; ganhar(PONTOS.ler); }
       });
       observador.observe(marca);
     }
