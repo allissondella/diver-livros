@@ -195,7 +195,7 @@ spot(4, 'painel', [0, WALL_TOP, 168, 625], { label: 'Painel aberto', act: () => 
 spot(4, 'lucia', [28, 290, 96, 86], { label: 'Bilhete', when: () => !S.found.lucia,
   act: () => { S.found.lucia = true; dirty(4); findPaper(6, true); openPaper(6); } });
 spot(4, 'esquema', [470, 110, 400, 190], { label: 'Esquema na parede',
-  act: () => say('Um esquema a lápis em papel milimetrado: o porão, a estante e, depois dela, uma seta comprida até “A LINHA”. Do lado, sublinhado duas vezes: 23.10.') });
+  act: () => say('Um esquema a lápis em papel milimetrado: o porão, a estante e, depois dela, uma seta comprida até “A LINHA”. Do lado, sublinhado duas vezes: 23.10. No canto, riscado com força, mas ainda legível, um quadradinho de tabela periódica: U, 92, 235. Embaixo: “11 kg c/ Pb — emb. bancada”. A única vez em que ele quase escreveu o nome.') });
 spot(4, 'planta', [960, 130, 280, 180], { label: 'Planta da casa', when: () => !S.found.planta,
   act: () => { S.found.planta = true; dirty(4); findPaper(1, true); openPaper(1); } });
 spot(4, 'valvulas', [1290, 160, 270, 190], { label: 'Prateleira',

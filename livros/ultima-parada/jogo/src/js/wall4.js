@@ -49,8 +49,14 @@ ART[4] = function (ctx, st) {
   ctx.strokeRect(570, 260, 80, 28); ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(700, 225); ctx.lineTo(840, 225); ctx.moveTo(826, 214); ctx.lineTo(842, 225); ctx.lineTo(826, 236); ctx.stroke();
   ctx.fillStyle = '#26314a'; ctx.font = '15px "Architects Daughter", cursive';
-  ctx.fillText('PORÃO', 580, 206); ctx.fillText('OFICINA', 576, 280); ctx.fillText('A LINHA', 760, 214); ctx.fillText('23.10', 742, 256);
-  ctx.fillText('ESTANTE', 704, 252);
+  ctx.fillText('PORÃO', 580, 206); ctx.fillText('OFICINA', 576, 280); ctx.fillText('A LINHA', 760, 214); ctx.fillText('23.10', 790, 258);
+  ctx.fillText('ESTANTE', 703, 250);
+  // no canto do esquema, a única vez em que ele quase escreve o nome: o símbolo químico e o peso, a lápis, meio apagado
+  ctx.save(); ctx.globalAlpha = .8; ctx.strokeStyle = '#26314a'; ctx.lineWidth = 2; ctx.strokeRect(480, 120, 72, 60);
+  ctx.font = 'bold 34px "Architects Daughter", cursive'; ctx.fillText('U', 503, 164); ctx.font = '12px "Architects Daughter", cursive'; ctx.fillText('92', 485, 134); ctx.fillText('235', 524, 176);
+  ctx.font = '13px "Architects Daughter", cursive'; ctx.fillText('11 kg c/ Pb', 480, 200); ctx.fillText('emb. bancada', 480, 216); ctx.fillText('NAO ABRIR', 480, 232);
+  ctx.strokeStyle = 'rgba(138,31,31,.5)'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(476, 116); ctx.lineTo(558, 186); ctx.moveTo(558, 116); ctx.lineTo(476, 186); ctx.stroke();   // riscado depois
+  ctx.restore();
 
   // planta de 1948 em papel vegetal
   if (!st.found.planta) {
